@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<hmtl lan = "pl">
+	
+	<meta charset="utf-8"/>
+	<title>Metamtyka w JS</title>
+	<link rel="stylesheet" href="style.css" type="text/css"/>
+
+
+	<head>
+
+
+	</head>
+
+
+	<body>
+		<script>
+		
+			document.write(0.1*5.0); document.write("<br />");
+			document.write(0.15*3.0); document.write("<br />");
+			document.write(0.10+0.20); document.write("<br/>");
+			
+
+			//I sposob zaokraglania
+			if(0.1+0.2==0.3)document.write("true <br />");
+			else document.write("false <br />");
+			
+			var x=Math.round((0.1+0.2)*10)/10;
+			document.write(x+"<br />");
+
+			// if(x==0.3)document.write("true <br />");
+			// else document.write("false <br />");
+
+			x=Math.round((0.15*3)*100)/100;
+			document.write(x+"<br />");
+
+			//II sposob zaokrąglania
+			x=0.15*3;
+			x=x.toFixed(2);
+			document.write(x+"<br /> <br />");
+			
+			//Poróananie I i II metody
+			x=1.005;
+			x=x.toFixed(3);//ilość miejsc po przecinku 
+			document.write(x+"<br />");
+			
+			x=Math.round(1.005*100)/100;
+			document.write(x+"<br />");
+			
+			//III metoda
+			Number.prototype.round=function(miejsc)//miejsc=ilosc miejsc po przecinku
+			{
+				return +(Math.round(this+"e+"+miejsc)+"e-"+miejsc);// e - exponent naukowy e+ - przesuwanie przecinka w prawo e- - przesuwanie przecinka w lewo
+			}
+			x=1.005;
+			x=x.round(2);
+			document.write(x+"<br />");
+			//Math.floor() - zaokraglanie w dol
+			//Math.ceil() -  zaokrąglanie w górę
+			//Math.trunc() - usunięcie części ułamkowej
+
+		</script>
+
+	</body>
+
+
+</html>

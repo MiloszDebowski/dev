@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang = "pl">
+<meta charset = "utf-8">
+<script type="text/javascript">
+
+function wypisz()
+{
+var przedzial="";
+var begin=document.getElementById("pole1").value;
+var end=document.getElementById("pole2").value;
+
+if(begin=="" || end=="")
+{
+	document.getElementById("przedział").innerHTML="Przynajmniej jedna z wartośći jest nie podana";
+}
+else if((begin>=0 || begin<0) && (end>=0 || end<0))
+{
+		if(begin>end)
+	{
+		document.getElementById("przedział").innerHTML="błędny zakres";
+	}
+	else
+	{
+		for(i=begin;i<=end;i++)
+		{
+			przedzial=przedzial+i+" ";
+		}
+		document.getElementById("przedział").innerHTML=przedzial;
+	}
+}
+else
+{
+	document.getElementById("przedział").innerHTML="Przynajmniej jedna z podanych wartości nie jest liczbą";
+}
+
+}
+
+</script>
+
+
+
+
+<head>
+</head>
+
+<body>
+<input type = "text" id = "pole1"/>
+<input type = "text" id = "pole2"/>
+<input type = "submit" value="Pokaż" onclick="wypisz()"/>
+
+<div id = "przedział"></div>
+</body>
+</html>

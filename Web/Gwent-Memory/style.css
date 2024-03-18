@@ -1,0 +1,86 @@
+body
+{
+    margin: 0;
+    background-color:#26282E;
+    font-family:'Lobster', 'Sans serif';
+    font-size: 28px;
+}
+
+a:link{color:#209781;text-decoration: none;}
+a:visited{color: #209781;}
+a:active{color: #209781;}
+a:hover{color: #E9B64A;}
+
+h1
+{
+    color: #209781;
+    font-size: 64px;
+    font-weight: 400;
+    text-align: center;
+    letter-spacing: 5px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+p
+{
+    color: #209781;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+}
+
+.board
+{
+    color: #209781;
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+
+}
+.cardActive
+{
+    border: 4px solid #E9B64A;
+    border-radius: 5px;
+    width: 125px;
+    height: 125px;  
+    display: inline-block;
+    margin: 3px;
+    background-image: url("img/karta.png");
+    cursor: default;
+    filter:brightness(100%);
+    transition: all .3s ease-in-out;
+    opacity: 100%;
+}
+.card
+{
+    border: 4px solid #31dabb;
+    border-radius: 5px;
+    width: 125px;
+    height: 125px;  
+    display: inline-block;
+    margin: 3px;
+    background-image: url("img/karta.png");
+    cursor: pointer;
+    filter:brightness(70%);
+    transition: all .3s ease-in-out;
+    opacity: 100%;
+    
+}
+
+.card:hover
+{
+    border: 4px solid #E9B64A;
+    filter: brightness(100%);
+    
+}
+
+
+
+.score
+{
+    margin-top: 5px;
+    letter-spacing: 2px;
+}

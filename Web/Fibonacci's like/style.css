@@ -1,0 +1,60 @@
+body
+{
+    background-color: darkslategrey;
+    color: #FFF;
+    font-family: Verdana;
+    padding: 16px;
+    margin: 10px;
+}
+
+h1
+{
+    font-size: 38px;
+    font-weight: 400;
+    margin-top: 5px;
+    margin-bottom: 35px;
+    letter-spacing: 1px;
+    color: #FFC851;
+}
+
+div
+{
+    margin: 2px 0;
+}
+
+.interfejs
+{
+    margin: 15px 0;
+}
+
+#ciag, #fi
+{
+    display: inline-block;
+    margin-right: 50px;
+}
+
+.odd , .even
+{
+color:#999; 
+}
+
+.ratio
+{
+    color: #FFC851;
+
+}
+
+.krew_i_wino
+{
+color: red;
+}
+
+.trawa_i_ufo
+{
+color: green;
+}
+
+.pezet
+{
+    color:magenta;
+}

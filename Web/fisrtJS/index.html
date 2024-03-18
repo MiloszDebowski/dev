@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang ="pl">
+<head>
+	<meta charset ="utf-8"/>
+	<title>Odliczanie czasu</title>
+	
+	<script type ="text/javascript">
+	
+	function odliczanie()
+	{
+	var dzisiaj = new Date();
+	var dzien = dzisiaj.getDate();
+	if(dzien<10)dzien="0"+dzien;
+	var miesiac = dzisiaj.getMonth()+1;
+	if(miesiac<10)miesiac="0"+miesiac;
+	var rok = dzisiaj.getFullYear();
+	var godzina = dzisiaj.getHours();
+	if(godzina<10)godzina = "0" + godzina;
+	var minuta = dzisiaj.getMinutes();
+	if(minuta<10)minuta="0"+minuta
+	var sekunda = dzisiaj.getSeconds();
+	if(sekunda<10)sekunda="0"+sekunda;
+	document.getElementById("zegarek").innerHTML = dzien+"/"+miesiac+"/"+rok+" | " +godzina+":"+minuta+":"+sekunda;
+	
+	setTimeout("odliczanie()",1000)
+	
+	}
+	</script>
+</head>
+<body onload = "odliczanie();">
+
+	 <div id="zegarek"></div>
+	<script type ="text/javascript">
+	//odlcizanie();
+	</script>
+</body>
+</html>

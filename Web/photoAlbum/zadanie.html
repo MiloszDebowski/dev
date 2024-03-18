@@ -1,0 +1,60 @@
+<!DOSCTYPE html>
+<html lang = "pl">
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		
+		<style>
+			body
+			{
+				background-color: #222222;
+				font-size:24px;
+				color: white;
+			}
+		</style>
+		<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+		<script type="text/javascript">
+		
+		var numer = Math.floor(Math.random()*5)+1;//liczby całkowite losowe od 1 do 5 przy zaokrągleniu w dół
+		var timer1=0;
+		var timer2=0;
+		function UstawSlajd(nrslajdu)
+		{
+				clearTimeout(timer1);
+				clearTimeout(timer2);
+				numer=nrslajdu-1;
+				Schowaj();
+				setTimeout("ZmienSlajd()",500);
+		}
+		
+		function Schowaj()
+		{
+			$("#slider").fadeOut(500);
+		}
+		
+		function ZmienSlajd()
+		{
+			numer++;
+			if(numer>5)numer=1;
+			
+			var plik="<img src = \"Slajdy/Slajd"+numer+".jpg\"/>";
+			document.getElementById("slider").innerHTML=plik;
+			$("#slider").fadeIn(500);
+			timer1=setTimeout("ZmienSlajd()",5000);
+			timer2=setTimeout("Schowaj()",4500);
+		}
+		
+		</script>
+	</head>
+	
+	<body onload = "ZmienSlajd()">
+	
+	<span onclick = "UstawSlajd(1)" style="cursor:pointer;">[1]</span>
+	<span onclick = "UstawSlajd(2)" style="cursor:pointer;">[2]</span>
+	<span onclick = "UstawSlajd(3)" style="cursor:pointer;">[3]</span>
+	<span onclick = "UstawSlajd(4)" style="cursor:pointer;">[4]</span>
+	<span onclick = "UstawSlajd(5)" style="cursor:pointer;">[5]</span>
+	<div id = "slider"></div>
+	</body>
+</html>

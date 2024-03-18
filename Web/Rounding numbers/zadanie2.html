@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang = "pl">
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+    <title>Paypal</title>
+    <head>
+        
+    </head>
+
+    <body>
+        <script>
+            var pln=1000;
+            document.write("Wpłata: "+pln+"PLN<br /><br />");
+
+            var usd=pln/4.00835701;
+            Number.prototype.round=function(miejsc)
+            {
+                return +(Math.round(this+"e+"+miejsc)+"e-"+miejsc);
+            }
+            usd=Math.floor(usd*100)/100;
+            document.write("Saldo: "+usd+"USD<br /><br />");
+
+            var zakupy=23.99;
+            document.write("Zakupy: "+zakupy+"USD<br />");
+
+            
+            var prowizja=Math.ceil(0.02*zakupy*100)/100;
+            
+            document.write("Prowizja: "+prowizja+"USD<br />");
+
+            //usd=Math.floor((usd-zakupy-prowizja)*100)/100;
+            usd=usd-zakupy-prowizja;
+            document.write("Saldo po zakupach: "+usd+"USD<br />");
+
+            //Metoda truncate
+            usd=225.99;
+            usd=Math.trunc(usd);
+            document.write("Saldo: "+usd+"USD<br /><br />");
+        </script>
+    </body>
+</html>

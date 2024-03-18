@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8">
+        <title>Złoty podział</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>Generator złotych ciągów</h1>
+        </header>
+
+        <main>
+            <article>
+                <div class="interfejs">
+                    <label>
+                        n<sub>01</sub>=<input type="number" id="a" value="12">
+                    </label>
+
+                    <label>
+                        n<sub>02</sub>=<input type="number" id="b" value="5">
+                    </label>
+
+                    <label>
+                        Ile wyrazów złotego ciągu? -> <input type="number" id="ile" value="20">
+                    </label>
+                </div>
+
+                
+                <div class="interfejs">
+                    odd ->
+                <input type="button" name="np" value="red">
+                <input type="button" name="np" value="green">
+                <input type="button" name="np" value="magenta"> 
+                    even ->
+                <input type="button" class="parzyste" value="red">
+                <input type="button" class="parzyste" value="green">
+                <input type="button" class="parzyste" value="magenta"> 
+
+                    &Phi; ->
+                
+                <input type="button" class="phi" value="red">
+                <input type="button" class="phi" value="green">
+                <input type="button" class="phi" value="magenta"> 
+
+                    All ->
+                
+                <input type="button" class="wszystkie" value="red">
+                <input type="button" class="wszystkie" value="green">
+                <input type="button" class="wszystkie" value="magenta">
+
+                </div>
+
+                <div>
+                    <input type="button" id="generuj_ciag" value="Generuj ciąg">
+                    <input type="button" id="blokada" value="Zablokuj">
+                </div>
+
+                <div id="ciag"></div>
+                <div id="fi"></div>
+            </article>
+        </main>
+
+        <script>
+            document.getElementById('generuj_ciag').addEventListener('click',generuj);
+            
+            let nieparzyste = document.getElementsByName('np');
+            let parzyste = document.querySelectorAll(".parzyste");
+            let phi=document.getElementsByClassName('phi');
+
+
+            for(let i=0;i<3;i++)
+            {
+                nieparzyste[i].addEventListener('click', color_odd)
+                
+            }
+
+
+            for(let ratio of phi )
+            {
+                let kolor=ratio.value;
+                ratio.addEventListener('click',() => {
+
+                    color_phi(kolor);
+                })
+            }
+
+            parzyste.forEach(przycisk => 
+            {
+                let kolor = przycisk.value;
+                przycisk.addEventListener('click', function() 
+                {
+
+                    color_even(kolor);
+
+                });
+
+
+            });
+
+            let wszystkie=document.querySelectorAll(".wszystkie");
+            wszystkie.forEach(przycisk => {
+
+                przycisk.addEventListener('click',color_all);
+                
+            });
+            
+
+            document.querySelector('#blokada').addEventListener('click',access);
+
+            function generuj()
+            {
+                let ile=document.getElementById('ile').value;
+                let a=document.querySelector('#a').value;
+                let b=document.querySelector('#b').value;
+                let bufor;
+
+                a=parseFloat(a);
+                b=parseFloat(b);
+                ile=parseFloat(ile);
+
+                if(isNaN(a) || isNaN(b) || isNaN(ile) || ile<2)
+                {
+                    document.querySelector('#ciag').innerHTML="<p>Podaj poprawne liczby!</p>";
+                    document.querySelector('#fi').innerHTML="";
+                }
+                else
+                {
+                    let ciag='<p><sub>x</sub></p>';
+                    let ratios='<p>&Phi; = n<sub>x</sub> &divide; n<sub>x-1</sub></p>';
+                    
+                    if(a%2==1) ciag+='<div>01 -> <span class="odd">'+ a +'</span></div>';
+                    else ciag+='<div>01 -> <span class="even">' + a + '</span></div>';
+
+                    if(b%2==1) ciag+='<div>02 -> <span class="odd">'+ b +'</span></div>';
+                    else ciag+='<div>02 -> <span class="even">' + b + '</span></div>';
+                
+                    ratios +='<div>01 -> <span class="ratio">brak</span></div>';
+                    ratios +='<div>02 -> <span class="ratio">'+ (b/a).toFixed(30) + '</span></div>';
+
+
+                    for(i =3; i<=ile; i++)
+                    {
+                        bufor=a;
+                        a=b;
+                        b=bufor+b;
+                        if(i<10) bufor='0'; else bufor='';
+
+                        if(b%2==1) ciag += '<div>' + bufor + i + ' -> <span class="odd">' + b + '</span></div>';
+                        else ciag += '<div>' + bufor + i + ' -> <span class="even">' + b + '</span></div>';
+
+                        ratios +='<div>' + bufor + i + ' -> <span class="ratio">' + (b/a).toFixed(30) + '</span></div>';
+                    }
+
+                    document.querySelector('#ciag').innerHTML=ciag;
+                    document.querySelector('#fi').innerHTML=ratios;
+                    
+                    // alert(document.querySelector('#ciag').innerHTML);
+                    // alert(document.querySelector('#ciag').outerHTML);
+                    
+                    // alert(document.querySelector('#ciag').innerText);
+                    // alert(document.querySelector('#ciag').textContent);
+                }
+
+                
+            }
+            function color_odd()
+            {
+                let kolor=this.value;
+                let wyrazy_nieparzyste=document.getElementsByClassName('odd');
+                for(let wyraz of wyrazy_nieparzyste) //petla dla wszytkich lelemtnow w kolekcji
+                {
+                    wyraz.style.color=kolor;
+                }
+            }
+
+            function color_even(barwa)
+            {
+                let wyrazy_parzyste=document.querySelectorAll('.even');
+                for(let wyraz of wyrazy_parzyste)
+                {
+                    wyraz.style.cssText='color: ' + barwa +";";
+                }
+            }
+
+            function color_phi(kolor)
+            {
+                let stosunki =document.querySelectorAll('#fi span'); //lub '.ratio'
+
+                for(ratio of stosunki)
+                {
+                    ratio.removeAttribute('style');
+                    //ratio.style.cssText="";
+                    if(kolor=='red')
+                    {
+                        ratio.classList.add('krew_i_wino');
+                        ratio.classList.remove('trawa_i_ufo');
+                        ratio.classList.remove('pezet');
+                    }
+                    else if(kolor=='green')
+                    {
+                        ratio.classList.remove('krew_i_wino');
+                        ratio.classList.add('trawa_i_ufo');
+                        ratio.classList.remove('pezet');
+                    }
+                    else
+                    {
+                        ratio.classList.remove('krew_i_wino');
+                        ratio.classList.remove('trawa_i_ufo');
+                        ratio.classList.add('pezet');
+                    }
+                }
+            }
+
+            function color_all()
+            {
+                let kolor=this.value;
+                let wszystkie_liczby=document.getElementsByTagName('span');
+
+                for(let liczba of wszystkie_liczby)
+                {
+                    liczba.style.cssText="color: " + kolor + ";";
+                }
+            }
+
+            function access()
+            {
+                let inputs=document.querySelectorAll('input:not(#blokada)');
+                for(let input of inputs)
+                {
+                    input.toggleAttribute('disabled');
+                }
+                if(this.value=="Zablokuj") this.value="Odblokuj"; else this.value="Zablokuj";
+            }
+        </script>
+    </body>
+</html>

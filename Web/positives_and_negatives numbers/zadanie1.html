@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang = "pl">
+
+<meta charset = "utf-8"/>
+<script type ="text/javascript">
+
+function sprawdz()
+{
+	
+	var liczba=document.getElementById("pole").value;
+	if(liczba>0)document.getElementById("wynik").innerHTML = "liczba dodatnia";
+	else if(liczba<0)document.getElementById("wynik").innerHTML="liczba ujemna";
+	else if(liczba=="")document.getElementById("wynik").innerHTML="Nie podano wartości";
+	else if(liczba==0)document.getElementById("wynik").innerHTML="podana liczba jest zerem";
+	else document.getElementById("wynik").innerHTML="Podana wartość nie jest liczbą";
+
+}
+
+</script>
+
+
+<head>
+</head>
+<body>
+<input type = "text" id = "pole"/>
+<input type = "submit" value="Sprawdź" onclick = "sprawdz()"/>
+
+<div id="wynik"></div>
+
+</body>
+</html>

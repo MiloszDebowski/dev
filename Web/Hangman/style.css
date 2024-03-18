@@ -1,0 +1,80 @@
+body
+{
+	background-color: #000000;
+	color: lightgray;
+	font-size: 28px;
+	font-family: 'Inconsolata', monospace;
+	font-weight: 700;
+}
+
+#GUI
+{
+	width: 900px;
+	margin-left: auto;
+	margin-right: auto;
+	
+}
+
+#plansza
+{
+	width: 900px;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	text-align: center;
+	font-size: 48px;
+	min-height: 60px;
+	/*text-transform: uppercase; ZAMINA WIELKOSCI LITER W PLIKU JS*/
+}
+
+
+#szubienica
+{
+	float:left;
+	width: 450px;
+	text-align: center;
+	min-height:280px;
+}
+
+#alfabet
+{
+	float:left;
+	width: 450px;
+	text-align:center;
+	min-height:280px;
+}
+
+
+.litera
+{
+	width: 30px;
+	height: 30px;
+	text-align:center;
+	text-transform: uppercase;
+	padding: 5px;
+	margin: 5px;
+	border: 3px solid gray;
+	border-radius: 15px;
+	float: left;
+	cursor: pointer;
+}
+
+.litera:hover
+{
+	background-color:#222222;
+	color: white;
+	border: 3px solid white;
+	
+	
+	
+}
+.reset
+{
+	color:green;
+}
+
+.reset:hover
+{
+	cursor: pointer;
+	color:white;
+}
+

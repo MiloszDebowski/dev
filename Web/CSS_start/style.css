@@ -1,0 +1,226 @@
+body
+{
+    font-family: 'Lato', sans-serif;
+    background-color: rgb(36, 37, 36);
+    color: rgb(16, 212, 92);
+    font: "Lato";
+    font-size: 20px;
+    
+}
+
+#container
+{
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.rectangle
+{
+    width: 960px;
+    margin: 20px;
+    text-align: center;
+}
+
+.square
+{
+    width: 50%;
+    float: left;
+}
+
+#clock
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    float: left;
+    font-family: 'Roboto Mono', monospace;
+    font: "Roboto Mono";
+    font-size: 70px;
+    text-align: left;
+    
+}
+
+#logo
+{   
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: 'Roboto Mono', monospace;
+    font: "Roboto Mono";
+    font-size: 70px;
+    width: 600px;
+    float: left;
+    text-align: left;
+    
+    
+    
+}
+
+.tile1
+{
+    float: left;
+    margin: 10px;
+    width: 230px;
+    height: 142px;
+    background-color: rgb(32, 32, 32);
+    text-align: center;
+    
+    
+}
+.tile1:hover
+{
+    background-color: rgb(26, 25, 25);
+}
+.tile2
+{
+    
+    float: left;
+    
+    margin: 10px;
+    width: 230px;
+    height: 142px;
+    background-color: rgb(23, 187, 119);
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    
+}
+.tile2:hover
+{
+    background-color: rgb(18, 148, 94);
+}
+
+.tile3
+{
+    float: left;
+    font-size: 20px;
+    margin: 10px;
+    width: 230px;
+    height: 142px;
+    background-color: rgb(38, 21, 102);
+    color: white;
+    text-align: center;
+    
+    
+    
+}
+.tile3:hover
+{
+    background-color: rgb(30, 17, 77);
+}
+
+.tile4
+{
+
+    text-align: center;
+    margin: 10px;
+    width: 420px;
+    height: 82px;
+    background-color: rgb(7, 37, 77);
+    color: white;
+    padding: 30px;
+    
+    
+}
+.tile5
+{
+
+    
+    margin: 10px;
+    width: 420px;
+    height: 244px;
+    background-color: rgb(32, 32, 32);
+    padding: 30px;
+    text-align: justify;
+    
+}
+.github
+{
+    
+    float: left;
+    margin: 10px;
+    width: 105px;
+    height: 142px;
+    background-color: rgb(9, 11, 36);
+    
+    
+    
+}
+.github:hover
+{
+    
+    background-color: rgb(4, 6, 31);
+}
+.spotify
+{
+    
+    float: left;
+    margin: 10px;
+    width: 105px;
+    height: 142px;
+    background-color: rgb(11, 230, 76);
+}
+.spotify:hover
+{
+    
+    background-color: rgb(15, 194, 69);
+}
+.fb
+{
+    
+    float: left;
+    margin: 10px;
+    width: 105px;
+    height: 142px;
+    background-color: rgb(2, 123, 236);
+}
+.fb:hover
+{
+    
+    background-color: rgb(11, 99, 182);
+}
+.steam
+{   
+    
+    float: left;
+    margin: 10px;
+    width: 105px;
+    height: 142px;
+    background-color: rgb(17, 23, 48);
+}
+.steam:hover
+{
+    
+    background-color: rgb(12, 18, 43);
+}
+
+a.tilewhitelink
+{
+    color:white;
+    text-decoration: none;
+    display: block;
+    width: 230px;
+    height: 142px;
+}
+a.tilegreenlink
+{
+    color: rgb(16, 212, 92);
+    text-decoration: none;
+    display: block;
+    width: 230px;
+    height: 142px;
+}
+
+a.sociallink
+{
+    color:white;
+    text-decoration: none;
+    display: block;
+    width: 105px;
+    height: 142px;
+}
+
+a.homelink
+{
+    color: rgb(16, 212, 92);
+    text-decoration: none;
+}
