@@ -1,0 +1,94 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    padding: 30px;
+}
+
+.page-header{
+    grid-area: header;
+    margin: 10px;
+    text-align: center;
+}
+
+.page-title{
+    
+    font-weight: normal;
+    font-size: 50px;;
+}
+
+.page-bar{
+    grid-area: bar;
+    padding: 10px;
+    
+    
+}
+
+.links-list{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.links{
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 25px;
+    color: black;
+    text-decoration: none;
+}
+.links:hover{
+    color: rgb(100, 96, 96);
+}
+
+.article{
+    padding: 0px;
+}
+
+
+
+.article-content{
+ font-size: 20px;;
+}
+
+.article-title{
+    font-size: 30px;
+}
+
+.page-article1{
+    grid-area: article1;
+    padding: 10px;
+}
+.page-article2{
+    grid-area: article2;
+    padding: 10px;
+}
+.page-article3{
+    grid-area: article3;
+    padding: 10px;
+}
+.page-article4{
+    grid-area: article4;
+    padding: 10px;
+}
+.page-article5{
+    grid-area: article5;
+    padding: 10px;
+}
+
+.page-footer{
+grid-area: footer;
+padding: 10px;
+}
+
+.page{
+    display: grid;
+    
+    grid-template-areas: 
+    "header header header"
+    "bar bar bar"
+    "article1 article2 article3"
+    "article4 article4 article5"
+    "footer footer footer";
+}
