@@ -21,7 +21,8 @@ body{
 .page-bar{
     grid-area: bar;
     padding: 10px;
-    
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;;
     
 }
 
@@ -46,7 +47,13 @@ body{
     padding: 0px;
 }
 
-
+.images
+{
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
 
 .article-content{
  font-size: 20px;;
@@ -54,6 +61,7 @@ body{
 
 .article-title{
     font-size: 30px;
+    text-align: center;
 }
 
 .page-article1{
@@ -63,24 +71,27 @@ body{
 .page-article2{
     grid-area: article2;
     padding: 10px;
+    border-left: 3px solid black;;
+    
 }
 .page-article3{
     grid-area: article3;
     padding: 10px;
+    border-left: 3px solid black;
 }
 .page-article4{
     grid-area: article4;
     padding: 10px;
+    border-top: 3px solid black;
 }
 .page-article5{
     grid-area: article5;
     padding: 10px;
+    border-top: 3px solid black;
+    border-left: 3px solid black;;
 }
 
-.page-footer{
-grid-area: footer;
-padding: 10px;
-}
+
 
 .page{
     display: grid;
@@ -89,6 +100,7 @@ padding: 10px;
     "header header header"
     "bar bar bar"
     "article1 article2 article3"
-    "article4 article4 article5"
-    "footer footer footer";
+    "article4 article4 article5";
+
+    border: 3px solid black;
 }
