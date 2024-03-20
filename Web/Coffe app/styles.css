@@ -1,0 +1,83 @@
+*{
+    box-sizing: border-box;
+}
+
+
+
+.header{
+    height: 70px;
+    width: auto;
+    background-color: rgb(71, 41, 24);
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    margin: 0px;
+    padding: 0px;
+}
+
+.brand-image{
+    padding: 10px;
+}
+
+.branding{
+    font-family: 'Open Sans', sans-serif;
+    color: bisque;
+    margin-left: 0px;
+    padding: 0px;
+    
+
+}
+
+
+.content{
+    display: grid;
+    background-color: rgb(252, 253, 244);
+    height: 652px;
+    width: auto;
+    border-radius: 30px;
+    padding-top: 20px;
+    grid-template-areas: "nav-items nav-info";
+}
+
+.items-list .additives-list{
+    list-style: none;
+}
+
+
+.count{
+    grid-area: nav-count;
+}
+
+.item-name{
+    grid-area: nav-name;
+}
+
+.price{
+    grid-area: nav-price;
+}
+
+.additives{
+    grid-area: nav-additives;
+}
+
+.item{
+    display: grid;
+    grid-template-areas: "nav-count nav-name nav-name nav-price" ". nav-additives nav-additives .";
+}
+
+.items{
+    grid-area: nav-items;
+}
+
+.info{
+    grid-area: nav-info;
+}
+
+.window-name{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+    margin: 10px;
+    padding: 10px;
+    font-size: 14px;
+
+}
