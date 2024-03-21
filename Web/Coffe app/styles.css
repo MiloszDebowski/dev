@@ -36,24 +36,39 @@
     width: auto;
     border-radius: 30px;
     padding-top: 20px;
-    grid-template-areas: "nav-items nav-info";
+    grid-template-areas: "nav-items nav-info" "nav-price-spec nav-price-spec";
 }
 
 .items-list .additives-list{
     list-style: none;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+    font-size: 12px;
+    color: rgb(185, 138, 85);
+    width: 100%;
+    
 }
 
 
 .count{
     grid-area: nav-count;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
 }
 
 .item-name{
     grid-area: nav-name;
+    color: black;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .price{
     grid-area: nav-price;
+    text-align: right;
+    margin-right: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .additives{
@@ -63,10 +78,18 @@
 .item{
     display: grid;
     grid-template-areas: "nav-count nav-name nav-name nav-price" ". nav-additives nav-additives .";
+    margin: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgb(244, 210, 172);
 }
 
 .items{
     grid-area: nav-items;
+    background-color: rgb(244, 225, 203);
+    border-radius: 10px;
+    margin: 30px;
+    padding: 10px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
 .info{
@@ -76,8 +99,178 @@
 .window-name{
     font-family: 'Open Sans', sans-serif;
     font-weight: normal;
+    font-size: 14px;
     margin: 10px;
+    color:rgb(71, 41, 24);
+}
+
+
+
+
+  .name{
+    background-color: rgb(244, 225, 203);
+    border-radius: 10px;
+    margin: 30px;
     padding: 10px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  }
+
+  .payment{
+    background-color: rgb(244, 225, 203);
+    border-radius: 10px;
+    margin: 30px;
+    padding: 10px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  }
+
+  .name-input-box{
+    position: relative;
+    display: flex;
+  }
+
+
+
+  .name-input{
+    
+    color: rgb(71, 41, 24);
+    padding: 8px;
+    border-radius: 20px;
+    background-color: rgb(244, 225, 203);
+    border-color: rgb(71, 41, 24);
+    width: 100%;
+    
+  }
+
+  .name-input-label{
+    background-color: rgb(244, 225, 203);
+    color: rgb(71, 41, 24);
+    font-size: 11px;
+    position: absolute;
+    left: 25px;
+    top: -7px;
+    padding: 0 2px;
+    font-family: 'Open Sans', sans-serif;
+    
+  }
+
+  .payment-input-box{
+    position: relative;
+    display: flex;
+  }
+
+  .payment-input{
+    color: rgb(71, 41, 24);
+    padding: 8px;
+    border-radius: 20px;
+    background-color: rgb(244, 225, 203);
+    border-color: rgb(71, 41, 24);
+    margin-bottom: 20px;
+    width: 100%;
+
+  }
+
+  .payment-input-label{
+    background-color: rgb(244, 225, 203);
+    color: rgb(71, 41, 24);
+    font-size: 11px;
+    position: absolute;
+    left: 25px;
+    top: -7px;
+    padding: 0 2px;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .ccv-input-box{
+    position: relative;
+    display: flex;
+  }
+
+  .ccv-input{
+    color: rgb(71, 41, 24);
+    padding: 8px;
+    border-radius: 20px;
+    background-color: rgb(244, 225, 203);
+    border-color: rgb(71, 41, 24);
+    margin-bottom: 10px;
+    width: 20%;
+  }
+
+  .ccv-input-label{
+    background-color: rgb(244, 225, 203);
+    color: rgb(71, 41, 24);
+    font-size: 11px;
+    position: absolute;
+    left: 25px;
+    top: -7px;
+    padding: 0 2px;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+
+.price-spec{
+    display: grid;
+    grid-area: nav-price-spec;
+    grid-template-areas: "spec1 price1" "spec2 price2" "spec3 price3" "nav-place-order nav-place-order";
+    font-family: 'Open Sans', sans-serif;
+    justify-content: space-around;
+}
+
+.spec1{
+    grid-area: spec1;
+    font-weight: normal;
     font-size: 14px;
 
 }
+
+.spec2{
+    grid-area: spec2;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.spec3{
+    grid-area: spec3;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.price1{
+    grid-area: price1;
+    font-weight: normal;
+    font-size: 14px;
+}
+.price2{
+    grid-area: price2;
+    font-weight: normal;
+    font-size: 14px;
+}
+.price3{
+    grid-area: price3;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.place-order-button
+{
+    grid-area: nav-place-order;
+    
+}
+
+.place-order{
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    background-color: rgb(233, 199, 159);
+    font-weight: normal;
+    padding: 5px;
+    
+}
+
+.place-order:hover{
+    cursor: pointer;
+    background-color: rgb(197, 147, 90);
+}
+
+
