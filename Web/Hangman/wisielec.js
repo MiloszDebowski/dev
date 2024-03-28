@@ -1,4 +1,4 @@
-var haslo="Kormoran";
+var haslo="KORMORAN";
 haslo=haslo.toUpperCase();
 
 var dlugosc=haslo.length;
