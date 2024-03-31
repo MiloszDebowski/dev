@@ -12,7 +12,6 @@
 	if(minuta<10)minuta="0"+minuta
 	var sekunda = dzisiaj.getSeconds();
 	if(sekunda<10)sekunda="0"+sekunda;
-	console.log("jebac AGH");
 	document.getElementById("zegarek").innerHTML = dzien+"/"+miesiac+"/"+rok+" | " +godzina+":"+minuta+":"+sekunda;
 	
 	setTimeout("odliczanie()",1000)
