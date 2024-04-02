@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\dev\\C\u002B\u002B\\Rozk\u0142ad LU - algorytm Doolittle\u0027a\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F4CFB143-DECE-4059-8662-53CB0564E5F8}|Rozk\u0142ad LU - algorytm Doolittle\u0027a.vcxproj|C:\\dev\\C\u002B\u002B\\Rozk\u0142ad LU - algorytm Doolittle\u0027a\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F4CFB143-DECE-4059-8662-53CB0564E5F8}|Rozk\u0142ad LU - algorytm Doolittle\u0027a.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\dev\\C\u002B\u002B\\Rozk\u0142ad LU - algorytm Doolittle\u0027a\\main.cpp",
+              "RelativeDocumentMoniker": "main.cpp",
+              "ToolTip": "C:\\dev\\C\u002B\u002B\\Rozk\u0142ad LU - algorytm Doolittle\u0027a\\main.cpp",
+              "RelativeToolTip": "main.cpp",
+              "ViewState": "AQIAAEMAAAAAAAAAAAAIwEsAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-04-02T13:22:58.134Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
