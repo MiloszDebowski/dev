@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\dev\\C\u002B\u002B\\Pivoting\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F2F658C3-AB41-41DF-ADFF-2A6C0EDE3D53}|Pivoting\\Pivoting.vcxproj|C:\\dev\\C\u002B\u002B\\Pivoting\\Pivoting\\\u0179r\u00F3d\u0142o.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F2F658C3-AB41-41DF-ADFF-2A6C0EDE3D53}|Pivoting\\Pivoting.vcxproj|solutionrelative:Pivoting\\\u0179r\u00F3d\u0142o.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 100,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "\u0179r\u00F3d\u0142o.cpp",
+              "DocumentMoniker": "C:\\dev\\C\u002B\u002B\\Pivoting\\Pivoting\\\u0179r\u00F3d\u0142o.cpp",
+              "RelativeDocumentMoniker": "Pivoting\\\u0179r\u00F3d\u0142o.cpp",
+              "ToolTip": "C:\\dev\\C\u002B\u002B\\Pivoting\\Pivoting\\\u0179r\u00F3d\u0142o.cpp",
+              "RelativeToolTip": "Pivoting\\\u0179r\u00F3d\u0142o.cpp",
+              "ViewState": "AQIAAJkAAAAAAAAAAAAAALkAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-04-02T11:53:31.335Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

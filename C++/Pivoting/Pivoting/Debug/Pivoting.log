@@ -1,11 +1,7 @@
 ﻿  Źródło.cpp
-C:\dev\C++\Pivoting\Pivoting\Źródło.cpp(49,31): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\dev\C++\Pivoting\Pivoting\Źródło.cpp(50,35): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\dev\C++\Pivoting\Pivoting\Źródło.cpp(66,27): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\dev\C++\Pivoting\Pivoting\Źródło.cpp(67,31): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\dev\C++\Pivoting\Pivoting\Źródło.cpp(99,31): warning C4244: "inicjowanie": konwersja z "_Ty" do "float", możliwa utrata danych
-          with
-          [
-              _Ty=double
-          ]
+C:\dev\C++\Pivoting\Pivoting\Źródło.cpp(49,41): warning C4018: '<': signed/unsigned mismatch
+C:\dev\C++\Pivoting\Pivoting\Źródło.cpp(50,47): warning C4018: '<': signed/unsigned mismatch
+C:\dev\C++\Pivoting\Pivoting\Źródło.cpp(65,37): warning C4018: '<': signed/unsigned mismatch
+C:\dev\C++\Pivoting\Pivoting\Źródło.cpp(66,43): warning C4018: '<': signed/unsigned mismatch
+C:\dev\C++\Pivoting\Pivoting\Źródło.cpp(126,41): warning C4018: '<': signed/unsigned mismatch
   Pivoting.vcxproj -> C:\dev\C++\Pivoting\Debug\Pivoting.exe
