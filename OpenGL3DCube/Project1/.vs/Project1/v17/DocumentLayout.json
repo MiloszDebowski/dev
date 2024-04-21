@@ -5,6 +5,13 @@
     {
       "AbsoluteMoniker": "D:0:0:{F12E372B-A5C3-4D61-BB65-F3E6A1E3FE2C}|Project1.vcxproj|C:\\dev\\OpenGL3DCube\\Project1\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{F12E372B-A5C3-4D61-BB65-F3E6A1E3FE2C}|Project1.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F12E372B-A5C3-4D61-BB65-F3E6A1E3FE2C}|Project1.vcxproj|C:\\dev\\OpenGL3DCube\\Project1\\stb_image.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F12E372B-A5C3-4D61-BB65-F3E6A1E3FE2C}|Project1.vcxproj|solutionrelative:stb_image.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F12E372B-A5C3-4D61-BB65-F3E6A1E3FE2C}|Project1.vcxproj|C:\\dev\\OpenGL\\glad\\src\\glad.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +21,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "stb_image.h",
+              "DocumentMoniker": "C:\\dev\\OpenGL3DCube\\Project1\\stb_image.h",
+              "RelativeDocumentMoniker": "stb_image.h",
+              "ToolTip": "C:\\dev\\OpenGL3DCube\\Project1\\stb_image.h",
+              "RelativeToolTip": "stb_image.h",
+              "ViewState": "AQIAAJoeAAAAAAAAAAAgwKMfAAACAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-04-21T19:05:19.815Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "glad.c",
+              "DocumentMoniker": "C:\\dev\\OpenGL\\glad\\src\\glad.c",
+              "RelativeDocumentMoniker": "..\\..\\OpenGL\\glad\\src\\glad.c",
+              "ToolTip": "C:\\dev\\OpenGL\\glad\\src\\glad.c",
+              "RelativeToolTip": "..\\..\\OpenGL\\glad\\src\\glad.c",
+              "ViewState": "AQIAAM4AAAAAAAAAAAAIwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-04-21T19:03:01.311Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -24,7 +57,7 @@
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "C:\\dev\\OpenGL3DCube\\Project1\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AQIAACgAAAAAAAAAAAAcwF4AAABMAAAA",
+              "ViewState": "AQIAAAcBAAAAAAAAAAAQwBEBAABHAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-04-11T21:06:54.257Z",
               "EditorCaption": ""

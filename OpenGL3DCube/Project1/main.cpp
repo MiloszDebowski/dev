@@ -5,79 +5,82 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 #include <iostream>
 
 const GLchar* vertexShaderSource =
 "#version 330 core\n"
 "layout(location = 0) in vec3 position;\n"
-"layout(location = 1) in vec3 color;\n"
-"out vec3 vertexColor;\n"
+"out vec2 TexCoord;\n"
 "uniform mat4 model;\n"
 "uniform mat4 view;\n"
 "uniform mat4 projection;\n"
 "void main()\n"
 "{\n"
-"    gl_Position = projection * view * model * vec4(position.x, position.y, position.z, 1.0);\n"
-"    vertexColor = color;\n"
-"}\0";
+"    gl_Position = projection * view * model * vec4(position, 1.0f);\n"
+"    TexCoord = position.xy * 5.0 + 0.5 + 0.5;\n"
+"}\n";
 
 const GLchar* fragmentShaderSource =
 "#version 330 core\n"
-"in vec3 vertexColor;\n"
+"in vec2 TexCoord;\n"
 "out vec4 fragmentColor;\n"
+"uniform sampler2D texture1;\n"
 "void main()\n"
 "{\n"
-"    fragmentColor = vec4(vertexColor, 1.0);\n"
-"}\0";
+"    fragmentColor = texture(texture1, TexCoord);\n"
+"}\n";
 
 GLfloat cubeVertices[] = {
     // Przód
-    -0.5f, -0.5f, 0.5f,  0.2f, 0.9f, 1.0f,
-    0.5f, -0.5f, 0.5f,   0.0f, 0.2f, 1.0f,
-    0.5f, 0.5f, 0.5f,    0.0f, 0.0f, 1.0f,
-    0.5f, 0.5f, 0.5f,    0.4f, 0.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,   0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, 1.0f,
+    -0.5f, -0.5f, 0.5f,
+    0.5f, -0.5f, 0.5f,
+    0.5f, 0.5f, 0.5f,
+    0.5f, 0.5f, 0.5f,
+    -0.5f, 0.5f, 0.5f,
+    -0.5f, -0.5f, 0.5f,
 
     // Ty³
-    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
-    0.5f, -0.5f, -0.5f,  0.5f, 0.0f, 1.0f,
-    0.5f, 0.5f, -0.5f,   0.0f, 0.0f, 1.0f,
-    0.5f, 0.5f, -0.5f,   0.0f, 0.3f, 1.0f,
-    -0.5f, 0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    0.5f, 0.5f, -0.5f,
+    0.5f, 0.5f, -0.5f,
+    -0.5f, 0.5f, -0.5f,
+    -0.5f, -0.5f, -0.5f,
 
     // Lewa œciana
-    -0.5f, 0.5f, 0.5f,   0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f, 0.7f, 0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, 0.5f,  0.0f, 0.3f, 1.0f,
-    -0.5f, 0.5f, 0.5f,   0.0f, 0.0f, 1.0f,
+    -0.5f, 0.5f, 0.5f,
+    -0.5f, 0.5f, -0.5f,
+    -0.5f, -0.5f, -0.5f,
+    -0.5f, -0.5f, -0.5f,
+    -0.5f, -0.5f, 0.5f,
+    -0.5f, 0.5f, 0.5f,
 
     // Prawa œciana
-    0.5f, 0.5f, 0.5f,    0.0f, 0.0f, 1.0f,
-    0.5f, 0.5f, -0.5f,   0.7f, 0.0f, 2.0f,
-    0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-    0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 0.4f,
-    0.5f, -0.5f, 0.5f,   0.9f, 0.0f, 1.0f,
-    0.5f, 0.5f, 0.5f,    0.0f, 0.0f, 1.0f,
+    0.5f, 0.5f, 0.5f,
+    0.5f, 0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f, 0.5f,
+    0.5f, 0.5f, 0.5f,
 
     // Górna œciana
-    -0.5f, 0.5f, 0.5f,   0.0f, 0.0f, 1.0f,
-    0.5f, 0.5f, 0.5f,    0.0f, 0.0f, 1.0f,
-    0.5f, 0.5f, -0.5f,   0.0f, 0.0f, 1.0f,
-    0.5f, 0.5f, -0.5f,   0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,   0.0f, 0.0f, 1.0f,
+    -0.5f, 0.5f, 0.5f,
+    0.5f, 0.5f, 0.5f,
+    0.5f, 0.5f, -0.5f,
+    0.5f, 0.5f, -0.5f,
+    -0.5f, 0.5f, -0.5f,
+    -0.5f, 0.5f, 0.5f,
 
     // Dolna œciana
-    -0.5f, -0.5f, 0.5f,  0.5f, 0.2f, 1.0f,
-    0.5f, -0.5f, 0.5f,   0.1f, 0.8f, 1.0f,
-    0.5f, -0.5f, -0.5f,  0.9f, 0.9f, 1.0f,
-    0.5f, -0.5f, -0.5f,  3.0f, 5.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, 1.0f
+    -0.5f, -0.5f, 0.5f,
+    0.5f, -0.5f, 0.5f,
+    0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    -0.5f, -0.5f, -0.5f,
+    -0.5f, -0.5f, 0.5f
 };
 
 int main()
@@ -169,10 +172,8 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);
 
@@ -180,20 +181,48 @@ int main()
     GLint viewLoc = glGetUniformLocation(shaderProgram, "view");
     GLint projectionLoc = glGetUniformLocation(shaderProgram, "projection");
 
+    // Dodanie tablicy przechowuj¹cej identyfikatory tekstur
+    GLuint textures[6];
+
+    // £adowanie tekstur i przypisanie ich do odpowiednich œcian
+    for (int i = 0; i < 6; ++i) {
+        glGenTextures(1, &textures[i]);
+        glBindTexture(GL_TEXTURE_2D, textures[i]);
+        // Ustawianie parametrów tekstury
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        // Wczytywanie obrazka
+        int width, height, nrChannels;
+        stbi_set_flip_vertically_on_load(true);
+        unsigned char* data = stbi_load("agh.jpg", &width, &height, &nrChannels, 0);
+        if (data)
+        {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+        else
+        {
+            std::cerr << "B³¹d wczytywania tekstury" << std::endl;
+        }
+        // Zwalnianie pamiêci obrazka
+        stbi_image_free(data);
+    }
+
     // Zmienne kamery i transformacji
-    glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, 2.5f);
+    glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, 3.0f);
     glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
     float pitch = 0.0f;
     float yaw = -90.0f;
     float sensitivity = 0.1f;
-    float cameraSpeed = 0.03f;
+    float cameraSpeed = 0.05f;
 
     glm::mat4 model = glm::mat4(1.0f);
-    glm::mat4 view = glm::lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(windowWidth) / static_cast<float>(windowHeight), 0.1f, 100.0f);
-
 
     // G³ówna pêtla
     while (!glfwWindowShouldClose(window))
@@ -232,7 +261,7 @@ int main()
         cameraFrontNew.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
         cameraFront = glm::normalize(cameraFrontNew);
 
-        view = glm::lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
+        glm::mat4 view = glm::lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
 
         // Wyczyszczenie buforów koloru i g³êbi
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -245,9 +274,12 @@ int main()
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-        // Powi¹zanie VAO i narysowanie szeœcianu
+        // Rysowanie szeœcianu z odpowiednimi teksturami
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        for (int i = 0; i < 6; i++) {
+            glBindTexture(GL_TEXTURE_2D, textures[i]);
+            glDrawArrays(GL_TRIANGLES, i * 6, 6);
+        }
         glBindVertexArray(0);
 
         // Zamiana buforów przednich i tylnych
@@ -260,6 +292,7 @@ int main()
     // Wyczyszczenie zasobów
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
+    glDeleteTextures(6, textures); // Zwalnianie pamiêci zaalokowanej dla tekstur
     glDeleteProgram(shaderProgram);
 
     // Zakoñczenie GLFW
