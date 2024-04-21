@@ -1,0 +1,51 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\dev\\OpenGL\\Project1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8A2F8259-4EE9-4268-BCB8-A005ABF954D2}|Project1.vcxproj|C:\\Users\\milos\\Downloads\\Projekt\\Projekt\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8A2F8259-4EE9-4268-BCB8-A005ABF954D2}|Project1.vcxproj|C:\\Users\\milos\\Downloads\\Projekt\\Projekt\\VAO.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "VAO.cpp",
+              "DocumentMoniker": "C:\\Users\\milos\\Downloads\\Projekt\\Projekt\\VAO.cpp",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\milos\\Downloads\\Projekt\\Projekt\\VAO.cpp",
+              "ToolTip": "C:\\Users\\milos\\Downloads\\Projekt\\Projekt\\VAO.cpp",
+              "RelativeToolTip": "..\\..\\..\\Users\\milos\\Downloads\\Projekt\\Projekt\\VAO.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-04-11T19:32:49.12Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Main.cpp",
+              "DocumentMoniker": "C:\\Users\\milos\\Downloads\\Projekt\\Projekt\\Main.cpp",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\milos\\Downloads\\Projekt\\Projekt\\Main.cpp",
+              "ToolTip": "C:\\Users\\milos\\Downloads\\Projekt\\Projekt\\Main.cpp",
+              "RelativeToolTip": "..\\..\\..\\Users\\milos\\Downloads\\Projekt\\Projekt\\Main.cpp",
+              "ViewState": "AQIAAB8AAAAAAAAAAAAkwEEAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-04-11T19:32:43.654Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
