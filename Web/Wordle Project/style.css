@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+  }
+
+body{
+}
+
+h1{
+font-family: 'Courier New', Courier, monospace;
+text-decoration: underline;
+}
+
+.game{
+    width: 350px;
+    height: 500px;
+}
+
+.letter{
+    display: flex;
+    font-family: 'Courier New', Courier, monospace;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 30px;
+    justify-content: center;
+    padding: 8px;
+    background-color: white;
+    border: solid 4px lightgray;
+
+    width: 16%;
+    height: 70%;
+}
+
+.word{
+    display: flex;    
+    justify-content: space-evenly;
+    width: 100%;
+    height: 16.7%;
+}
