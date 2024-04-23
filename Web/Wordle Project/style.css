@@ -2,37 +2,38 @@
     box-sizing: border-box;
   }
 
-body{
+body {
+  /* a nice font that uses a user's built in font */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 
-h1{
-font-family: 'Courier New', Courier, monospace;
-text-decoration: underline;
+.navbar{
+    text-align: center;
 }
 
-.game{
-    width: 350px;
-    height: 500px;
+.boxes{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    max-width: 295px;
+    width: 100%;
+    row-gap: 10px;
+    column-gap: 5px;
+    margin: 10px auto;
 }
 
-.letter{
+.letter-box{
     display: flex;
-    font-family: 'Courier New', Courier, monospace;
+    justify-content: center;
+    font-size: 30px;
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 30px;
-    justify-content: center;
-    padding: 8px;
-    background-color: white;
-    border: solid 4px lightgray;
-
-    width: 16%;
-    height: 70%;
-}
-
-.word{
-    display: flex;    
-    justify-content: space-evenly;
-    width: 100%;
-    height: 16.7%;
+    margin: 0;
+    padding: 0;
+    border: 3px solid lightgray;
+    width: 45px;
+    height: 45px;
 }
