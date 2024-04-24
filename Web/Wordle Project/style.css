@@ -37,3 +37,26 @@ body {
     width: 45px;
     height: 45px;
 }
+
+.correct{
+  background-color: green;
+  color: white;
+}
+
+.close{
+  background-color: yellow;
+}
+
+.wrong{
+  background-color: grey;
+  color: white;
+}
+
+.invalid{
+  border: 3px solid red;
+}
+
+.msg{
+  text-align: center;
+  text-transform: uppercase;
+}
