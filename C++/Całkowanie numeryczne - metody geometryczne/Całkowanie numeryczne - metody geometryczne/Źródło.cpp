@@ -3,17 +3,14 @@
 
 using namespace std;
 
-// Funkcja podca³kowa: sin(x)
 double func1(double x) {
     return sin(x);
 }
 
-// Funkcja podca³kowa: x^2 + 2x + 5
 double func2(double x) {
     return x * x + 2 * x + 5;
 }
 
-// Funkcja podca³kowa: exp(x)
 double func3(double x) {
     return exp(x);
 }
@@ -41,15 +38,23 @@ double trapezoidal_method(double (*func)(double), double a, double b, int n) {
 }
 
 // Metoda parabol
-double parabolic_method(double (*func)(double), double a, double b, int n) {
+double simpson_method(double (*func)(double), double a, double b, int n) {
     double S = (b - a) / n;
-    double sum = (func(a) + func(b)) / 2;
+    double sum = func(a) + func(b); 
+
     for (int i = 1; i < n; ++i) {
         double x_i = a + i * S;
-        sum += 2 * func(x_i);
+        if (i % 2 == 0) { 
+            sum += 2 * func(x_i);
+        }
+        else { 
+            sum += 4 * func(x_i);
+        }
     }
-    return sum * S / 2;
+
+    return sum * S / 3;
 }
+
 
 int main() {
     double a = 0.5, b = 2.5; // Przedzia³ ca³kowania
@@ -59,7 +64,7 @@ int main() {
     cout << "Calka z sin(x) w przedziale od " << a << " do " << b <<". Liczba przedzialow: "<<n<< endl;
     cout << "Metoda prostokatow: " << rectangle_method(func1, a, b, n) << endl;
     cout << "Metoda trapezow: " << trapezoidal_method(func1, a, b, n) << endl;
-    cout << "Metoda parabol: " << parabolic_method(func1, a, b, n) << endl;
+    cout << "Metoda parabol: " << simpson_method(func1, a, b, n) << endl;
     cout << endl;
 
     // Ca³ka z x^2 + 2x + 5
@@ -67,14 +72,14 @@ int main() {
     cout << "Calka z x^2 + 2x + 5 w przedziale od " << a << " do " << b << ". Liczba przedzialow: " << n << endl;
     cout << "Metoda prostokatow: " << rectangle_method(func2, a, b, n) << endl;
     cout << "Metoda trapezow: " << trapezoidal_method(func2, a, b, n) << endl;
-    cout << "Metoda parabol: " << parabolic_method(func2, a, b, n) << endl;
+    cout << "Metoda parabol: " << simpson_method(func2, a, b, n) << endl;
     cout << endl;
 
     // Ca³ka z exp(x)
     cout << "Calka z exp(x) w przedziale od " << a << " do " << b << ". Liczba przedzialow: " << n << endl;
     cout << "Metoda prostokatow: " << rectangle_method(func3, a, b, n) << endl;
     cout << "Metoda trapezow: " << trapezoidal_method(func3, a, b, n) << endl;
-    cout << "Metoda parabol: " << parabolic_method(func3, a, b, n) << endl;
+    cout << "Metoda parabol: " << simpson_method(func3, a, b, n) << endl;
 
     return 0;
 }
