@@ -1,6 +1,0 @@
-﻿  main.cpp
-C:\dev\OpenGL3DCube\Project1\main.cpp(245,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\dev\OpenGL3DCube\Project1\main.cpp(246,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\dev\OpenGL3DCube\Project1\main.cpp(247,21): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\dev\OpenGL3DCube\Project1\main.cpp(248,21): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  Project1.vcxproj -> C:\dev\OpenGL3DCube\Project1\x64\Debug\Project1.exe
