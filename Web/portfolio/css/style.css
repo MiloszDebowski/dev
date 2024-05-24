@@ -234,9 +234,6 @@ margin: 0;
 }
 
 
-
-
-
 /* footer section */
 
 footer {
@@ -289,6 +286,8 @@ border-left:none;
 #projects .reverse ul{
 justify-content: flex-start;
 }
+
+
 
 
 }
