@@ -83,6 +83,7 @@ public class UserInterface {
                 }
                 break;
             default:
+                System.out.println("WRONG CHOICE");
                 break;
         }
 
@@ -130,6 +131,9 @@ public class UserInterface {
                 case 5:
                     System.out.println("EXITING...");
                     return;
+                default:
+                    System.out.println("INVALID CHOICE");
+                    break;
             }
         }
     }
