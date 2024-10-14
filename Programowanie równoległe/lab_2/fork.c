@@ -22,14 +22,14 @@ int main(){
       
       zmienna_globalna++;
 
-      //char arg1[] = "/bin/ls";
-      //char arg2[] = ".";
-      //char* arg[] = {arg1,arg2,NULL};
-      //char* arg[] = {"/bin/ls",".",NULL};
-      //wynik=execv("/bin/ls",arg); 
-      //wynik=execv("./program",NULL); 
-      /* if(wynik==-1) */
-      /*     printf("Proces potomny nie wykonal programu\n"); */
+      // char arg1[] = "/bin/ls";
+      // char arg2[] = ".";
+      // char* arg[] = {arg1,arg2,NULL};
+      // char* arg[] = {"/bin/ls",".",NULL};
+      // wynik=execv("/bin/ls",arg); 
+      // wynik=execv("./program",NULL); 
+      // if(wynik==-1)
+      //      printf("Proces potomny nie wykonal programu\n");
 
       exit(0);
       

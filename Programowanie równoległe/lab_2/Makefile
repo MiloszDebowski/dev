@@ -8,7 +8,7 @@ LOADER = gcc
 # wersja do debugowania
 #OPT = -g -DDEBUG -O0
 # wersja zoptymalizowana do mierzenia czasu
- OPT = -O3
+OPT = -O3
 all: fork clone program
 # pliki naglowkowe
 INC = -Ipomiar_czasu
