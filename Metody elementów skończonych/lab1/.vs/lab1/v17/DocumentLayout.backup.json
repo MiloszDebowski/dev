@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\dev\\Metody element\u00F3w sko\u0144czonych\\lab1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D0375288-A51E-43FD-A30D-9A6EB008CD3F}|lab1.vcxproj|D:\\dev\\Metody element\u00F3w sko\u0144czonych\\lab1\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D0375288-A51E-43FD-A30D-9A6EB008CD3F}|lab1.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "D:\\dev\\Metody element\u00F3w sko\u0144czonych\\lab1\\main.cpp",
+              "RelativeDocumentMoniker": "main.cpp",
+              "ToolTip": "D:\\dev\\Metody element\u00F3w sko\u0144czonych\\lab1\\main.cpp",
+              "RelativeToolTip": "main.cpp",
+              "ViewState": "AgIAAMAAAAAAAAAAAAAAADkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-10-14T15:47:10.712Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
