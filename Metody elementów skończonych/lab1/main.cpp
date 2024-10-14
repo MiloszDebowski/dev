@@ -122,19 +122,19 @@ struct Node {
 
 struct Element
 {
-    vector<int> node_ids;
+    vector<int> nodeIDS;
 
-    Element(const vector<int>& node_ids) : node_ids(node_ids) {}
+    Element(const vector<int>& nodeIDS) : nodeIDS(nodeIDS) {}
 
     void print() const
     {
-        cout << "[ ";
-        for (size_t i = 0; i < node_ids.size(); ++i)
+        cout << "{ ";
+        for (size_t i = 0; i < nodeIDS.size(); ++i)
         {
-            cout << node_ids[i];
-            if (i != node_ids.size() - 1) cout << " ; ";
+            cout << nodeIDS[i];
+            if (i != nodeIDS.size() - 1) cout << " ; ";
         }
-        cout << " ]\n";
+        cout << " }" << endl;
     }
 
     static vector<Element> readElements(const string& path)
