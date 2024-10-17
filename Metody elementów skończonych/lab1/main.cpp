@@ -28,9 +28,9 @@ struct GlobalData
         cout << "nE (Elements number): " << nE << endl;
     }
 
-    static GlobalData readData(const string& path)
+    static GlobalData readData(const string& grid_file)
     {
-        ifstream file(path);
+        ifstream file(grid_file);
         string line;
         double SimulationTime = 0, SimulationStepTime = 0, Conductivity = 0, Alfa = 0, Tot = 0, InitialTemp = 0, Density = 0, SpecificHeat = 0;
         int Nodes = 0, Elements = 0;
@@ -83,9 +83,9 @@ struct Node {
         cout << "( " << x << " ; " << y << " )\n";
     }
 
-    static vector<Node> readNodes(const string& path)
+    static vector<Node> readNodes(const string& grid_file)
     {
-        ifstream file(path);
+        ifstream file(grid_file);
         string line;
         vector<Node> nodes;
         bool node_section = false;
@@ -129,7 +129,7 @@ struct Element
     void print() const
     {
         cout << "{ ";
-        for (size_t i = 0; i < nodeIDS.size(); ++i)
+        for (int i = 0; i < nodeIDS.size(); ++i)
         {
             cout << nodeIDS[i];
             if (i != nodeIDS.size() - 1) cout << " ; ";
@@ -137,9 +137,9 @@ struct Element
         cout << " }" << endl;
     }
 
-    static vector<Element> readElements(const string& path)
+    static vector<Element> readElements(const string& grid_file)
     {
-        ifstream file(path);
+        ifstream file(grid_file);
         string line;
         vector<Element> elements;
         bool element_section = false;
@@ -181,8 +181,8 @@ struct Grid
     Grid(const vector<Node>& nodes, const vector<Element>& elements)
         : nodes(nodes), elements(elements)
     {
-        nN = nodes.size();  // Ustawienie liczby wêz³ów
-        nE = elements.size();  // Ustawienie liczby elementów
+        nN = nodes.size();
+        nE = elements.size();
     }
 
     void print() const
@@ -208,13 +208,13 @@ struct Grid
 
 int main()
 {
-    string path = "Test1_4_4.txt";
+    string grid_file = "Test1_4_4.txt";
 
-    GlobalData global_data = GlobalData::readData(path);
+    GlobalData global_data = GlobalData::readData(grid_file);
     global_data.print();
 
-    vector<Node> nodes = Node::readNodes(path);
-    vector<Element> elements = Element::readElements(path);
+    vector<Node> nodes = Node::readNodes(grid_file);
+    vector<Element> elements = Element::readElements(grid_file);
 
     Grid grid(nodes, elements);
     grid.print();
