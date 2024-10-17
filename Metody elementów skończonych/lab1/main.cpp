@@ -174,34 +174,27 @@ struct Element
 
 struct Grid
 {
-    int nN, nE;
     vector<Node> nodes;
     vector<Element> elements;
 
     Grid(const vector<Node>& nodes, const vector<Element>& elements)
-        : nodes(nodes), elements(elements)
-    {
-        nN = nodes.size();
-        nE = elements.size();
-    }
+        : nodes(nodes), elements(elements){}
 
     void print() const
     {
-        int i = 1;
+        
         cout << endl << "       NODES COORDINATES" << endl;
-        for (const auto& nd : nodes)
+        for (int i=0; i< nodes.size(); i++)
         {
-            cout << i << ". ";
-            nd.print();
-            i++;
+            cout << i+1 << ". ";
+            nodes[i].print();
         }
-        i = 1;
+
         cout << endl << "       ELEMENT NODES ID" << endl;
-        for (const auto& el : elements)
+        for (int i=0; i<elements.size(); i++)
         {
-            cout << i << ". ";
-            el.print();
-            i++;
+            cout << i+1 << ". ";
+            elements[i].print();
         }
     }
 };
