@@ -199,6 +199,112 @@ struct Grid
     }
 };
 
+struct GaussIntegral {
+    double f1D(double x)
+    {
+        return 5 * x * x + 3 * x + 6;
+    }
+
+    double f2D(double x, double y)
+    {
+        return 5 * x * x * y * y + 3 * x * y + 6;
+    }
+
+    double gauss1D(int points)
+    {
+        double result = 0.0;
+        if (points == 1)
+        {
+            double x[] = { 0.0 };
+            double w[] = { 2.0 };
+            for (int i = 0; i < points; i++)
+            {
+                result += w[i] * f1D(x[i]);
+            }
+        }
+        else if (points == 2)
+        {
+            double x[] = { -1.0 / sqrt(3), 1.0 / sqrt(3) };
+            double w[] = { 1.0, 1.0 };
+            for (int i = 0; i < points; i++)
+            {
+                result += w[i] * f1D(x[i]);
+            }
+        }
+        else if (points == 3)
+        {
+            double x[] = { -sqrt(3.0 / 5.0), 0.0, sqrt(3.0 / 5.0) };
+            double weights[] = { 5.0 / 9.0, 8.0 / 9.0, 5.0 / 9.0 };
+            for (int i = 0; i < points; i++)
+            {
+                result += weights[i] * f1D(x[i]);
+            }
+        }
+        return result;
+    }
+
+    double gauss2D(int points)
+    {
+        double result = 0.0;
+        if (points == 1)
+        {
+            double x[] = { 0.0 };
+            double y[] = { 0.0 };
+            double weights[] = {4.0};
+
+            for (int i = 0; i < points; i++)
+            {
+                for (int j = 0; j < points; j++)
+                {
+                    result += weights[i] * f2D(x[i], y[j]);
+                }
+            }
+        }
+        else if (points == 2)
+        {
+            double x[] = { -1.0 / sqrt(3), 1.0 / sqrt(3) };
+            double y[] = { -1.0 / sqrt(3), 1.0 / sqrt(3) };
+            double weights[] = { 1.0, 1.0 };
+            for (int i = 0; i < points; i++)
+            {
+                for (int j = 0; j < points; j++)
+                {
+                    result += weights[i] * weights[j] * f2D(x[i], y[j]);
+                }
+            }
+        }
+        else if(points == 3)
+        {
+            double x[] = { -sqrt(3.0 / 5.0), 0.0, sqrt(3.0 / 5.0) };
+            double y[] = { -sqrt(3.0 / 5.0), 0.0, sqrt(3.0 / 5.0) };
+            double weights[] = { 5.0 / 9.0, 8.0 / 9.0, 5.0 / 9.0 };
+
+            for (int i = 0; i < points; i++)
+            {
+                for (int j = 0; j < points; j++)
+                {
+                    result += weights[i] * weights[j] * f2D(x[i], y[j]);
+                }
+            }
+        }
+
+        return result;
+    }
+
+
+    void print()
+    {
+        cout << endl << "Gaussian integration in 1D - 1 point: " << gauss1D(1) << endl;
+        cout << "Gaussian integration in 1D - 2 poins: " << gauss1D(2) << endl;
+        cout << "Gaussian integration in 1D - 3 points: " << gauss1D(3) << endl;
+        cout << "Gaussian integration in 2D - 1 point: " << gauss2D(1) << endl;
+        cout << "Gaussian integration in 2D - 2 points: " << gauss2D(2) << endl;
+        cout << "Gaussian integration in 2D - 3 points: " << gauss2D(3) << endl;
+
+    }
+};
+
+
 int main()
 {
     string grid_file = "Test1_4_4.txt";
@@ -211,6 +317,10 @@ int main()
 
     Grid grid(nodes, elements);
     grid.print();
+
+    GaussIntegral calka;
+    calka.print();
+    
 
     return 0;
 }
