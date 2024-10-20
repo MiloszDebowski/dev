@@ -3,28 +3,27 @@
 #include <pthread.h>
 #include <unistd.h>
 
-#define THREADS_MAX 4
+#define THREADS_COUNT 6
 
 void* zadanie_watku(void* arg_wsk) {
+
     int moj_arg = *((int*)arg_wsk);
-    pthread_t x = pthread_self();
-    printf("SYSTEM ID: %d & SELF ID = %ld\n", moj_arg, x);
+    
+    printf("SYSTEM ID: %d & SELF ID = %ld\n", moj_arg, pthread_self());
+
     return NULL;
 }
 
 int main() {
-    pthread_t threads[THREADS_MAX];
-    int index[THREADS_MAX];
-    int p = THREADS_MAX;
+    pthread_t threads[THREADS_COUNT];
+    int index[THREADS_COUNT];
 
-    for (int i = 0; i < p; i++) {
+    for (int i = 0; i < THREADS_COUNT; i++) {
         index[i] = i;
-    }
-
-    for (int i = 0; i < p; i++) {
         pthread_create(&threads[i], NULL, zadanie_watku, (void*)&index[i]);
     }
-    for (int i = 0; i < p; i++) {
+
+    for (int i = 0; i < THREADS_COUNT; i++) {
         pthread_join(threads[i], NULL);
     }
 

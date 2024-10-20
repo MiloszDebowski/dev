@@ -1,0 +1,22 @@
+W jaki sposób można poprawnie przesłać identyfikator do wątku?
+zamiast przekazywać wskaźnik do elementu tablicy index,
+można alokować dynamicznie pamięć dla każdego wątku
+
+for (int i = 0; i < THREADS_COUNT; i++) {
+    int* id = malloc(sizeof(int));  // alokacja pamięci dla każdej zmiennej
+    *id = i;
+    pthread_create(&threads[i], NULL, zadanie_watku, (void*)id);
+}
+
+później zwolnić pamieć w funkcji wątku - free(arg_wsk)
+
+
+
+Jaki może pojawić się błąd synchronizacji w przypadku próby
+przesłania zwykłego wskaźnika do liczby całkowitej?
+
+Wszystkie wątki mogą odczytać tę samą lub błędną wartość,
+ponieważ wskaźnik &index[i] wskazuje na element, którego zawartość
+jest zmieniana w kolejnych iteracjach pętli. W konsekwencji,
+wątki mogą otrzymać nieprawidłowe identyfikatory,
+co prowadzi do niespójności i błędów.

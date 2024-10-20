@@ -1,0 +1,53 @@
+W jakich dwóch trybach mogą funkcjonować wątki Pthreads?
+Jaka jest różnica między tymi trybami?
+
+Wątki mogą być przyłączone albo odłączone. Wątek przyłączany to wątek domyślny.
+Wątek domyślny może być przyłączany do programu za pomocą pthread_join.
+Jego zasoby nie są zwalniane - musi zostać przyłączony do programu aby pobrał
+wynik jego działania i zwolnił zasoby.
+Wątek odłączony automatycznie kończy prace i zwalnia zasoby - pracuje niezależnie od programu
+Brak możliwości spradzenia wartości zwracanej oraz statusu zakończenia
+
+Kiedy wątek standardowo kończy swoje działanie?
+Kiedy funkcja/program do której jest dołączony zwrca wartość przez return albo poprzez
+wywołanie pthreads(exit)
+
+W jaki sposób można wymusić zakończenie   działania   wątku?
+Poprzez funkcję pthread_cancel któy wysyła żadanie anulowania wątku.
+Wynik tej funkcji jest zależny od cancel_state.
+stan pthread_cancel_enable - wątek zostanie przerwany
+stan pthread_cancel_disable - wątek nie zostanie przerwany, zakończy prace kiedy będzie chciał
+
+(czym   różnią   się   w   tym   przypadku   wątki   odłączone   i
+standardowe?)
+Wątek przyłączalny można przerwać za pomocą pthread_cancel
+i sprawdzić wynik zakończenia jego działania przez pthread_join.
+Po wykonaniu pthread_join można sprawdzić, czy wątek zakończył się
+przez anulowanie, porównując wartość wskaźnika wynikowego do PTHREAD_CANCELED.
+Natomiast wątek odłączony  można przerwać przez pthread_cancel,
+ale nie można użyć pthread_join, aby sprawdzić,
+czy wątek faktycznie został anulowany,
+ponieważ nie można odczytać jego stanu.
+
+
+Jak wątek może chronić się przed próbą "zabicia"?
+może mieć ustawione pthread_setcancelstate na pthread_cancel
+
+Jak można sprawdzić czy próba "zabicia" wątku powiodła się?
+(czym różnią się w tym przypadku wątki odłączone i standardowe?)
+Wątek przyłączalny można sprawdzić przez funkcję pthread_join,
+która zwraca wskaźnik do wyniku działania wątku.
+Jeśli wątek został anulowany przez pthread_cancel,
+wskaźnik wynikowy będzie miał wartość PTHREAD_CANCELED.
+W ten sposób można ustalić, czy wątek został skutecznie "zabity".
+W przypadku wątków odłączonych nie ma możliwości bezpośredniego sprawdzenia,
+czy zostały one przerwane, ponieważ nie można użyć pthread_join,
+aby odczytać wynik ich zakończenia. Można jedynie pośrednio ocenić,
+czy wątek został anulowany, np. przez brak zmian w stanie
+współdzielonych zasobów, które wątek mógłby modyfikować.
+
+Wątek Posix - jednostka wykonywania kodu w ramach jednego procesu,
+działająca równolegle z innymi wątkami i współdzieląca zasoby procesu,
+takie jak pamięć i pliki. Umożliwia tworzenie aplikacji wielowątkowych,
+które mogą wykonywać wiele zadań jednocześnie,
+korzystając z biblioteki Pthreads.
