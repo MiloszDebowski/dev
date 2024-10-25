@@ -216,19 +216,19 @@ struct GaussIntegral {
         if (points == 1)
         {
             double x[] = { 0.0 };
-            double w[] = { 2.0 };
+            double weights[] = { 2.0 };
             for (int i = 0; i < points; i++)
             {
-                result += w[i] * f1D(x[i]);
+                result += weights[i] * f1D(x[i]);
             }
         }
         else if (points == 2)
         {
             double x[] = { -1.0 / sqrt(3), 1.0 / sqrt(3) };
-            double w[] = { 1.0, 1.0 };
+            double weights[] = { 1.0, 1.0 };
             for (int i = 0; i < points; i++)
             {
-                result += w[i] * f1D(x[i]);
+                result += weights[i] * f1D(x[i]);
             }
         }
         else if (points == 3)
@@ -304,6 +304,108 @@ struct GaussIntegral {
     }
 };
 
+struct pc {
+    double ksi;
+    double eta;
+
+    pc(double ksi, double eta) : ksi(ksi), eta(eta) {}
+
+    
+    
+
+    double N1ksi(double eta)
+    {
+        double wynik = (-1.0 / 4) * (1 - eta);
+        return wynik;
+    }
+
+    double N2ksi(double eta)
+    {
+        double wynik=(1.0/4)*(1-eta);
+        return wynik;
+    }
+
+    double N3ksi(double eta)
+    {
+        double wynik=(1.0/4)*(1+eta);
+        return wynik;
+    }
+
+    double N4ksi(double eta)
+    {
+        double wynik=(-1.0/4)*(1+eta);
+        return wynik;
+    }
+
+    double N1eta(double ksi)
+    {
+        double wynik=(-1.0/4)*(1-ksi);
+        return wynik;
+    }
+
+    double N2eta(double ksi)
+    {
+        double wynik=(-1.0/4)*(1-ksi);
+        return wynik;
+    }
+
+    double N3eta(double ksi)
+    {
+        double wynik=(1.0/4)*(1+ksi);
+        return wynik;
+    }
+
+    double N4eta(double ksi)
+    {
+        double wynik=(1.0/4)*(1-ksi);
+        return wynik;
+    }
+
+    double jakobian()
+    {
+        double wynik;
+        double x[4] = { 0, 0.025, 0.025, 0 };
+        double y[4] = { 0, 0, 0.025, 0.025 };
+
+        double dXdksi=N1ksi(ksi)*x[0]+N2ksi(ksi)*x[1]+ N3ksi(ksi) * x[2]+ N4ksi(ksi) * x[3];
+        double dYdksi = N1ksi(ksi) * y[0] + N2ksi(ksi) * y[1] + N3ksi(ksi) * y[2] + N4ksi(ksi) * y[3];
+        double dXdeta = N1ksi(eta) * x[0] + N2ksi(eta) * x[1] + N3ksi(eta) * x[2] + N4ksi(eta) * x[3];
+        double dYdeta = N1ksi(eta) * y[0] + N2ksi(eta) * y[1] + N3ksi(eta) * y[2] + N4ksi(eta) * y[3];
+        cout <<"dXdksi = " << dXdksi << endl;
+        cout <<"dXdeta = " << dXdeta << endl;
+        cout <<"dYdksi = " << dYdksi << endl;
+        cout <<"dYdeta = " << dYdeta << endl;
+
+        double xy[2][2] = {
+            {dXdksi,dYdksi},
+            {dXdeta,dYdeta}
+        };
+        
+        wynik = xy[0][0] * xy[1][1] - xy[1][0] * xy[1][0];
+
+        return wynik;
+    }
+    
+
+    void liczonko()
+    {
+        
+        cout << "dN1/dksi = "<<N1ksi(ksi)<< endl;
+        cout << "dN2/dksi = "<< N2ksi(ksi) << endl;
+        cout << "dN3/dksi = "<< N3ksi(ksi) << endl;
+        cout << "dN4/dksi = "<< N4ksi(ksi) << endl;
+        cout << "dN1/deta = " <<N1eta(eta)<< endl;
+        cout << "dN2/deta = " << N2eta(eta) << endl;
+        cout << "dN3/deta = " << N3eta(eta) << endl;
+        cout << "dN4/deta = " << N4eta(eta) << endl;
+        
+        
+        
+        cout << "Jakobian = " << jakobian();
+        
+    }
+};
+
 
 int main()
 {
@@ -320,6 +422,22 @@ int main()
 
     GaussIntegral calka;
     calka.print();
+
+
+    pc pc1((-1.0) / sqrt(3) , (-1.0) / sqrt(3) );
+    pc pc2((1.0) / sqrt(3) , (-1.0) / sqrt(3) );
+    pc pc3((1.0) / sqrt(3) , (1.0) / sqrt(3) );
+    pc pc4((-1.0) / sqrt(3) , (1.0) / sqrt(3) );
+
+    cout <<endl<< "p1"<< endl;
+    pc1.liczonko();
+    cout<<endl<<endl << "p2" << endl;
+    pc2.liczonko();
+    cout<<endl<<endl << "p3" << endl;
+    pc3.liczonko();
+    cout<<endl<<endl << "p4" << endl;
+    pc4.liczonko();
+    
     
 
     return 0;
