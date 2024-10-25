@@ -18,11 +18,6 @@ int funkcja_watku( void* argument )
 
   zmienna_globalna++;
 
-  //  int wynik;
-  //  wynik=execv("./program",NULL);
-  //  if(wynik==-1)
-  //    printf("Proces potomny nie wykonal programu\n");
-
   return 0;
 }
 
