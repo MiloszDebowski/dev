@@ -1,4 +1,3 @@
-// ShelterManager.java
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -13,9 +12,6 @@ public class ShelterManager {
         shelters.put(name, new AnimalShelter(name, capacity));
     }
 
-    public Map getShelters() {
-        return shelters;
-    }
 
     public void removeShelter(String name) {
         shelters.remove(name);

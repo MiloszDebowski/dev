@@ -1,4 +1,3 @@
-// Animal.java
 import java.util.Objects;
 
 public class Animal implements Comparable<Animal> {
