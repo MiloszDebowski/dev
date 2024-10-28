@@ -16,7 +16,7 @@ public class Animal implements Comparable<Animal> {
     }
 
     public void print() {
-        System.out.printf("Name: %s, Species: %s, Condition: %s, Age: %d, Price: %.2f\n",
+        System.out.printf("Imię: %s, Gatunek: %s, Stan: %s, Wiek: %d, Cena: %.2f\n",
                 name, species, condition, age, price);
     }
 

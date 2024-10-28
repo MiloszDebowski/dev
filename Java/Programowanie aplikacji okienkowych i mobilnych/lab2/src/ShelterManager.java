@@ -26,7 +26,7 @@ public class ShelterManager {
     public void summary() {
         shelters.values().forEach(shelter -> {
             double occupancyRate = (double) shelter.getAnimalCount() / shelter.getMaxCapacity() * 100;
-            System.out.printf("Shelter: %s, Occupancy: %.2f%%\n", shelter.getShelterName(), occupancyRate);
+            System.out.printf("Schronisko: %s, Wykorzystanie: %.2f%%\n", shelter.getShelterName(), occupancyRate);
         });
     }
 

@@ -14,11 +14,11 @@ public class AnimalShelter {
 
     public void addAnimal(Animal animal) {
         if (animalList.contains(animal)) {
-            System.out.println("Animal already exists in the shelter.");
+            System.out.println("Zwwierze znajduję się już w schornisku.");
             return;
         }
         if (animalList.size() >= maxCapacity) {
-            System.err.println("Shelter capacity exceeded.");
+            System.err.println("Przekroczono limit.");
             return;
         }
         animalList.add(animal);
@@ -75,10 +75,13 @@ public class AnimalShelter {
     }
 
     public List<Animal> searchPartial(String searchTerm) {
+        String lowerCaseSearchTerm = searchTerm.toLowerCase();
         return animalList.stream()
-                .filter(animal -> animal.getName().contains(searchTerm) || animal.getSpecies().contains(searchTerm))
+                .filter(animal -> animal.getName().toLowerCase().contains(lowerCaseSearchTerm)
+                        || animal.getSpecies().toLowerCase().contains(lowerCaseSearchTerm))
                 .collect(Collectors.toList());
     }
+
 
     public void summary() {
         animalList.forEach(Animal::print);
