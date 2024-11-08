@@ -6,7 +6,7 @@
 #include"pomiar_czasu.h"
 
 #define ROZMIAR 1000
-#define LICZBA_W 4// lepiej: stała - LICZBA_W_MAX i parametr p - liczba wątków 
+#define LICZBA_W 2// lepiej: stała - LICZBA_W_MAX i parametr p - liczba wątków 
 
 pthread_mutex_t muteks; 
 pthread_t watki[LICZBA_W];
