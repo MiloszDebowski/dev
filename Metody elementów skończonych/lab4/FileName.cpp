@@ -215,10 +215,10 @@ struct ElemUniv {
     vector<vector<double>> shape_functions;
 
     ElemUniv(int np, const vector<pair<double, double>>& points) : npc(np), pc_points(points) {
-        compute_shape_functions();
+        calculate_shape_functions();
     }
 
-    void compute_shape_functions() {
+    void calculate_shape_functions() {
         shape_functions.clear();
         for (size_t i = 0; i < pc_points.size(); ++i) {
             double ksi = pc_points[i].first;
@@ -264,7 +264,7 @@ struct Jakobian {
         J[1][1] = dN_deta[0] * y[0] + dN_deta[1] * y[1] + dN_deta[2] * y[2] + dN_deta[3] * y[3];
 
         detJ = J[0][0] * J[1][1] - J[0][1] * J[1][0];
-        //cout << detJ;
+        cout << endl << "JAKOBIAN: " << detJ << endl;;
     }
 };
 
@@ -277,7 +277,7 @@ struct HMatrixCalculator {
         vector<vector<double>> H(4, vector<double>(4, 0.0));
 
         if (pc_points.size() != weights.size()) {
-            cerr << "zla ilosc wag lub pc" << endl;
+            cerr << "zla ilosc wag lub punktow" << endl;
             return;
         }
 
@@ -295,10 +295,24 @@ struct HMatrixCalculator {
             vector<double> dN_dx(4), dN_dy(4);
             double inv_detJ = 1.0 / jakobian.detJ;
 
+            
             for (int j = 0; j < 4; ++j) {
                 dN_dx[j] = inv_detJ * (jakobian.J[1][1] * dN_dksi[j] - jakobian.J[0][1] * dN_deta[j]);
                 dN_dy[j] = inv_detJ * (-jakobian.J[1][0] * dN_dksi[j] + jakobian.J[0][0] * dN_deta[j]);
             }
+
+            
+            cout << "punkt calkowania (" << ksi << ", " << eta << "):" << endl;
+            cout << "dN/dx: ";
+            for (double val : dN_dx) {
+                cout << setw(10) << val << " ";
+            }
+            cout << endl;
+            cout << "dN/dy: ";
+            for (double val : dN_dy) {
+                cout << setw(10) << val << " ";
+            }
+            cout << endl;
 
             double weight = weights[i] * jakobian.detJ;
 
@@ -313,7 +327,7 @@ struct HMatrixCalculator {
             }
 
             
-            cout << "Macierz w punkcie (" << ksi << ", " << eta << "):" << endl;
+            cout << "Macierz H  w punkcie (" << ksi << ", " << eta << "):" << endl;
             for (const auto& row : H_local) {
                 for (double val : row) {
                     cout << setw(10) << val << " ";
@@ -323,6 +337,7 @@ struct HMatrixCalculator {
             cout << endl;
         }
 
+        
         cout << "Macierz H:" << endl;
         for (const auto& row : H) {
             for (double val : row) {
@@ -331,9 +346,6 @@ struct HMatrixCalculator {
             cout << endl;
         }
     }
-
-
-
 };
 
 
@@ -353,7 +365,7 @@ int main() {
     Grid grid(nodes, elements);
     grid.print();*/
 
-
+    cout << setw(7) << "PRZYK£AD TESTOWY NR.2" << endl << endl;
 
     vector<Node> nodes1 = {
         Node(0.01, -0.01),
@@ -378,7 +390,7 @@ int main() {
     }
 
 
-
+    cout <<endl<< setw(7) << "PRZYKLAD Z PDFA" << endl << endl;
 
     vector<Node> nodes2 = {
         Node(0.0, 0.0),
@@ -402,7 +414,7 @@ int main() {
         h_calculator2.calculate_H_matrix(element, nodes2, pc_points2, weights2);
     }
 
-
+    cout <<endl<< setw(7) << "PRZYKLAD TESTOWY NR.1" << endl << endl;
     vector<Node> nodes3 = {
     Node(0.0, 0.0),
     Node(0.025, 0.0),
