@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "D:\\dev\\Metody element\u00F3w sko\u0144czonych\\lab3\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{95C1C36D-476F-44E7-8011-2A3F1C2778CA}|lab3.vcxproj|D:\\dev\\Metody element\u00F3w sko\u0144czonych\\lab3\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{95C1C36D-476F-44E7-8011-2A3F1C2778CA}|lab3.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\dev\\Metody element\u00F3w sko\u0144czonych\\lab3\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,9 +22,9 @@
               "Title": "main.cpp",
               "DocumentMoniker": "D:\\dev\\Metody element\u00F3w sko\u0144czonych\\lab3\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",
-              "ToolTip": "D:\\dev\\Metody element\u00F3w sko\u0144czonych\\lab3\\main.cpp*",
-              "RelativeToolTip": "main.cpp*",
-              "ViewState": "AgIAAMcAAAAAAAAAAAAAAPEAAAAAAAAAAAAAAA==",
+              "ToolTip": "D:\\dev\\Metody element\u00F3w sko\u0144czonych\\lab3\\main.cpp",
+              "RelativeToolTip": "main.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-10-31T07:46:12.237Z",
               "EditorCaption": ""
