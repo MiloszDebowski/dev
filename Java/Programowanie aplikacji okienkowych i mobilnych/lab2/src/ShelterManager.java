@@ -1,5 +1,6 @@
+// ShelterManager.java (dodano getShelters i editShelter)
+
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ShelterManager {
     private Map<String, AnimalShelter> shelters;
@@ -12,25 +13,15 @@ public class ShelterManager {
         shelters.put(name, new AnimalShelter(name, capacity));
     }
 
-
     public void removeShelter(String name) {
         shelters.remove(name);
     }
 
-    public List<AnimalShelter> findEmpty() {
-        return shelters.values().stream()
-                .filter(AnimalShelter::isEmpty)
-                .collect(Collectors.toList());
+    public List<AnimalShelter> getShelters() {
+        return new ArrayList<>(shelters.values());
     }
 
-    public void summary() {
-        shelters.values().forEach(shelter -> {
-            double occupancyRate = (double) shelter.getAnimalCount() / shelter.getMaxCapacity() * 100;
-            System.out.printf("Schronisko: %s, Wykorzystanie: %.2f%%\n", shelter.getShelterName(), occupancyRate);
-        });
-    }
-
-    public Optional<AnimalShelter> getShelter(String name) {
-        return Optional.ofNullable(shelters.get(name));
+    public AnimalShelter editShelter(String name) {
+        return shelters.get(name);
     }
 }
