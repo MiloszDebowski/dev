@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a11498d5-14f9-40c9-8dad-b0cc31b1c060" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../lab3/src/AdminView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lab3/src/AnimalShelterTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lab3/src/AnimalTableModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lab3/src/DataGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lab3/src/DataGeneratorTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lab3/src/InvalidAnimalDataException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lab3/src/LoginView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lab3/src/ShelterCapacityExceededException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lab3/src/ShelterManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lab3/src/ShelterManagerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lab3/src/UserView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab3/lab3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../lab3/lab3.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab3/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lab3/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab3/src/models/Animal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab3/src/models/AnimalCondition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab3/src/models/AnimalShelter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab3/src/models/ShelterManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab3/src/ui/AdminPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab3/src/ui/AnimalTableModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab3/src/ui/LoginModule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab3/src/ui/ShelterTableModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab3/src/ui/UserPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Programowanie równoległe/lab_6/2/Obraz.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Programowanie równoległe/lab_6/2/Obraz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Programowanie równoległe/lab_6/2/out/production/2/Obraz.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Programowanie równoległe/lab_6/2/out/production/2/Obraz.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="2olSAvwuTqC6CzF1Qunh7ad81xd" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "dev",
+    "kotlin-language-version-configured": "true",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a11498d5-14f9-40c9-8dad-b0cc31b1c060" name="Changes" comment="" />
+      <created>1731442529933</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1731442529933</updated>
+      <workItem from="1731442530940" duration="21000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

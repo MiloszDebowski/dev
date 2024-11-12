@@ -1,14 +1,16 @@
-package ui;
-
-import models.Animal;
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AnimalTableModel extends AbstractTableModel {
+class AnimalTableModel extends AbstractTableModel {
     private List<Animal> animals;
-    private final String[] columnNames = {"Imię", "Gatunek", "Stan", "Wiek", "Cena"};
+    private String[] columnNames = {"Name", "Species", "Condition", "Age", "Price"};
 
-    public AnimalTableModel(List<Animal> animals) {
+    public AnimalTableModel() {
+        this.animals = new ArrayList<>();
+    }
+
+    public void setAnimals(List<Animal> animals) {
         this.animals = animals;
     }
 
@@ -38,5 +40,9 @@ public class AnimalTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
         return columnNames[column];
+    }
+
+    public Animal getAnimalAt(int selectedRow) {
+        return animals.get(selectedRow);
     }
 }

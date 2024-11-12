@@ -1,9 +1,12 @@
-import models.ShelterManager;
-import ui.LoginModule;
+import javax.swing.*;
+
 public class Main {
     public static void main(String[] args) {
         ShelterManager shelterManager = new ShelterManager();
-        LoginModule loginPanel = new LoginModule(shelterManager);
-        loginPanel.showLoginPanel();  // Wyświetlenie panelu logowania
+        SwingUtilities.invokeLater(() -> {
+            LoginView loginView = new LoginView(shelterManager);
+            loginView.setVisible(true);
+        });
     }
 }
+
