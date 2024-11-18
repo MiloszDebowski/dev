@@ -9,7 +9,6 @@ class Histogram_test {
 		int m = scanner.nextInt();
 		Obraz obraz_1 = new Obraz(n, m);
 
-		// Obliczenie histogramu sekwencyjnie
 		obraz_1.calculate_histogram();
 		obraz_1.print_histogram();
 
@@ -17,7 +16,6 @@ class Histogram_test {
 		int num_threads = scanner.nextInt();
 		Thread[] threads = new Thread[num_threads];
 
-		// Wyznaczenie zakresu symboli dla każdego wątku
 		int symbolsPerThread = 94 / num_threads;
 		for (int i = 0; i < num_threads; i++) {
 			int startSymbol = i * symbolsPerThread;
@@ -26,7 +24,6 @@ class Histogram_test {
 			threads[i].start();
 		}
 
-		// Oczekiwanie na zakończenie pracy wszystkich wątków
 		for (int i = 0; i < num_threads; i++) {
 			try {
 				threads[i].join();
@@ -35,7 +32,6 @@ class Histogram_test {
 			}
 		}
 
-		// Wypisanie równoległego histogramu i porównanie wyników
 		System.out.println("\nParallel Histogram:");
 		obraz_1.print_histogram_parallel();
 		obraz_1.compare_histograms();

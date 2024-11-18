@@ -16,15 +16,13 @@ class Obraz {
 
 		final Random random = new Random();
 
-		// Tworzenie tablicy symboli od ASCII 33 do 126
 		for (int k = 0; k < 94; k++) {
-			tab_symb[k] = (char) (k + 33); // symbol zastępczy
+			tab_symb[k] = (char) (k + 33); 
 		}
 
-		// Wypełnianie tablicy losowymi symbolami
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				tab[i][j] = tab_symb[random.nextInt(94)];  // ASCII 33-126
+				tab[i][j] = tab_symb[random.nextInt(94)];
 				System.out.print(tab[i][j] + " ");
 			}
 			System.out.print("\n");
@@ -32,13 +30,13 @@ class Obraz {
 		System.out.print("\n\n");
 
 		histogram = new int[94];
-		hist_parallel = new int[94];  // tablica dla równoległego histogramu
+		hist_parallel = new int[94];
 		clear_histogram();
 	}
 
 	public void clear_histogram() {
 		for (int i = 0; i < 94; i++) histogram[i] = 0;
-		for (int i = 0; i < 94; i++) hist_parallel[i] = 0; // Czyszczenie równoległego histogramu
+		for (int i = 0; i < 94; i++) hist_parallel[i] = 0; 
 	}
 
 	public void calculate_histogram() {
@@ -52,7 +50,7 @@ class Obraz {
 	}
 
 	// Metoda do równoległego obliczania histogramu dla bloku symboli
-	public synchronized void calculate_histogram_parallel_block(int startSymbol, int endSymbol) {
+	public void calculate_histogram_parallel_block(int startSymbol, int endSymbol) {
 		for (int i = 0; i < size_n; i++) {
 			for (int j = 0; j < size_m; j++) {
 				for (int k = startSymbol; k < endSymbol; k++) {

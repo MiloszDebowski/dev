@@ -13,18 +13,16 @@ class Obraz {
 		this.size_n = n;
 		this.size_m = m;
 		tab = new char[n][m];
-		tab_symb = new char[94]; // symboli ASCII od 33 do 126
+		tab_symb = new char[94];
 		histogram = new int[94];
 		hist_parallel = new int[94];
 
 		final Random random = new Random();
 
-		// Inicjalizacja symboli ASCII
 		for(int k = 0; k < 94; k++) {
 			tab_symb[k] = (char)(k + 33);
 		}
 
-		// Wypełnienie tablicy losowymi symbolami
 		for(int i = 0; i < n; i++) {
 			for(int j = 0; j < m; j++) {
 				tab[i][j] = tab_symb[random.nextInt(94)];
@@ -37,7 +35,6 @@ class Obraz {
 		clear_histogram();
 	}
 
-	// Metoda czyszcząca histogram
 	public void clear_histogram() {
 		for(int i = 0; i < 94; i++) {
 			histogram[i] = 0;
@@ -45,7 +42,6 @@ class Obraz {
 		}
 	}
 
-	// Obliczanie histogramu sekwencyjnie
 	public void calculate_histogram() {
 		for(int i = 0; i < size_n; i++) {
 			for(int j = 0; j < size_m; j++) {
@@ -56,8 +52,7 @@ class Obraz {
 		}
 	}
 
-	// Obliczanie histogramu równolegle
-	public synchronized void calculate_histogram_parallel(char symbol) {
+	public void calculate_histogram_parallel(char symbol) {
 		for(int i = 0; i < size_n; i++) {
 			for(int j = 0; j < size_m; j++) {
 				if(tab[i][j] == symbol) {
@@ -67,7 +62,6 @@ class Obraz {
 		}
 	}
 
-	// Funkcja porównująca histogramy
 	public void compare_histograms() {
 		for(int i = 0; i < 94; i++) {
 			if(histogram[i] != hist_parallel[i]) {
@@ -78,14 +72,13 @@ class Obraz {
 		System.out.println("Histogramy są zgodne.");
 	}
 
-	// Drukowanie histogramu sekwencyjnego
 	public void print_histogram() {
 		for(int i = 0; i < 94; i++) {
 			System.out.println(tab_symb[i] + " " + histogram[i]);
 		}
 	}
 
-	// Drukowanie histogramu równoległego dla każdego wątku
+	//dukowanie równoległego
 	public synchronized void print_histogram_parallel(char symbol) {
 		int count = hist_parallel[symbol - 33];
 		System.out.print("Wątek " + symbol + ": " + symbol + " ");
