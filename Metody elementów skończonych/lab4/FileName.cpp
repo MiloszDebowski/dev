@@ -1,10 +1,11 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <vector>
-#include<array>
+#include <array>
 #include <iomanip>
+#include <cmath>
 using namespace std;
 
 struct GlobalData {
@@ -14,9 +15,8 @@ struct GlobalData {
     GlobalData(double simTime, double stepTime, double cond, double al, double to, double initTemp, double dens, double specHeat, int nodes, int elems)
         : SimulationTime(simTime), SimulationStepTime(stepTime), Conductivity(cond), Alfa(al), Tot(to), InitialTemp(initTemp), Density(dens), SpecificHeat(specHeat), nN(nodes), nE(elems) {}
 
-    void print()
-    {
-        cout << "       GLOBAL DATA" << endl;
+    void print() const {
+        cout << "\tGLOBAL DATA" << endl;
         cout << "SimulationTime: " << setprecision(11) << SimulationTime << endl;
         cout << "SimulationStepTime: " << SimulationStepTime << endl;
         cout << "Conductivity: " << Conductivity << endl;
@@ -29,93 +29,74 @@ struct GlobalData {
         cout << "nE (Elements number): " << nE << endl;
     }
 
-    static GlobalData readData(const string& grid_file)
-    {
+    static GlobalData readData(const string& grid_file) {
         ifstream file(grid_file);
         string line;
-        double SimulationTime = 0, SimulationStepTime = 0, Conductivity = 0, Alfa = 0, Tot = 0, InitialTemp = 0, Density = 0, SpecificHeat = 0;
-        int Nodes = 0, Elements = 0;
+        double simTime, stepTime, cond, al, to, initTemp, dens, specHeat;
+        int nodes, elems;
 
-        while (getline(file, line))
-        {
+        while (getline(file, line)) {
             istringstream iss(line);
-            string key1, key2;
+            string key,key1;
             double value;
-
-            if (iss >> key1 >> value)
-            {
-                if (key1 == "SimulationTime") SimulationTime = value;
-                else if (key1 == "SimulationStepTime") SimulationStepTime = value;
-                else if (key1 == "Conductivity") Conductivity = value;
-                else if (key1 == "Alfa") Alfa = value;
-                else if (key1 == "Tot") Tot = value;
-                else if (key1 == "InitialTemp") InitialTemp = value;
-                else if (key1 == "Density") Density = value;
-                else if (key1 == "SpecificHeat") SpecificHeat = value;
+            if (iss >> key >> value) {
+                if (key == "SimulationTime") simTime = value;
+                else if (key == "SimulationStepTime") stepTime = value;
+                else if (key == "Conductivity") cond = value;
+                else if (key == "Alfa") al = value;
+                else if (key == "Tot") to = value;
+                else if (key == "InitialTemp") initTemp = value;
+                else if (key == "Density") dens = value;
+                else if (key == "SpecificHeat") specHeat = value;
             }
 
             iss.clear();
             iss.str(line);
 
-            if (iss >> key1 >> key2 >> value)
+            if (iss >> key >> key1 >> value)
             {
-                if (key1 == "Nodes" && key2 == "number")
+                if (key == "Nodes" && key1 == "number")
                 {
-                    Nodes = static_cast<int>(value);
+                    nodes = static_cast<int>(value);
                 }
-                else if (key1 == "Elements" && key2 == "number")
+                else if (key == "Elements" && key1 == "number")
                 {
-                    Elements = static_cast<int>(value);
+                    elems = static_cast<int>(value);
                 }
             }
         }
-
-        return GlobalData(SimulationTime, SimulationStepTime, Conductivity, Alfa, Tot, InitialTemp, Density, SpecificHeat, Nodes, Elements);
+                return GlobalData(simTime, stepTime, cond, al, to, initTemp, dens, specHeat, nodes, elems);
     }
-
 };
 
 struct Node {
-    
     double x, y;
 
     Node(double x, double y) : x(x), y(y) {}
 
-    void print() const
-    {
-        cout << "( " << x << " ; " << y << " )\n";
+    void print() const {
+        cout << "x = " << x << "   Y = " << y << endl;
     }
 
-    static vector<Node> readNodes(const string& grid_file)
-    {
+    static vector<Node> readNodes(const string& grid_file) {
         ifstream file(grid_file);
         string line;
         vector<Node> nodes;
         bool node_section = false;
 
-        while (getline(file, line))
-        {
-            if (line.find("*Node") != string::npos)
-            {
+        while (getline(file, line)) {
+            if (line.find("*Node") != string::npos) {
                 node_section = true;
                 continue;
             }
-
-            if (line.find("*Element") != string::npos)
-            {
-                break;
-            }
-
-            if (node_section)
-            {
+            if (line.find("*Element") != string::npos) break;
+            if (node_section) {
                 istringstream iss(line);
                 int node_id;
                 double x, y;
                 char comma;
-
-                if (iss >> node_id >> comma >> x >> comma >> y)
-                {
-                    nodes.push_back(Node(x, y));
+                if (iss >> node_id >> comma >> x >> comma >> y) {
+                    nodes.emplace_back(x, y);
                 }
             }
         }
@@ -124,237 +105,168 @@ struct Node {
 };
 
 struct Element {
-    int element_id;
-    vector<int> node_ids;
-    int npc;
+    int id;
+    array<int, 4> node_ids;
 
-    Element(int id, vector<int> nodes, int np) : element_id(id), node_ids(nodes), npc(np) {}
+    Element(int id, array<int, 4> nodes) : id(id), node_ids(nodes) {}
 
-    void print() const
-    {
-        cout << "{ ";
-        for (int i = 0; i < node_ids.size(); ++i)
-        {
-            cout << node_ids[i];
-            if (i != node_ids.size() - 1) cout << " ; ";
-        }
-        cout << " }" << endl;
+    void print() const {
+        cout << "ID[" << node_ids[0] << "," << node_ids[1] << "," << node_ids[2] << "," << node_ids[3] << "]" << endl;
     }
 
-
-    static vector<Element> readElements(const string& grid_file)
-    {
+    static vector<Element> readElements(const string& grid_file) {
         ifstream file(grid_file);
         string line;
         vector<Element> elements;
         bool element_section = false;
 
-        while (getline(file, line))
-        {
-            if (line.find("*Element") != string::npos)
-            {
+        while (getline(file, line)) {
+            if (line.find("*Element") != string::npos) {
                 element_section = true;
                 continue;
             }
-
             if (line.find("*BC") != string::npos)
             {
                 break;
             }
-
-            if (element_section)
-            {
+            if (element_section) {
                 istringstream iss(line);
                 int element_id, n1, n2, n3, n4;
                 char comma;
-                if (iss >> element_id >> comma >> n1 >> comma >> n2 >> comma >> n3 >> comma >> n4)
-                {
-                    elements.push_back(Element(element_id,{ n1, n2, n3, n4 },4));
+                if (iss >> element_id >> comma >> n1 >> comma >> n2 >> comma >> n3 >> comma >> n4) {
+                    elements.emplace_back(element_id, array<int, 4>{n1, n2, n3, n4});
                 }
             }
         }
         return elements;
     }
-};
 
+    vector<vector<double>> computeLocalHMatrix(double conductivity, const vector<Node>& nodes) const {
+        // 2x2 Gaussian quadrature points and weights for integration
+        const array<double, 2> gauss_points = { -1.0 / sqrt(3), 1.0 / sqrt(3) };
+        const array<double, 2> gauss_weights = { 1.0, 1.0 };
 
-struct Grid
-{
-    vector<Node> nodes;
-    vector<Element> elements;
+        vector<vector<double>> H_local(4, vector<double>(4, 0.0));
 
-    Grid(const vector<Node>& nodes, const vector<Element>& elements)
-        : nodes(nodes), elements(elements) {}
+        // Loop over Gaussian points
+        for (double xi : gauss_points) {
+            for (double eta : gauss_points) {
+                // Shape function derivatives in local coordinates
+                array<double, 4> dN_dxi = { -0.25 * (1 - eta), 0.25 * (1 - eta), 0.25 * (1 + eta), -0.25 * (1 + eta) };
+                array<double, 4> dN_deta = { -0.25 * (1 - xi), -0.25 * (1 + xi), 0.25 * (1 + xi), 0.25 * (1 - xi) };
 
-    void print() const
-    {
+                // Calculate Jacobian and its determinant
+                double J11 = 0, J12 = 0, J21 = 0, J22 = 0;
+                for (int i = 0; i < 4; i++) {
+                    J11 += dN_dxi[i] * nodes[node_ids[i] - 1].x;
+                    J12 += dN_dxi[i] * nodes[node_ids[i] - 1].y;
+                    J21 += dN_deta[i] * nodes[node_ids[i] - 1].x;
+                    J22 += dN_deta[i] * nodes[node_ids[i] - 1].y;
+                }
+                double detJ = J11 * J22 - J12 * J21;
 
-        cout << endl << "       NODES COORDINATES" << endl;
-        for (int i = 0; i < nodes.size(); i++)
-        {
-            cout << i + 1 << ". ";
-            nodes[i].print();
+                // Inverse Jacobian
+                double invJ11 = J22 / detJ;
+                double invJ12 = -J12 / detJ;
+                double invJ21 = -J21 / detJ;
+                double invJ22 = J11 / detJ;
+
+                // Shape function derivatives in global coordinates
+                array<double, 4> dN_dx, dN_dy;
+                for (int i = 0; i < 4; i++) {
+                    dN_dx[i] = invJ11 * dN_dxi[i] + invJ12 * dN_deta[i];
+                    dN_dy[i] = invJ21 * dN_dxi[i] + invJ22 * dN_deta[i];
+                }
+
+                // Compute contributions to the H matrix at this integration point
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 4; j++) {
+                        H_local[i][j] += conductivity * (dN_dx[i] * dN_dx[j] + dN_dy[i] * dN_dy[j]) * detJ;
+                    }
+                }
+            }
         }
 
-        cout << endl << "       ELEMENT NODES ID" << endl;
-        for (int i = 0; i < elements.size(); i++)
+        return H_local;
+    }
+};
+
+struct Grid {
+    vector<Node> nodes;
+    vector<Element> elements;
+    vector<vector<double>> globalHMatrix;
+
+    Grid(const vector<Node>& nodes, const vector<Element>& elements)
+        : nodes(nodes), elements(elements), globalHMatrix(nodes.size(), vector<double>(nodes.size(), 0.0)) {}
+
+    void assembleGlobalHMatrix(double conductivity) {
+        for (const auto& element : elements) {
+            auto localH = element.computeLocalHMatrix(conductivity, nodes);
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    globalHMatrix[element.node_ids[i] - 1][element.node_ids[j] - 1] += localH[i][j];
+                }
+            }
+        }
+    }
+
+    void printGlobalHMatrix() const {
+        cout << "\n       H globalna" << endl;
+        for (const auto& row : globalHMatrix) {
+            for (double value : row) {
+                cout << setw(10) << fixed << setprecision(4) << value << " ";
+            }
+            cout << endl;
+        }
+    }
+
+    void print() const {
+        cout << endl << "\tNODES COORDINATES" << endl;
+        for (int i = 0; i < nodes.size(); i++) {
+            nodes[i].print();
+        }
+        
+        cout<<endl << "\tELEMENT NODES ID" << endl;
+        for (int i = 0;i<elements.size();i++) 
         {
-            cout << i + 1 << ". ";
             elements[i].print();
         }
     }
-};
 
+    void printLocalHMatricesAndSum(double conductivity) {
+        vector<vector<double>> H_total(4, vector<double>(4, 0.0));
 
+        for (const auto& element : elements) {
+            auto H_local = element.computeLocalHMatrix(conductivity, nodes);
 
-
-
-struct ElemUniv {
-    int npc;
-    vector<pair<double, double>> pc_points;
-    vector<vector<double>> shape_functions;
-
-    ElemUniv(int np, const vector<pair<double, double>>& points) : npc(np), pc_points(points) {
-        calculate_shape_functions();
-    }
-
-    void calculate_shape_functions() {
-        shape_functions.clear();
-        for (size_t i = 0; i < pc_points.size(); ++i) {
-            double ksi = pc_points[i].first;
-            double eta = pc_points[i].second;
-            vector<double> N = {
-                0.25 * (1 - ksi) * (1 - eta),
-                0.25 * (1 + ksi) * (1 - eta),
-                0.25 * (1 + ksi) * (1 + eta),
-                0.25 * (1 - ksi) * (1 + eta)
-            };
-            shape_functions.push_back(N);
-        }
-    }
-
-    void get_shape_function_derivatives(double ksi, double eta, vector<double>& dN_dksi, vector<double>& dN_deta) const {
-        dN_dksi = { -0.25 * (1 - eta), 0.25 * (1 - eta), 0.25 * (1 + eta), -0.25 * (1 + eta) };
-        dN_deta = { -0.25 * (1 - ksi), -0.25 * (1 + ksi), 0.25 * (1 + ksi), 0.25 * (1 - ksi) };
-    }
-};
-
-struct Jakobian {
-    double J[2][2];
-    double detJ;
-
-    Jakobian() : detJ(0.0) {
-        J[0][0] = J[0][1] = J[1][0] = J[1][1] = 0.0;
-    }
-
-    void compute_jacobian(const Element& element, const vector<Node>& nodes, double ksi, double eta) {
-        vector<double> x, y;
-        for (int node_id : element.node_ids) {
-            x.push_back(nodes[node_id - 1].x);
-            y.push_back(nodes[node_id - 1].y);
-        }
-
-        ElemUniv elem_univ(4, {{ksi, eta}});
-        vector<double> dN_dksi, dN_deta;
-        elem_univ.get_shape_function_derivatives(ksi, eta, dN_dksi, dN_deta);
-
-        J[0][0] = dN_dksi[0] * x[0] + dN_dksi[1] * x[1] + dN_dksi[2] * x[2] + dN_dksi[3] * x[3];
-        J[0][1] = dN_dksi[0] * y[0] + dN_dksi[1] * y[1] + dN_dksi[2] * y[2] + dN_dksi[3] * y[3];
-        J[1][0] = dN_deta[0] * x[0] + dN_deta[1] * x[1] + dN_deta[2] * x[2] + dN_deta[3] * x[3];
-        J[1][1] = dN_deta[0] * y[0] + dN_deta[1] * y[1] + dN_deta[2] * y[2] + dN_deta[3] * y[3];
-
-        detJ = J[0][0] * J[1][1] - J[0][1] * J[1][0];
-        cout << endl << "JAKOBIAN: " << detJ << endl;;
-    }
-};
-
-struct HMatrixCalculator {
-    double k;
-
-    HMatrixCalculator(double thermalConductivity) : k(thermalConductivity) {}
-
-    void calculate_H_matrix(const Element& element, const vector<Node>& nodes, const vector<pair<double, double>>& pc_points, const vector<double>& weights) {
-        vector<vector<double>> H(4, vector<double>(4, 0.0));
-
-        if (pc_points.size() != weights.size()) {
-            cerr << "zla ilosc wag lub punktow" << endl;
-            return;
-        }
-
-        for (size_t i = 0; i < pc_points.size(); ++i) {
-            double ksi = pc_points[i].first;
-            double eta = pc_points[i].second;
-
-            Jakobian jakobian;
-            jakobian.compute_jacobian(element, nodes, ksi, eta);
-
-            vector<double> dN_dksi, dN_deta;
-            ElemUniv elem_univ(4, { {ksi, eta} });
-            elem_univ.get_shape_function_derivatives(ksi, eta, dN_dksi, dN_deta);
-
-            vector<double> dN_dx(4), dN_dy(4);
-            double inv_detJ = 1.0 / jakobian.detJ;
-
-            
-            for (int j = 0; j < 4; ++j) {
-                dN_dx[j] = inv_detJ * (jakobian.J[1][1] * dN_dksi[j] - jakobian.J[0][1] * dN_deta[j]);
-                dN_dy[j] = inv_detJ * (-jakobian.J[1][0] * dN_dksi[j] + jakobian.J[0][0] * dN_deta[j]);
-            }
-
-            
-            cout << "punkt calkowania (" << ksi << ", " << eta << "):" << endl;
-            cout << "dN/dx: ";
-            for (double val : dN_dx) {
-                cout << setw(10) << val << " ";
-            }
-            cout << endl;
-            cout << "dN/dy: ";
-            for (double val : dN_dy) {
-                cout << setw(10) << val << " ";
-            }
-            cout << endl;
-
-            double weight = weights[i] * jakobian.detJ;
-
-            
-            vector<vector<double>> H_local(4, vector<double>(4, 0.0));
-
-            for (int m = 0; m < 4; ++m) {
-                for (int n = 0; n < 4; ++n) {
-                    H_local[m][n] = weight * k * (dN_dx[m] * dN_dx[n] + dN_dy[m] * dN_dy[n]);
-                    H[m][n] += H_local[m][n];
-                }
-            }
-
-            
-            cout << "Macierz H  w punkcie (" << ksi << ", " << eta << "):" << endl;
+            cout << "\nLocal H matrix for Element ID: " << element.id << endl;
             for (const auto& row : H_local) {
-                for (double val : row) {
-                    cout << setw(10) << val << " ";
+                for (double value : row) {
+                    cout << setw(10) << fixed << setprecision(4) << value << " ";
                 }
                 cout << endl;
             }
-            cout << endl;
+
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    H_total[i][j] += H_local[i][j];
+                }
+            }
         }
 
-        
-        cout << "Macierz H:" << endl;
-        for (const auto& row : H) {
-            for (double val : row) {
-                cout << setw(10) << val << " ";
+        cout << "\nTotal H matrix (Sum of all local H matrices):" << endl;
+        for (const auto& row : H_total) {
+            for (double value : row) {
+                cout << setw(10) << fixed << setprecision(4) << value << " ";
             }
             cout << endl;
         }
     }
 };
 
-
-
-
-
 int main() {
-
-    /*string grid_file = "Test1_4_4.txt";
+    //string grid_file = "Test1_4_4.txt";
+    string grid_file = "Test2_4_4_MixGrid.txt";
 
     GlobalData global_data = GlobalData::readData(grid_file);
     global_data.print();
@@ -363,92 +275,10 @@ int main() {
     vector<Element> elements = Element::readElements(grid_file);
 
     Grid grid(nodes, elements);
-    grid.print();*/
+    grid.print();
 
-    cout << setw(7) << "PRZYK£AD TESTOWY NR.2" << endl << endl;
-
-    vector<Node> nodes1 = {
-        Node(0.01, -0.01),
-        Node(0.025, 0.0),
-        Node(0.025, 0.025),
-        Node(0.0, 0.025)
-    };
-    vector<Element> elements1 = {
-        Element(1, {1, 2, 3, 4}, 4)
-    };
-    vector<pair<double, double>> pc_points1 = {
-    {-sqrt(1.0 / 3.0), -sqrt(1.0 / 3.0)},
-    {sqrt(1.0 / 3.0), -sqrt(1.0 / 3.0)},
-    {-sqrt(1.0 / 3.0), sqrt(1.0 / 3.0)},
-    {sqrt(1.0 / 3.0), sqrt(1.0 / 3.0)}
-    };
-
-    vector<double> weights1 = { 1.0,1.0,1.0,1.0 };
-    HMatrixCalculator h_calculator1(30.0);
-    for (const auto& element : elements1) {
-        h_calculator1.calculate_H_matrix(element, nodes1, pc_points1, weights1);
-    }
-
-
-    cout <<endl<< setw(7) << "PRZYKLAD Z PDFA" << endl << endl;
-
-    vector<Node> nodes2 = {
-        Node(0.0, 0.0),
-        Node(0.025, 0.0),
-        Node(0.025, 0.025),
-        Node(0.0, 0.025)
-    };
-    vector<Element> elements2 = {
-        Element(1, {1, 2, 3, 4}, 4)
-    };
-    vector<pair<double, double>> pc_points2 = {
-    {-sqrt(1.0 / 3.0), -sqrt(1.0 / 3.0)},
-    {sqrt(1.0 / 3.0), -sqrt(1.0 / 3.0)},
-    {-sqrt(1.0 / 3.0), sqrt(1.0 / 3.0)},
-    {sqrt(1.0 / 3.0), sqrt(1.0 / 3.0)}
-    };
-
-    vector<double> weights2 = {1.0,1.0,1.0,1.0};
-    HMatrixCalculator h_calculator2(30.0);
-    for (const auto& element : elements2) {
-        h_calculator2.calculate_H_matrix(element, nodes2, pc_points2, weights2);
-    }
-
-    cout <<endl<< setw(7) << "PRZYKLAD TESTOWY NR.1" << endl << endl;
-    vector<Node> nodes3 = {
-    Node(0.0, 0.0),
-    Node(0.025, 0.0),
-    Node(0.025, 0.025),
-    Node(0.0, 0.025)
-    };
-    vector<Element> elements3 = {
-        Element(1, {1, 2, 3, 4}, 9)
-    };
-    vector<pair<double, double>> pc_points3 = {
-     {-sqrt(3.0 / 5.0), -sqrt(3.0 / 5.0)},  
-     {0, -sqrt(3.0 / 5.0)},                  
-     {sqrt(3.0 / 5.0), -sqrt(3.0 / 5.0)},   
-     {-sqrt(3.0 / 5.0), 0},                  
-     {0, 0},                                  
-     {sqrt(3.0 / 5.0), 0},                   
-     {-sqrt(3.0 / 5.0), sqrt(3.0 / 5.0)},    
-     {0, sqrt(3.0 / 5.0)},                   
-     {sqrt(3.0 / 5.0), sqrt(3.0 / 5.0)}     
-    };
-
-    vector<double> weights3 = {
-    25.0 / 81.0, 40.0 / 81.0, 25.0 / 81.0,
-    40.0 / 81.0, 64.0 / 81.0, 40.0 / 81.0,
-    25.0 / 81.0, 40.0 / 81.0, 25.0 / 81.0
-    };
-
-
-
-
-    HMatrixCalculator h_calculator3(30.0);
-    for (const auto& element : elements3) {
-        h_calculator3.calculate_H_matrix(element, nodes3, pc_points3, weights3);
-    }
+    
+    grid.printLocalHMatricesAndSum(global_data.Conductivity);
 
     return 0;
 }
