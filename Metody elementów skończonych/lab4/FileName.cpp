@@ -250,13 +250,17 @@ struct Grid {
     }
 };
 
-//ma być w innej strukturze
-
 struct Solve {
+    vector<vector<double>> globalHMatrix;
+    Solve(vector<vector<double>> calulateedGlobalHMatrix) : globalHMatrix(calulateedGlobalHMatrix) {};
+};
+
+struct CalculateGlobalHMatrix {
 
     vector<vector<double>> globalHMatrix;
+
     
-    void calculateGlobalHMatrix(const Grid& grid, double conductivity, int gauss_points_count) {
+    void calculate(const Grid& grid, double conductivity, int gauss_points_count) {
         int NodeCount = grid.nodes.size();
         globalHMatrix = vector<vector<double>>(NodeCount, vector<double>(NodeCount, 0.0));
 
@@ -301,9 +305,11 @@ int main() {
     grid.printLocalHMatricesAndSum(global_data.Conductivity, gauss_points_count);
 
 
-    Solve solution;
-    solution.calculateGlobalHMatrix(grid, global_data.Conductivity, gauss_points_count);
-    solution.printGlobalHMatrix();
+    CalculateGlobalHMatrix calculation;
+    calculation.calculate(grid, global_data.Conductivity, gauss_points_count);
+    calculation .printGlobalHMatrix();
+
+    Solve solution(calculation.globalHMatrix);
 
     
     
