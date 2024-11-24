@@ -1,6 +1,8 @@
 #include"user_funs.h"
 #define _USE_MATH_DEFINES
 #include<math.h>
+#include<cmath>
+#define PI 3.14
 
 matrix ff0T(matrix x, matrix ud1, matrix ud2)
 {
@@ -141,5 +143,121 @@ matrix ff2TTest(matrix x, matrix ud1, matrix ud2)
 {
 	matrix y;
 	y = 2.5 * pow(pow(x(0), 2) - x(1), 2) + pow(1 - x(0), 2);
+	return y;
+}
+
+matrix ff_lab3(matrix x, matrix ud1, matrix ud2)
+{
+	matrix y0(4, 1);
+	y0(0) = 0;
+	y0(1) = x(0);
+	y0(2) = 100;
+	y0(3) = 0;
+
+	matrix* y = solve_ode(df3, 0, 0.01, 7, y0, ud1, x(1));
+	int i0 = 0;
+	int i50 = 0;
+	int n = get_len(y[0]);
+	for (int i = 0; i < n; i++)
+	{
+		if (abs(y[1](i, 2)) < abs(y[1](i0, 2)))
+		{
+			i0 = i;
+		}
+		if (abs(y[1](i, 2) - 50) < abs(y[1](i50, 2) - 50))
+		{
+			i50 = i;
+		}
+	}
+	matrix res = y[1](i0, 0);
+
+
+	if (abs(x(0)) - 10 > 0)
+		res = res - ud2 * pow(abs(x(0)) - 10, 2);
+	if (abs(x(1)) - 23 > 0)
+		res = res - ud2 * pow(abs(x(1)) - 23, 2);
+	if (abs(y[1](i50, 0) - 5) - 1 > 0)
+		res = res - ud2 * pow(abs(y[1](i50, 0) - 5) - 1, 2);
+	delete[] y;
+
+	return res * (-1);
+}
+
+matrix df3(long double t, matrix y, matrix ud1, matrix ud2)
+{
+	matrix dy(4, 1);
+
+	long double C = 0.47;
+	long double ro = 1.2;
+	long double r = 0.12;
+	long double S = PI * r * r;
+
+	long double Fmx = ro * y(3) * ud2(0) * r * r * r * PI;
+	long double Dx = 0.5 * C * ro * S * y(1) * y(1);
+	long double Fmy = ro * y(1) * ud2(0) * r * r * r * PI;
+	long double Dy = 0.5 * C * ro * S * y(3) * y(3);
+	long double m = 0.6;
+	long double g = 9.81;
+
+	dy(0) = y(1);
+	dy(1) = (-1) * (Fmx + Dx) / m;
+	dy(2) = y(3);
+	dy(3) = (-1) * (Fmx + Dx + m * g) / m;
+
+}
+
+matrix testowa_lab_3_wew(matrix x, matrix ud1, matrix ud2)
+{
+	matrix y = sin(PI * sqrt(pow(x(0) / PI, 2) + pow(x(1) / PI, 2))) / (PI * sqrt(pow(x(0) / PI, 2) + pow(x(1) / PI, 2)));
+
+	if (-x(0) + 1 > 0)
+	{
+		y = y + 10e4;
+	}
+	else
+	{
+		y = y + ud2(0, 0) / (1 - x(0));
+	}
+
+	if (-x(1) + 1 > 0)
+	{
+		y = y + 10e4;
+	}
+	else
+	{
+		y = y + ud2(0, 0) / (1 - x(1));
+	}
+
+	if (norm(x) - ud1 > 0)
+	{
+		y = y + 10e4;
+	}
+	else
+	{
+		y = y + ud2(0, 0) / (norm(x) - ud1);
+	}
+
+	return y;
+}
+
+matrix testowa_lab_3_zew(matrix x, matrix ud1, matrix ud2)
+{
+	matrix y = sin(PI * sqrt(pow(x(0) / PI, 2) + pow(x(1) / PI, 2))) / (PI * sqrt(pow(x(0) / PI, 2) + pow(x(1) / PI, 2)));
+
+	if (-x(0) + 1 > 0)
+	{
+		y = y + ud2 * pow(-x(0) + 1, 2);
+	}
+
+	if (-x(1) + 1 > 0)
+	{
+		y = y + ud2 * pow(-x(1) + 1, 2);
+	}
+
+	if (norm(x) - ud1 > 0)
+	{
+		y = y + ud2 * pow(norm(x), 2);
+	}
+
 	return y;
 }

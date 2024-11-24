@@ -3,86 +3,84 @@
   "WorkspaceRootPath": "D:\\dev\\Optymalizacja\\laby\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\opt_alg.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:opt_alg.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\user_funs.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:user_funs.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\opt_alg.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:opt_alg.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\solution.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:solution.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\solution.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:solution.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\ode_solver.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:ode_solver.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\user_funs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:user_funs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\ode_solver.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:ode_solver.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\matrix.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:matrix.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\matrix.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:matrix.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\user_funs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:user_funs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\solution.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:solution.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\opt_alg.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:opt_alg.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\ode_solver.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:ode_solver.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\user_funs.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:user_funs.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\solution.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:solution.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\opt_alg.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:opt_alg.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|D:\\dev\\Optymalizacja\\laby\\matrix.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{15772A56-CFEB-4450-8506-58AB04D549E8}|laby.vcxproj|solutionrelative:matrix.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
-      "VerticalTabListWidth": 132,
+      "VerticalTabListWidth": 100,
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 0,
               "Title": "user_funs.h",
               "DocumentMoniker": "D:\\dev\\Optymalizacja\\laby\\user_funs.h",
               "RelativeDocumentMoniker": "user_funs.h",
               "ToolTip": "D:\\dev\\Optymalizacja\\laby\\user_funs.h",
               "RelativeToolTip": "user_funs.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA0AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-05T13:53:30.532Z"
+              "WhenOpened": "2024-11-05T13:53:30.532Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 2,
               "Title": "matrix.cpp",
               "DocumentMoniker": "D:\\dev\\Optymalizacja\\laby\\matrix.cpp",
               "RelativeDocumentMoniker": "matrix.cpp",
               "ToolTip": "D:\\dev\\Optymalizacja\\laby\\matrix.cpp",
               "RelativeToolTip": "matrix.cpp",
-              "ViewState": "AgIAAEgCAAAAAAAAAADwv2oCAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGoCAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-05T13:52:07.31Z"
+              "WhenOpened": "2024-11-05T13:52:07.31Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "matrix.h",
               "DocumentMoniker": "D:\\dev\\Optymalizacja\\laby\\matrix.h",
               "RelativeDocumentMoniker": "matrix.h",
@@ -94,19 +92,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
               "Title": "ode_solver.cpp",
               "DocumentMoniker": "D:\\dev\\Optymalizacja\\laby\\ode_solver.cpp",
               "RelativeDocumentMoniker": "ode_solver.cpp",
               "ToolTip": "D:\\dev\\Optymalizacja\\laby\\ode_solver.cpp",
               "RelativeToolTip": "ode_solver.cpp",
-              "ViewState": "AgIAAAUAAAAAAAAAAADwvycAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-05T13:51:15.058Z"
+              "WhenOpened": "2024-11-05T13:51:15.058Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "ode_solver.h",
               "DocumentMoniker": "D:\\dev\\Optymalizacja\\laby\\ode_solver.h",
               "RelativeDocumentMoniker": "ode_solver.h",
@@ -114,24 +113,25 @@
               "RelativeToolTip": "ode_solver.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAACMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-05T13:50:48.983Z"
+              "WhenOpened": "2024-11-05T13:50:48.983Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 8,
               "Title": "opt_alg.cpp",
               "DocumentMoniker": "D:\\dev\\Optymalizacja\\laby\\opt_alg.cpp",
               "RelativeDocumentMoniker": "opt_alg.cpp",
-              "ToolTip": "D:\\dev\\Optymalizacja\\laby\\opt_alg.cpp*",
-              "RelativeToolTip": "opt_alg.cpp*",
-              "ViewState": "AgIAAOMAAAAAAAAAAADwvwkBAAADAAAAAAAAAA==",
+              "ToolTip": "D:\\dev\\Optymalizacja\\laby\\opt_alg.cpp",
+              "RelativeToolTip": "opt_alg.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8CAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-05T13:50:20.755Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "opt_alg.h",
               "DocumentMoniker": "D:\\dev\\Optymalizacja\\laby\\opt_alg.h",
               "RelativeDocumentMoniker": "opt_alg.h",
@@ -139,23 +139,25 @@
               "RelativeToolTip": "opt_alg.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-05T13:49:54.413Z"
+              "WhenOpened": "2024-11-05T13:49:54.413Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "solution.cpp",
               "DocumentMoniker": "D:\\dev\\Optymalizacja\\laby\\solution.cpp",
               "RelativeDocumentMoniker": "solution.cpp",
               "ToolTip": "D:\\dev\\Optymalizacja\\laby\\solution.cpp",
               "RelativeToolTip": "solution.cpp",
-              "ViewState": "AgIAAGwAAAAAAAAAAADwv44AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAI4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-05T13:49:24.827Z"
+              "WhenOpened": "2024-11-05T13:49:24.827Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "solution.h",
               "DocumentMoniker": "D:\\dev\\Optymalizacja\\laby\\solution.h",
               "RelativeDocumentMoniker": "solution.h",
@@ -163,31 +165,20 @@
               "RelativeToolTip": "solution.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-05T13:48:50.572Z"
+              "WhenOpened": "2024-11-05T13:48:50.572Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "user_funs.cpp",
               "DocumentMoniker": "D:\\dev\\Optymalizacja\\laby\\user_funs.cpp",
               "RelativeDocumentMoniker": "user_funs.cpp",
               "ToolTip": "D:\\dev\\Optymalizacja\\laby\\user_funs.cpp",
               "RelativeToolTip": "user_funs.cpp",
-              "ViewState": "AgIAADQAAAAAAAAAAAAAAJEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAC0AAAAAAAAAAAD4v5wAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-05T13:48:09.571Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "main.cpp",
-              "DocumentMoniker": "D:\\dev\\Optymalizacja\\laby\\main.cpp",
-              "RelativeDocumentMoniker": "main.cpp",
-              "ToolTip": "D:\\dev\\Optymalizacja\\laby\\main.cpp",
-              "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAACEAAAAAAAAAAAAAAAsAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-05T13:47:25.534Z",
+              "WhenOpened": "2024-11-05T13:48:09.571Z",
               "EditorCaption": ""
             }
           ]
