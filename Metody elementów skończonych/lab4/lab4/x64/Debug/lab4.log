@@ -1,2 +1,3 @@
 ﻿  FileName.cpp
+D:\dev\Metody elementów skończonych\lab4\FileName.cpp(264,23): warning C4267: "inicjowanie": konwersja z "size_t" do "int", możliwa utrata danych
   lab4.vcxproj -> D:\dev\Metody elementów skończonych\lab4\x64\Debug\lab4.exe

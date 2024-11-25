@@ -6,6 +6,7 @@
 #include <array>
 #include <iomanip>
 #include <cmath>
+#include <cstring>
 using namespace std;
 
 struct GlobalData {
@@ -32,12 +33,12 @@ struct GlobalData {
     static GlobalData readData(const string& grid_file) {
         ifstream file(grid_file);
         string line;
-        double simTime, stepTime, cond, al, to, initTemp, dens, specHeat;
-        int nodes, elems;
+        double simTime=0, stepTime=0, cond=0, al=0, to=0, initTemp=0, dens=0, specHeat=0;
+        int nodes=0, elems=0;
 
         while (getline(file, line)) {
             istringstream iss(line);
-            string key,key1;
+            string key, key1;
             double value;
             if (iss >> key >> value) {
                 if (key == "SimulationTime") simTime = value;
@@ -53,19 +54,16 @@ struct GlobalData {
             iss.clear();
             iss.str(line);
 
-            if (iss >> key >> key1 >> value)
-            {
-                if (key == "Nodes" && key1 == "number")
-                {
+            if (iss >> key >> key1 >> value) {
+                if (key == "Nodes" && key1 == "number") {
                     nodes = static_cast<int>(value);
                 }
-                else if (key == "Elements" && key1 == "number")
-                {
+                else if (key == "Elements" && key1 == "number") {
                     elems = static_cast<int>(value);
                 }
             }
         }
-                return GlobalData(simTime, stepTime, cond, al, to, initTemp, dens, specHeat, nodes, elems);
+        return GlobalData(simTime, stepTime, cond, al, to, initTemp, dens, specHeat, nodes, elems);
     }
 };
 
@@ -75,7 +73,7 @@ struct Node {
     Node(double x, double y) : x(x), y(y) {}
 
     void print() const {
-        cout << "x = " << x << "   Y = " << y << endl;
+        cout << " x = " << x << " ; y = " << y << endl;
     }
 
     static vector<Node> readNodes(const string& grid_file) {
@@ -106,12 +104,17 @@ struct Node {
 
 struct Element {
     int id;
-    array<int, 4> node_ids;
+    vector<int> node_ids; // Używamy vector zamiast array
 
-    Element(int id, array<int, 4> nodes) : id(id), node_ids(nodes) {}
+    Element(int id, const vector<int>& nodes) : id(id), node_ids(nodes) {}
 
     void print() const {
-        cout << "ID[" << node_ids[0] << "," << node_ids[1] << "," << node_ids[2] << "," << node_ids[3] << "]" << endl;
+        cout << "ID[";
+        for (size_t i = 0; i < node_ids.size(); ++i) {
+            cout << node_ids[i];
+            if (i < node_ids.size() - 1) cout << ",";
+        }
+        cout << "]" << endl;
     }
 
     static vector<Element> readElements(const string& grid_file) {
@@ -125,8 +128,7 @@ struct Element {
                 element_section = true;
                 continue;
             }
-            if (line.find("*BC") != string::npos)
-            {
+            if (line.find("*BC") != string::npos) {
                 break;
             }
             if (element_section) {
@@ -134,28 +136,34 @@ struct Element {
                 int element_id, n1, n2, n3, n4;
                 char comma;
                 if (iss >> element_id >> comma >> n1 >> comma >> n2 >> comma >> n3 >> comma >> n4) {
-                    elements.emplace_back(element_id, array<int, 4>{n1, n2, n3, n4});
+                    elements.emplace_back(element_id, vector<int>{n1, n2, n3, n4});
                 }
             }
         }
         return elements;
     }
 
-    vector<vector<double>> computeLocalHMatrix(double conductivity, const vector<Node>& nodes) const {
-        // 2x2 Gaussian quadrature points and weights for integration
-        const array<double, 2> gauss_points = { -1.0 / sqrt(3), 1.0 / sqrt(3) };
-        const array<double, 2> gauss_weights = { 1.0, 1.0 };
+    vector<vector<double>> calculateHMatrix(double conductivity, const vector<Node>& nodes, int gauss_points_count) const {
+        vector<double> gauss_points, gauss_weights;
+        if (gauss_points_count == 2) {
+            gauss_points = { -1.0 / sqrt(3), 1.0 / sqrt(3) };
+            gauss_weights = { 1.0, 1.0 };
+        }
+        else if (gauss_points_count == 3) {
+            gauss_points = { -sqrt(3.0 / 5.0), 0.0, sqrt(3.0 / 5.0) };
+            gauss_weights = { 5.0 / 9.0, 8.0 / 9.0, 5.0 / 9.0 };
+        }
+        else {
+            throw invalid_argument("Unsupported number of Gauss points.");
+        }
 
         vector<vector<double>> H_local(4, vector<double>(4, 0.0));
 
-        // Loop over Gaussian points
         for (double xi : gauss_points) {
             for (double eta : gauss_points) {
-                // Shape function derivatives in local coordinates
-                array<double, 4> dN_dxi = { -0.25 * (1 - eta), 0.25 * (1 - eta), 0.25 * (1 + eta), -0.25 * (1 + eta) };
-                array<double, 4> dN_deta = { -0.25 * (1 - xi), -0.25 * (1 + xi), 0.25 * (1 + xi), 0.25 * (1 - xi) };
+                vector<double> dN_dxi = { -0.25 * (1 - eta), 0.25 * (1 - eta), 0.25 * (1 + eta), -0.25 * (1 + eta) };
+                vector<double> dN_deta = { -0.25 * (1 - xi), -0.25 * (1 + xi), 0.25 * (1 + xi), 0.25 * (1 - xi) };
 
-                // Calculate Jacobian and its determinant
                 double J11 = 0, J12 = 0, J21 = 0, J22 = 0;
                 for (int i = 0; i < 4; i++) {
                     J11 += dN_dxi[i] * nodes[node_ids[i] - 1].x;
@@ -165,20 +173,17 @@ struct Element {
                 }
                 double detJ = J11 * J22 - J12 * J21;
 
-                // Inverse Jacobian
                 double invJ11 = J22 / detJ;
                 double invJ12 = -J12 / detJ;
                 double invJ21 = -J21 / detJ;
                 double invJ22 = J11 / detJ;
 
-                // Shape function derivatives in global coordinates
-                array<double, 4> dN_dx, dN_dy;
+                vector<double> dN_dx(4), dN_dy(4);
                 for (int i = 0; i < 4; i++) {
                     dN_dx[i] = invJ11 * dN_dxi[i] + invJ12 * dN_deta[i];
                     dN_dy[i] = invJ21 * dN_dxi[i] + invJ22 * dN_deta[i];
                 }
 
-                // Compute contributions to the H matrix at this integration point
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 4; j++) {
                         H_local[i][j] += conductivity * (dN_dx[i] * dN_dx[j] + dN_dy[i] * dN_dy[j]) * detJ;
@@ -194,52 +199,33 @@ struct Element {
 struct Grid {
     vector<Node> nodes;
     vector<Element> elements;
-    vector<vector<double>> globalHMatrix;
 
     Grid(const vector<Node>& nodes, const vector<Element>& elements)
-        : nodes(nodes), elements(elements), globalHMatrix(nodes.size(), vector<double>(nodes.size(), 0.0)) {}
-
-    void assembleGlobalHMatrix(double conductivity) {
-        for (const auto& element : elements) {
-            auto localH = element.computeLocalHMatrix(conductivity, nodes);
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    globalHMatrix[element.node_ids[i] - 1][element.node_ids[j] - 1] += localH[i][j];
-                }
-            }
-        }
-    }
-
-    void printGlobalHMatrix() const {
-        cout << "\n       H globalna" << endl;
-        for (const auto& row : globalHMatrix) {
-            for (double value : row) {
-                cout << setw(10) << fixed << setprecision(4) << value << " ";
-            }
-            cout << endl;
-        }
-    }
+        : nodes(nodes), elements(elements) {}
 
     void print() const {
         cout << endl << "\tNODES COORDINATES" << endl;
         for (int i = 0; i < nodes.size(); i++) {
+            cout << i + 1 << ". ";
+            if (i < 9) { cout << " "; }
             nodes[i].print();
         }
-        
-        cout<<endl << "\tELEMENT NODES ID" << endl;
-        for (int i = 0;i<elements.size();i++) 
-        {
+
+        cout << endl << "\tELEMENT NODES ID" << endl;
+        for (int i = 0; i < elements.size(); i++) {
+            cout << i + 1 << ". ";
+            if (i < 9) { cout << " "; }
             elements[i].print();
         }
     }
 
-    void printLocalHMatricesAndSum(double conductivity) {
+    void printLocalHMatricesAndSum(double conductivity, int gauss_points_count) {
         vector<vector<double>> H_total(4, vector<double>(4, 0.0));
 
         for (const auto& element : elements) {
-            auto H_local = element.computeLocalHMatrix(conductivity, nodes);
+            auto H_local = element.calculateHMatrix(conductivity, nodes, gauss_points_count);
 
-            cout << "\nLocal H matrix for Element ID: " << element.id << endl;
+            cout << "\n\tLOCAL H MATRIX FOR ELEMENT: " << element.id << endl;
             for (const auto& row : H_local) {
                 for (double value : row) {
                     cout << setw(10) << fixed << setprecision(4) << value << " ";
@@ -254,8 +240,46 @@ struct Grid {
             }
         }
 
-        cout << "\nTotal H matrix (Sum of all local H matrices):" << endl;
+        cout << "\n\tTOTAL H MATRIX:" << endl;
         for (const auto& row : H_total) {
+            for (double value : row) {
+                cout << setw(10) << fixed << setprecision(4) << value << " ";
+            }
+            cout << endl;
+        }
+    }
+};
+
+struct Solve {
+    vector<vector<double>> globalHMatrix;
+    Solve(vector<vector<double>> calulateedGlobalHMatrix) : globalHMatrix(calulateedGlobalHMatrix) {};
+};
+
+struct CalculateGlobalHMatrix {
+
+    vector<vector<double>> globalHMatrix;
+
+    
+    void calculate(const Grid& grid, double conductivity, int gauss_points_count) {
+        int NodeCount = grid.nodes.size();
+        globalHMatrix = vector<vector<double>>(NodeCount, vector<double>(NodeCount, 0.0));
+
+        for (const auto& element : grid.elements) {
+            auto H_local = element.calculateHMatrix(conductivity, grid.nodes, gauss_points_count);
+
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    int global_i = element.node_ids[i]-1;
+                    int global_j = element.node_ids[j]-1;
+                    globalHMatrix[global_i][global_j] += H_local[i][j];
+                }
+            }
+        }
+    }
+
+    void printGlobalHMatrix() const {
+        cout << "\n\tGLOBAL H MATRIX:" << endl;
+        for (const auto& row : globalHMatrix) {
             for (double value : row) {
                 cout << setw(10) << fixed << setprecision(4) << value << " ";
             }
@@ -277,8 +301,18 @@ int main() {
     Grid grid(nodes, elements);
     grid.print();
 
+    int gauss_points_count = 2; 
+    grid.printLocalHMatricesAndSum(global_data.Conductivity, gauss_points_count);
+
+
+    CalculateGlobalHMatrix calculation;
+    calculation.calculate(grid, global_data.Conductivity, gauss_points_count);
+    calculation .printGlobalHMatrix();
+
+    Solve solution(calculation.globalHMatrix);
+
     
-    grid.printLocalHMatricesAndSum(global_data.Conductivity);
+    
 
     return 0;
 }

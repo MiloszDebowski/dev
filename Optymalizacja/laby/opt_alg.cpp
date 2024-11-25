@@ -1,5 +1,7 @@
 #include"opt_alg.h"
 #include <cmath>
+#include<vector>
+#include "matrix.h"
 
 solution MC(matrix(*ff)(matrix, matrix, matrix), int N, matrix lb, matrix ub, double epsilon, int Nmax, matrix ud1, matrix ud2)
 {
@@ -415,7 +417,7 @@ solution pen(matrix(*ff)(matrix, matrix, matrix), matrix x0, double c, double dc
 	}
 }
 
-solution sym_NM(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double beta, double gamma, double delta, double epsilon, int Nmax, matrix ud1, matrix ud2)
+/*solution sym_NM(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double beta, double gamma, double delta, double epsilon, int Nmax, matrix ud1, matrix ud2)
 {
 	try
 	{
@@ -424,12 +426,9 @@ solution sym_NM(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double
 
 		return Xopt;
 	}
-	catch (string ex_info)
-	{
-		throw ("solution sym_NM(...):\n" + ex_info);
-	}
+	
 }
-
+*/
 solution SD(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix, matrix), matrix x0, double h0, double epsilon, int Nmax, matrix ud1, matrix ud2)
 {
 	try
@@ -518,5 +517,143 @@ solution EA(matrix(*ff)(matrix, matrix, matrix), int N, matrix lb, matrix ub, in
 	catch (string ex_info)
 	{
 		throw ("solution EA(...):\n" + ex_info);
+	}
+}
+
+
+// Znajdü indeks wierzcho≥ka z maksymalnπ wartoúciπ funkcji celu
+// Znajdü indeks wierzcho≥ka o maksymalnej wartoúci funkcji celu
+int max_vertex(solution* Xopt, int dim) {
+	int max_index = 0;
+	for (int i = 1; i <= dim; i++) {
+		if (Xopt[i].y > Xopt[max_index].y) {
+			max_index = i;
+		}
+	}
+	return max_index;
+}
+
+// Znajdü indeks wierzcho≥ka o minimalnej wartoúci funkcji celu
+int min_vertex(solution* Xopt, int dim) {
+	int min_index = 0;
+	for (int i = 1; i <= dim; i++) {
+		if (Xopt[i].y < Xopt[min_index].y) {
+			min_index = i;
+		}
+	}
+	return min_index;
+}
+
+// Oblicz úrodek masy wszystkich wierzcho≥kÛw, z wy≥πczeniem maksymalnego
+matrix mass_center(solution* Xopt, int dim, int exclude_index) {
+	int count = 0;
+	matrix center = matrix(Xopt[0].x.rows(), Xopt[0].x.cols(), 0.0f); // Inicjalizuj zerowπ macierz o odpowiednich wymiarach
+
+	for (int i = 0; i <= dim; i++) {
+		if (i == exclude_index) continue; // PomiÒ maksymalny wierzcho≥ek
+		center = center + Xopt[i].x;
+		count++;
+	}
+	return center / static_cast<long double>(count); // Wylicz úredniπ (úrodek masy)
+}
+
+
+
+solution sym_NM(matrix(*ff)(matrix, matrix, matrix), matrix x0, long double s,
+	long double alpha, long double beta, long double gamma, long double delta,
+	long double epsilon, int Nmax, matrix ud1, matrix ud2) {
+
+	try
+	{
+		int* size = get_size(x0);
+		int dim = size[0];
+		delete[] size;
+
+		solution* Xopt = new solution[dim + 1];
+		matrix e(dim, 1, 0.0f);
+
+		for (int i = 0; i < dim; i++)
+		{
+			e(i, 0) = 1;
+			Xopt[i].x = x0 + s * e;
+			Xopt[i].y = ff(Xopt[i].x, ud1, ud2); solution::f_calls++;
+		}
+		Xopt[dim].x = x0;
+		Xopt[dim].y = ff(x0, ud1, ud2);
+		int min, max;
+		matrix p_center;
+		matrix p_odb;
+		matrix p_e;
+		matrix ff_min;
+		matrix ff_max;
+		matrix ff_odb;
+
+		for (int itr = 0; itr < Nmax; itr++)
+		{
+			max = max_vertex(Xopt, dim);
+			min = min_vertex(Xopt, dim);
+
+			if (norm(Xopt[max].x - Xopt[min].x) < epsilon) break;
+
+			p_center = mass_center(Xopt, dim, max);
+			p_odb = p_center + alpha * (p_center - Xopt[max].x);
+
+			ff_min = Xopt[min].fit_fun(ff, ud1, ud2);
+			ff_max = Xopt[max].fit_fun(ff, ud1, ud2);
+			ff_odb = ff(p_odb, ud1, ud2); solution::f_calls++;
+		}
+
+
+
+		if (ff_odb < ff_min)
+		{
+			p_e = p_center + gamma * (p_odb - p_center);
+			matrix ff_e = ff(p_e, ud1, ud2); solution::f_calls++;
+
+			if (ff_e < ff_odb)
+			{
+				Xopt[max].x = p_e;
+				Xopt[max].y = ff_e;
+			}
+			else
+			{
+				Xopt[max].x = p_odb;
+				Xopt[max].y = ff_odb;
+			}
+		}
+		else if (ff_min <= ff_odb && ff_odb < ff_max)
+		{
+			Xopt[max].x = p_odb;
+			Xopt[max].y = ff_odb;
+		}
+		else
+		{
+			matrix p_z = p_center + beta * (Xopt[max].x - p_center);
+			matrix ff_z = ff(p_z, ud1, ud2); solution::f_calls++;
+
+			if (ff_z >= ff_max)
+			{
+				for (int i = 0; i < dim; i++)
+				{
+					if (i == min) continue;
+					Xopt[i].x = delta * (Xopt[i].x + Xopt[min].x);
+					Xopt[i].y = ff(Xopt[i].x, ud1, ud2); solution::f_calls++;
+				}
+			}
+			else
+			{
+				Xopt[max].x = p_z;
+				Xopt[max].y = ff_z;
+			}
+		}
+
+
+		min = min_vertex(Xopt, dim);
+		return Xopt[min];
+	}
+
+	catch (string ex_info)
+	{
+		throw ("solution sym_NM(...):\n" + ex_info);
 	}
 }
