@@ -74,17 +74,21 @@ class Obraz {
 
 	public void print_histogram() {
 		for(int i = 0; i < 94; i++) {
+			if(histogram[i]!=0){
 			System.out.println(tab_symb[i] + " " + histogram[i]);
 		}
+			}
 	}
 
 	//dukowanie równoległego
 	public synchronized void print_histogram_parallel(char symbol) {
 		int count = hist_parallel[symbol - 33];
-		System.out.print("Wątek " + symbol + ": " + symbol + " ");
-		for(int i = 0; i < count; i++) {
-			System.out.print("=");
+		if (count != 0) {
+			System.out.print("Wątek " + symbol + ": " + symbol + " ");
+			for (int i = 0; i < count; i++) {
+				System.out.print("=");
+			}
+			System.out.println();
 		}
-		System.out.println();
 	}
 }

@@ -56,4 +56,18 @@ void *cokolwiek( void *arg){
   printf("po ostatniej barierze - watek %d\n",moj_id);  
 
   pthread_exit( (void *)0);
+
+
+
+  // printf("przed bariera 1 - watek %d\n",moj_id);
+
+  // printf("przed bariera 2 - watek %d\n",moj_id);
+
+  // printf("przed bariera 3 - watek %d\n",moj_id);
+
+  // printf("przed bariera 4 - watek %d\n",moj_id);
+
+  // printf("po ostatniej barierze - watek %d\n",moj_id);  
+
+  pthread_exit( (void *)0);
 }

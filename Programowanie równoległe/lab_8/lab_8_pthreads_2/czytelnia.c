@@ -7,10 +7,10 @@
 
 
 
-pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER; // pilnuje zeby watki miedzy soba modyfikowaly prawidlowo dane w czytelnii + te globalne
-pthread_mutex_t lock_czytelnicy = PTHREAD_MUTEX_INITIALIZER; //mutexy do obslugi wait i signal
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t lock_czytelnicy = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t lock_pisarze = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cond_czytelnicy = PTHREAD_COND_INITIALIZER; //obsluga wait i signal
+pthread_cond_t cond_czytelnicy = PTHREAD_COND_INITIALIZER;
 pthread_cond_t cond_pisarze = PTHREAD_COND_INITIALIZER;
 int l_c_czekajacych = 0;
 int l_p_czekajacych = 0;
@@ -73,38 +73,41 @@ void inicjuj(czytelnia_t* czytelnia_p){
 }
 
 void czytam(czytelnia_t* czytelnia_p){
-#ifdef MY_DEBUG
 
-// wypisanie wartości zmiennych kontrolujących działanie: liczby czytelników i pisarzy
 
-// sprawdzenie warunku poprawności i ewentualny exit
+
 	pthread_mutex_lock (&lock);
-	printf("liczba czytelnikow = %d, liczba pisarzy = %d\n", czytelnia_p->l_c, czytelnia_p->l_p); 
+	#ifdef MY_DEBUG
+	printf("liczba czytelnikow = %d, liczba pisarzy = %d\nliczba oczekujących czytelników = %d, liczba oczekujących pisarzy = %d\n",
+	czytelnia_p->l_c, czytelnia_p->l_p, l_c_czekajacych, l_p_czekajacych); 
+	#endif
 	if(czytelnia_p->l_p>1 || (czytelnia_p->l_p==1 && czytelnia_p->l_c>0) || czytelnia_p->l_p<0 || czytelnia_p->l_c<0 ) { 
+	#ifdef MY_DEBUG
 	printf("Nie powinienem czytac\n"); 
+	#endif
 	pthread_mutex_unlock (&lock);
 	exit(0); 
 	}
 	pthread_mutex_unlock (&lock);
-#endif
     usleep(rand()%300000);
 }
 
 void pisze(czytelnia_t* czytelnia_p){
-#ifdef MY_DEBUG
-// wypisanie wartości zmiennych kontrolujących działanie: liczby czytelników i pisarzy
 
-// sprawdzenie warunku poprawności i ewentualny exit
+
 	pthread_mutex_lock (&lock);
-	printf("liczba czytelnikow = %d, liczba pisarzy = %d\n", czytelnia_p->l_c, czytelnia_p->l_p); 
+	#ifdef MY_DEBUG
+	printf("liczba czytelnikow = %d, liczba pisarzy = %d\nliczba oczekujących czytelników = %d, liczba oczekujących pisarzy = %d\n",
+	czytelnia_p->l_c, czytelnia_p->l_p, l_c_czekajacych, l_p_czekajacych); 
+	#endif
 	if( czytelnia_p->l_p>1 || (czytelnia_p->l_p==1 && czytelnia_p->l_c>0) || czytelnia_p->l_p<0 || czytelnia_p->l_c<0 ) { 
+	#ifdef MY_DEBUG
 	printf("Nie powinienem pisac\n"); 
+	#endif
 	pthread_mutex_unlock (&lock);
 	exit(0); 
 	}
 	pthread_mutex_unlock (&lock);
-	
-#endif
     usleep(rand()%300000);
 }
 

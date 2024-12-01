@@ -65,22 +65,26 @@ class Obraz {
 	// Metoda wypisująca histogram sekwencyjny za pomocą znaków `=`
 	public void print_histogram() {
 		for (int i = 0; i < 94; i++) {
-			System.out.print(tab_symb[i] + " ");
-			for (int j = 0; j < histogram[i]; j++) {
-				System.out.print("=");
+			if (histogram[i] != 0) {
+				System.out.print(tab_symb[i] + " ");
+				for (int j = 0; j < histogram[i]; j++) {
+					System.out.print("=");
+				}
+				System.out.print("\n");
 			}
-			System.out.print("\n");
 		}
 	}
 
 	// Metoda wypisująca równoległy histogram za pomocą znaków `=`
 	public void print_histogram_parallel() {
 		for (int i = 0; i < 94; i++) {
-			System.out.print(tab_symb[i] + " ");
-			for (int j = 0; j < hist_parallel[i]; j++) {
-				System.out.print("=");
+			if (hist_parallel[i] != 0) {
+				System.out.print(tab_symb[i] + " ");
+				for (int j = 0; j < hist_parallel[i]; j++) {
+					System.out.print("=");
+				}
+				System.out.print("\n");
 			}
-			System.out.print("\n");
 		}
 	}
 

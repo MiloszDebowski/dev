@@ -13,7 +13,7 @@ public class Liczeniecalki {
 	double start = 0;
 	double end = Math.PI;
 
-	double task = 50; //ilość zadań
+	double task = 10; //ilość zadań
 	double dx = 0.000001; //dokładność
 
 	double przedzialPerZadanie = (end - start) / task; //przedział dla każdego pojedynczego zadania
@@ -24,9 +24,9 @@ public class Liczeniecalki {
 
 		if(kX > end){kX = end;}  // w przypadku bledu zaokraglen ten if to wychwyci
 
-		Callable<Double> calkacallable = new Calka_callable(pX, kX, dx);  // stworzenie obiektu klasy calka_callable(początek przedziału, koniec przedziału, dokładność)
-		Future<Double> future = executor.submit(calkacallable); // twrzorzenie obiektu typu Future, który przechowuje wynik zwrócony przez metodę compute_integral uruchomionej przez metodę call w klasie
-		listaWynikow.add(future); // dodanie do listy wyników wynik przechowywany przez future. future przechowuje wynik wykonania tego taska, dodawany do listy future'ow
+		Callable<Double> calkacallable = new Calka_callable(pX, kX, dx);
+		Future<Double> future = executor.submit(calkacallable);
+		listaWynikow.add(future);
 		kX += przedzialPerZadanie; //przejscie na inny przedział dla kolejnego wątku z puli
 	}
 

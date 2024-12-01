@@ -11,8 +11,8 @@ LD = gcc
 AR = ar -ru
 
 # opcje kompilacji
-#CFL = -pthread
-CFL = -pthread -DMY_DEBUG
+CFL = -pthread
+#CFL = -pthread -DMY_DEBUG
 
 LDFL = -pthread
 # katalogi z bibliotekami i dolaczane biblioteki

@@ -43,30 +43,37 @@ void inicjuj(czytelnia_t* czytelnia_p){
 }
 
 void czytam(czytelnia_t* czytelnia_p){
-#ifdef MY_DEBUG
+
 	pthread_mutex_lock (&lock);
+	#ifdef MY_DEBUG
 	printf("liczba czytelnikow = %d, liczba pisarzy = %d\n", czytelnia_p->l_c, czytelnia_p->l_p); 
+	#endif
 	if(czytelnia_p->l_p>1 || (czytelnia_p->l_p==1 && czytelnia_p->l_c>0) || czytelnia_p->l_p<0 || czytelnia_p->l_c<0 ) { 
-	printf("Nie powinienem czytac\n"); 
+	#ifdef MY_DEBUG
+	printf("Nie powinienem czytac\n");
+	#endif 
 	pthread_mutex_unlock (&lock);
 	exit(0); 
 	}
 	pthread_mutex_unlock (&lock);
-#endif
     usleep(rand()%300000);
 }
 
 void pisze(czytelnia_t* czytelnia_p){
-#ifdef MY_DEBUG
+
 	pthread_mutex_lock (&lock);
+	#ifdef MY_DEBUG
 	printf("liczba czytelnikow = %d, liczba pisarzy = %d\n", czytelnia_p->l_c, czytelnia_p->l_p); 
+	#endif
 	if( czytelnia_p->l_p>1 || (czytelnia_p->l_p==1 && czytelnia_p->l_c>0) || czytelnia_p->l_p<0 || czytelnia_p->l_c<0 ) { 
+	#ifdef MY_DEBUG
 	printf("Nie powinienem pisac\n"); 
+	#endif
+	printf("Błąd\n");
 	pthread_mutex_unlock (&lock);
 	exit(0); 
 	}
 	pthread_mutex_unlock (&lock);	
-#endif
     usleep(rand()%300000);
 }
 
