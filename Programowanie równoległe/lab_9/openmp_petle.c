@@ -5,6 +5,7 @@
 
 #define WYMIAR 10
 
+
 void tablica(double a[WYMIAR][WYMIAR]) {
     for (int i = 0; i < WYMIAR; i++) {
         for (int j = 0; j < WYMIAR; j++) {
@@ -25,24 +26,35 @@ double suma_sekwencyjnie(double a[WYMIAR][WYMIAR]) {
 
 double suma_rownolegle_wiersze(double a[WYMIAR][WYMIAR]) {
     double suma = 0.0;
-    #pragma omp parallel for default(none) schedule(static, 2) reduction(+:suma) shared(a)
+    #pragma omp parallel for default(none) schedule(static, 2) reduction(+:suma) shared(a) ordered
     for (int i = 0; i < WYMIAR; i++) {
         for (int j = 0; j < WYMIAR; j++) {
-            suma += a[i][j];
-            printf("(%1d,%1d) -> W_%1d ", i, j, omp_get_thread_num());
+            #pragma omp ordered
+            {
+                suma += a[i][j];
+                printf("(%1d,%1d) -> W_%1d ", i, j, omp_get_thread_num());
+            }
         }
-        printf("\n");
+
+        #pragma omp ordered
+        {
+            printf("\n");
+        }
     }
     return suma;
 }
 
+
 double suma_rownolegle_kolumny_wew(double a[WYMIAR][WYMIAR]) {
     double suma = 0.0;
     for (int i = 0; i < WYMIAR; i++) {
-        #pragma omp parallel for default(none) schedule(dynamic) reduction(+:suma) shared(a, i)
+        #pragma omp parallel for default(none) schedule(static) reduction(+:suma) shared(a, i) ordered
         for (int j = 0; j < WYMIAR; j++) {
-            suma += a[i][j];
-            printf("(%1d,%1d) -> W_%1d ", i, j, omp_get_thread_num());
+            #pragma omp ordered
+            {
+                suma += a[i][j];
+                printf("(%1d,%1d) -> W_%1d ", i, j, omp_get_thread_num());
+            }
         }
         printf("\n");
     }
@@ -54,13 +66,16 @@ double suma_rownolegle_kolumny_zew(double a[WYMIAR][WYMIAR]) {
     #pragma omp parallel default(none) shared(a, suma)
     {
         double suma_tmp = 0.0;
-        #pragma omp for schedule(static)
+        #pragma omp for schedule(static) ordered
         for (int j = 0; j < WYMIAR; j++) {
-            for (int i = 0; i < WYMIAR; i++) {
-                suma_tmp += a[i][j];
-                printf("(%1d,%1d) -> W_%1d ", i, j, omp_get_thread_num());
+            #pragma omp ordered
+            {
+                for (int i = 0; i < WYMIAR; i++) {
+                    suma_tmp += a[i][j];
+                    printf("(%1d,%1d) -> W_%1d ", i, j, omp_get_thread_num());
+                }
+                printf("\n");
             }
-            printf("\n");
         }
         #pragma omp critical
         suma += suma_tmp;
@@ -69,10 +84,10 @@ double suma_rownolegle_kolumny_zew(double a[WYMIAR][WYMIAR]) {
 }
 
 int main() {
+
     omp_set_num_threads(3);
     double a[WYMIAR][WYMIAR];
 
-    
     tablica(a);
 
     // Sekwencyjne obliczanie sumy
