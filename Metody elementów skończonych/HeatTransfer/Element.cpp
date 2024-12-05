@@ -1,7 +1,9 @@
 #include "Element.h"
 
+//tworzy element
 Element::Element(int id, const std::vector<int>& nodes) : id(id), node_ids(nodes) {}
 
+//wypisywanie 
 void Element::print() const {
     std::cout << "ID[";
     for (size_t i = 0; i < node_ids.size(); ++i) {
@@ -11,6 +13,7 @@ void Element::print() const {
     std::cout << "]" << std::endl;
 }
 
+//wczytywanie elementów z pliku
 std::vector<Element> Element::readElements(const std::string& grid_file) {
     std::ifstream file(grid_file);
     std::string line;
@@ -22,9 +25,7 @@ std::vector<Element> Element::readElements(const std::string& grid_file) {
             element_section = true;
             continue;
         }
-        if (line.find("*BC") != std::string::npos) {
-            break;
-        }
+        if (line.find("*BC") != std::string::npos)break;
         if (element_section) {
             std::istringstream iss(line);
             int element_id, n1, n2, n3, n4;
@@ -37,6 +38,7 @@ std::vector<Element> Element::readElements(const std::string& grid_file) {
     return elements;
 }
 
+//liczenie macierzy H
 std::vector<std::vector<double>> Element::calculateHMatrix(double conductivity, const std::vector<Node>& nodes, int gauss_points_count) const {
     std::vector<double> gauss_points, gauss_weights;
     if (gauss_points_count == 2) {
@@ -55,7 +57,7 @@ std::vector<std::vector<double>> Element::calculateHMatrix(double conductivity, 
 
     for (double xi : gauss_points) {
         for (double eta : gauss_points) {
-            //funkcje kszta³tu
+            //pochodne funkcji kszta³tu - lokalne
             std::vector<double> dN_dxi = { -0.25 * (1 - eta), 0.25 * (1 - eta), 0.25 * (1 + eta), -0.25 * (1 + eta) };
             std::vector<double> dN_deta = { -0.25 * (1 - xi), -0.25 * (1 + xi), 0.25 * (1 + xi), 0.25 * (1 - xi) };
 
@@ -76,12 +78,14 @@ std::vector<std::vector<double>> Element::calculateHMatrix(double conductivity, 
             double invJ21 = -J21 / detJ;
             double invJ22 = J11 / detJ;
 
+            //pochodne funkcji kszta³tu - globalne
             std::vector<double> dN_dx(4), dN_dy(4);
             for (int i = 0; i < 4; i++) {
                 dN_dx[i] = invJ11 * dN_dxi[i] + invJ12 * dN_deta[i];
                 dN_dy[i] = invJ21 * dN_dxi[i] + invJ22 * dN_deta[i];
             }
 
+            //sk³adanie lokalnej macierzy H
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
                     H_local[i][j] += conductivity * (dN_dx[i] * dN_dx[j] + dN_dy[i] * dN_dy[j]) * detJ;
