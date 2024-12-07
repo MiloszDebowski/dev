@@ -1,5 +1,4 @@
 #include "Grid.h"
-#include<iomanip>
 
 Grid::Grid(const std::vector<Node>& nodes, const std::vector<Element>& elements)
     : nodes(nodes), elements(elements) {}

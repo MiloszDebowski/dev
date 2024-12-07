@@ -7,10 +7,10 @@
 
 int main() {
 
+    //scie¿ki do plików
     string grid_file = "Test1_4_4.txt";
     //string grid_file = "Test1_4_4.txt";
     
-
     GlobalData global_data = GlobalData::readData(grid_file);
     global_data.print();
 
@@ -19,6 +19,7 @@ int main() {
 
     Grid grid(nodes, elements);
     grid.print();
+
 
     int gauss_points_count = 2;
     grid.printLocalHMatricesAndSum(global_data.Conductivity, gauss_points_count);

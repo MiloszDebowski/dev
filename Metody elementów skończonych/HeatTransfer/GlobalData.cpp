@@ -5,14 +5,14 @@ GlobalData::GlobalData(double simTime, double stepTime, double cond, double al, 
 
 void GlobalData::print() const {
     cout << "\tGLOBAL DATA" << endl;
-    cout << "SimulationTime: " << setprecision(11) << SimulationTime << endl;
-    cout << "SimulationStepTime: " << SimulationStepTime << endl;
+    cout << "Simulation Time: " << setprecision(11) << SimulationTime << endl;
+    cout << "Simulation Step Time: " << SimulationStepTime << endl;
     cout << "Conductivity: " << Conductivity << endl;
     cout << "Alfa: " << Alfa << endl;
     cout << "Tot: " << Tot << endl;
-    cout << "InitialTemp: " << InitialTemp << endl;
+    cout << "Initial Temperature: " << InitialTemp << endl;
     cout << "Density: " << Density << endl;
-    cout << "SpecificHeat: " << SpecificHeat << endl;
+    cout << "Specific Heat: " << SpecificHeat << endl;
     cout << "nN (Nodes number): " << nN << endl;
     cout << "nE (Elements number): " << nE << endl;
 }
