@@ -1,4 +1,4 @@
-#include<stdlib.h>
+#include<stdlib.h> 
 #include<stdio.h>
 #include<omp.h>
 
@@ -35,19 +35,23 @@ int main(){
     f_threadprivate = omp_get_thread_num();
     
     #pragma omp barrier
-    #pragma omp critical(a_shared)
+    #pragma omp critical{
     for(i=0;i<10;i++){
       a_shared ++; 
     }
+    }
+
 
     for(i=0;i<10;i++){
       c_firstprivate += omp_get_thread_num();
     }
 
     for(i=0;i<10;i++){
-    #pragma omp atomic
+    #pragma omp atomic{
       e_atomic+=omp_get_thread_num();
     }
+    }
+    
     #pragma omp barrier 
     #pragma omp critical 
     {
@@ -64,6 +68,8 @@ int main(){
       printf("\tf_threadprivate = %d\n", f_threadprivate);
     }
   }
+
+
   #pragma omp parallel default(none)
   {
   	#pragma omp critical
