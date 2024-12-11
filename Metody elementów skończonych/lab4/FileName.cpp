@@ -18,12 +18,12 @@ struct GlobalData {
 
     void print() const {
         cout << "\tGLOBAL DATA" << endl;
-        cout << "SimulationTime: " << setprecision(11) << SimulationTime << endl;
-        cout << "SimulationStepTime: " << SimulationStepTime << endl;
+        cout << "Simulation Time: " << setprecision(11) << SimulationTime << endl;
+        cout << "Simulation Step Time: " << SimulationStepTime << endl;
         cout << "Conductivity: " << Conductivity << endl;
         cout << "Alfa: " << Alfa << endl;
         cout << "Tot: " << Tot << endl;
-        cout << "InitialTemp: " << InitialTemp << endl;
+        cout << "Initial Temperature: " << InitialTemp << endl;
         cout << "Density: " << Density << endl;
         cout << "SpecificHeat: " << SpecificHeat << endl;
         cout << "nN (Nodes number): " << nN << endl;
@@ -199,7 +199,7 @@ struct Element {
                 vector<double> dN_deta = { -0.25 * (1 - xi), -0.25 * (1 + xi), 0.25 * (1 + xi), 0.25 * (1 - xi) };
 
                 double J11 = 0, J12 = 0, J21 = 0, J22 = 0;
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 4; ++i) {
                     J11 += dN_dxi[i] * nodes[node_ids[i] - 1].x;
                     J12 += dN_dxi[i] * nodes[node_ids[i] - 1].y;
                     J21 += dN_deta[i] * nodes[node_ids[i] - 1].x;
@@ -213,12 +213,12 @@ struct Element {
                 double invJ22 = J11 / detJ;
 
                 vector<double> dN_dx(4), dN_dy(4);
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 4; ++i) {
                     dN_dx[i] = invJ11 * dN_dxi[i] + invJ12 * dN_deta[i];
                     dN_dy[i] = invJ21 * dN_dxi[i] + invJ22 * dN_deta[i];
                 }
 
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 4; ++i) {
                     for (int j = 0; j < 4; j++) {
                         H_local[i][j] += conductivity * (dN_dx[i] * dN_dx[j] + dN_dy[i] * dN_dy[j]) * detJ;
                     }
@@ -235,12 +235,16 @@ struct Element {
             gauss_points = { -1.0 / sqrt(3), 1.0 / sqrt(3) };
             gauss_weights = { 1.0, 1.0 };
         }
+        else if (gauss_points_count == 3) {
+            gauss_points = { -sqrt(3.0 / 5.0), 0.0, sqrt(3.0 / 5.0) };
+            gauss_weights = { 5.0 / 9.0, 8.0 / 9.0, 5.0 / 9.0 };
+        }
         else {
             throw invalid_argument("Unsupported number of Gauss points.");
         }
 
         vector<vector<double>> HBC_local(4, vector<double>(4, 0.0));
-        array<array<int, 2>, 4> edges = { {{0, 1}, {1, 2}, {2, 3}, {3, 0}} };
+        vector<vector<int>> edges = { {0, 1}, {1, 2}, {2, 3}, {3, 0} };
 
         for (const auto& edge : edges) {
             int n1 = node_ids[edge[0]] - 1;
@@ -295,12 +299,10 @@ struct Grid {
         }
     }
 
-    void printLocalHMatricesAndSum(double conductivity, int gauss_points_count) {
-        vector<vector<double>> H_total(4, vector<double>(4, 0.0));
-
+    void printLocalHMatrices(double conductivity, int gauss_points_count) {
+        cout << "\n\n\tLOCAL H MATRICES\n\n";
         for (const auto& element : elements) {
             auto H_local = element.calculateHMatrix(conductivity, nodes, gauss_points_count);
-
             cout << "\n\tLOCAL H MATRIX FOR ELEMENT: " << element.id << endl;
             for (const auto& row : H_local) {
                 for (double value : row) {
@@ -308,22 +310,30 @@ struct Grid {
                 }
                 cout << endl;
             }
-
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    H_total[i][j] += H_local[i][j];
-                }
-            }
-        }
-
-        cout << "\n\tTOTAL H MATRIX:" << endl;
-        for (const auto& row : H_total) {
-            for (double value : row) {
-                cout << setw(10) << fixed << setprecision(4) << value << " ";
-            }
-            cout << endl;
         }
     }
+
+    void printLocalHBCMatrices(double conductivity,double alpha, int gauss_points_count) {
+        cout << "\n\n\tLOCAL HBC MATRICES\n\n";
+        for (const auto& element : elements) {
+            auto H_local = element.calculateHMatrix(conductivity, nodes, gauss_points_count);
+            auto HBC_local = element.calculateHBCMatrix(alpha, nodes, gauss_points_count);
+            for (int i = 0; i < 4; ++i) {
+                for (int j = 0; j < 4; ++j) {
+                    H_local[i][j] += HBC_local[i][j];
+                }
+            }
+            cout << "\n\tLOCAL HBC MATRIX FOR ELEMENT: " << element.id << endl;
+            for (const auto& row : H_local) {
+                for (double value : row) {
+                    cout << setw(10) << fixed << setprecision(4) << value << " ";
+                }
+                cout << endl;
+            }
+        }
+    }
+
+    
 };
 
 struct Solve {
@@ -333,27 +343,56 @@ struct Solve {
 
 struct CalculateGlobalHMatrix {
 
+    vector<vector<double>> globalHBCMatrix;
     vector<vector<double>> globalHMatrix;
 
 
-    void calculate(const Grid& grid, double conductivity, double alpha, int gauss_points_count) {
+    void calculateBC(const Grid& grid, double conductivity, double alpha, int gauss_points_count) {
         int NodeCount = grid.nodes.size();
-        globalHMatrix = vector<vector<double>>(NodeCount, vector<double>(NodeCount, 0.0));
+        globalHBCMatrix = vector<vector<double>>(NodeCount, vector<double>(NodeCount, 0.0));
 
         for (const auto& element : grid.elements) {
             auto H_local = element.calculateHMatrix(conductivity, grid.nodes, gauss_points_count);
             auto HBC_local = element.calculateHBCMatrix(alpha, grid.nodes, gauss_points_count);
 
+            
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
                     int global_i = element.node_ids[i] - 1;
                     int global_j = element.node_ids[j] - 1;
-                    globalHMatrix[global_i][global_j] += H_local[i][j] + HBC_local[i][j];
+                    globalHBCMatrix[global_i][global_j] += H_local[i][j] + HBC_local[i][j];
                 }
             }
         }
     }
 
+    void calculate(const Grid& grid, double conductivity, int gauss_points_count) {
+        int NodeCount = grid.nodes.size();
+        globalHMatrix = vector<vector<double>>(NodeCount, vector<double>(NodeCount, 0.0));
+
+        for (const auto& element : grid.elements) {
+            auto H_local = element.calculateHMatrix(conductivity, grid.nodes, gauss_points_count);
+            
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    int global_i = element.node_ids[i] - 1;
+                    int global_j = element.node_ids[j] - 1;
+                    globalHMatrix[global_i][global_j] += H_local[i][j];
+                }
+            }
+        }
+    }
+
+
+    void printGlobalHBCMatrix() const {
+        cout << "\n\tGLOBAL HBC MATRIX:" << endl;
+        for (const auto& row : globalHBCMatrix) {
+            for (double value : row) {
+                cout << setw(10) << fixed << setprecision(4) << value << " ";
+            }
+            cout << endl;
+        }
+    }
 
     void printGlobalHMatrix() const {
         cout << "\n\tGLOBAL H MATRIX:" << endl;
@@ -384,14 +423,19 @@ int main() {
     grid.print();
 
     int gauss_points_count = 2;
-    grid.printLocalHMatricesAndSum(global_data.Conductivity, gauss_points_count);
+    grid.printLocalHMatrices(global_data.Conductivity, gauss_points_count);
+    grid.printLocalHBCMatrices(global_data.Conductivity,global_data.Alfa, gauss_points_count);
 
-
+    CalculateGlobalHMatrix calculationBC;
     CalculateGlobalHMatrix calculation;
-    calculation.calculate(grid, global_data.Conductivity, global_data.Alfa, gauss_points_count);
+
+    calculation.calculate(grid, global_data.Conductivity, gauss_points_count);
     calculation.printGlobalHMatrix();
 
-    Solve solution(calculation.globalHMatrix);
+    calculationBC.calculateBC(grid, global_data.Conductivity, global_data.Alfa, gauss_points_count);
+    calculationBC.printGlobalHBCMatrix();
+
+    //Solve solution(calculation.globalHBCMatrix);
 
 
 
