@@ -33,8 +33,8 @@ struct GlobalData {
     static GlobalData readData(const string& grid_file) {
         ifstream file(grid_file);
         string line;
-        double simTime=0, stepTime=0, cond=0, al=0, to=0, initTemp=0, dens=0, specHeat=0;
-        int nodes=0, elems=0;
+        double simTime = 0, stepTime = 0, cond = 0, al = 0, to = 0, initTemp = 0, dens = 0, specHeat = 0;
+        int nodes = 0, elems = 0;
 
         while (getline(file, line)) {
             istringstream iss(line);
@@ -69,11 +69,12 @@ struct GlobalData {
 
 struct Node {
     double x, y;
+    bool BC;
 
-    Node(double x, double y) : x(x), y(y) {}
+    Node(double x, double y) : x(x), y(y), BC(0) {}
 
     void print() const {
-        cout << " x = " << x << " ; y = " << y << endl;
+        cout << " x = " << x << " ; y = " << y << "; BC = " << (BC ? "True" : "False") << endl;
     }
 
     static vector<Node> readNodes(const string& grid_file) {
@@ -81,6 +82,9 @@ struct Node {
         string line;
         vector<Node> nodes;
         bool node_section = false;
+        vector<int> boundary_conditions;
+        bool BC_section = false;
+
 
         while (getline(file, line)) {
             if (line.find("*Node") != string::npos) {
@@ -98,13 +102,43 @@ struct Node {
                 }
             }
         }
+
+        while (getline(file, line)) {
+            if (line.find("*BC") != string::npos) {
+                BC_section = true;
+                continue;
+            }
+            if (BC_section) {
+                istringstream iss(line);
+                int node_id;
+                while (iss >> node_id) {
+                    boundary_conditions.push_back(node_id);
+                    if (iss.peek() == ',') {
+                        iss.ignore();
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < nodes.size(); ++i) {
+            for (const auto& condition : boundary_conditions) {
+                if (i + 1 == condition) {
+                    nodes[i].BC = true;
+                }
+            }
+        }
+
         return nodes;
     }
 };
 
+double calculateEdgeLength(const Node& n1, const Node& n2) {
+    return sqrt(pow(n2.x - n1.x, 2) + pow(n2.y - n1.y, 2));
+}
+
 struct Element {
     int id;
-    vector<int> node_ids; // Używamy vector zamiast array
+    vector<int> node_ids;
 
     Element(int id, const vector<int>& nodes) : id(id), node_ids(nodes) {}
 
@@ -194,6 +228,48 @@ struct Element {
 
         return H_local;
     }
+
+    vector<vector<double>> calculateHBCMatrix(double alpha, const vector<Node>& nodes, int gauss_points_count) const {
+        vector<double> gauss_points, gauss_weights;
+        if (gauss_points_count == 2) {
+            gauss_points = { -1.0 / sqrt(3), 1.0 / sqrt(3) };
+            gauss_weights = { 1.0, 1.0 };
+        }
+        else {
+            throw invalid_argument("Unsupported number of Gauss points.");
+        }
+
+        vector<vector<double>> HBC_local(4, vector<double>(4, 0.0));
+        array<array<int, 2>, 4> edges = { {{0, 1}, {1, 2}, {2, 3}, {3, 0}} };
+
+        for (const auto& edge : edges) {
+            int n1 = node_ids[edge[0]] - 1;
+            int n2 = node_ids[edge[1]] - 1;
+
+            if (nodes[n1].BC && nodes[n2].BC) {
+                double edge_length = calculateEdgeLength(nodes[n1], nodes[n2]);
+                for (size_t i = 0; i < gauss_points.size(); ++i) {
+                    double ksi = gauss_points[i];
+                    double weight = gauss_weights[i];
+
+                    double N1 = 0.5 * (1 - ksi);
+                    double N2 = 0.5 * (1 + ksi);
+
+                    vector<double> N = { N1, N2 };
+
+                    for (int a = 0; a < 2; ++a) {
+                        for (int b = 0; b < 2; ++b) {
+                            HBC_local[edge[a]][edge[b]] += alpha * N[a] * N[b] * edge_length * weight * 0.5;
+                        }
+                    }
+                }
+            }
+        }
+        return HBC_local;
+    }
+
+
+
 };
 
 struct Grid {
@@ -259,23 +335,25 @@ struct CalculateGlobalHMatrix {
 
     vector<vector<double>> globalHMatrix;
 
-    
-    void calculate(const Grid& grid, double conductivity, int gauss_points_count) {
+
+    void calculate(const Grid& grid, double conductivity, double alpha, int gauss_points_count) {
         int NodeCount = grid.nodes.size();
         globalHMatrix = vector<vector<double>>(NodeCount, vector<double>(NodeCount, 0.0));
 
         for (const auto& element : grid.elements) {
             auto H_local = element.calculateHMatrix(conductivity, grid.nodes, gauss_points_count);
+            auto HBC_local = element.calculateHBCMatrix(alpha, grid.nodes, gauss_points_count);
 
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    int global_i = element.node_ids[i]-1;
-                    int global_j = element.node_ids[j]-1;
-                    globalHMatrix[global_i][global_j] += H_local[i][j];
+                    int global_i = element.node_ids[i] - 1;
+                    int global_j = element.node_ids[j] - 1;
+                    globalHMatrix[global_i][global_j] += H_local[i][j] + HBC_local[i][j];
                 }
             }
         }
     }
+
 
     void printGlobalHMatrix() const {
         cout << "\n\tGLOBAL H MATRIX:" << endl;
@@ -288,9 +366,13 @@ struct CalculateGlobalHMatrix {
     }
 };
 
+
+
+
+
 int main() {
-    //string grid_file = "Test1_4_4.txt";
-    string grid_file = "Test2_4_4_MixGrid.txt";
+    //string grid_file = "../siatki/Test1_4_4.txt";
+    string grid_file = "../siatki/Test2_4_4_MixGrid.txt";
 
     GlobalData global_data = GlobalData::readData(grid_file);
     global_data.print();
@@ -301,18 +383,18 @@ int main() {
     Grid grid(nodes, elements);
     grid.print();
 
-    int gauss_points_count = 2; 
+    int gauss_points_count = 2;
     grid.printLocalHMatricesAndSum(global_data.Conductivity, gauss_points_count);
 
 
     CalculateGlobalHMatrix calculation;
-    calculation.calculate(grid, global_data.Conductivity, gauss_points_count);
-    calculation .printGlobalHMatrix();
+    calculation.calculate(grid, global_data.Conductivity, global_data.Alfa, gauss_points_count);
+    calculation.printGlobalHMatrix();
 
     Solve solution(calculation.globalHMatrix);
 
-    
-    
+
+
 
     return 0;
 }
