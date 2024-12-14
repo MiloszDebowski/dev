@@ -312,7 +312,7 @@ struct Grid {
         }
     }
 
-    void printLocalHBCMatrices(double conductivity,double alpha, int gauss_points_count) {
+    void printLocalHBCMatrices(double conductivity, double alpha, int gauss_points_count) {
         cout << "\n\n\tLOCAL HBC MATRICES\n\n";
         for (const auto& element : elements) {
             auto H_local = element.calculateHMatrix(conductivity, nodes, gauss_points_count);
@@ -332,7 +332,7 @@ struct Grid {
         }
     }
 
-    
+
 };
 
 struct Solve {
@@ -354,7 +354,7 @@ struct CalculateGlobalHMatrix {
             auto H_local = element.calculateHMatrix(conductivity, grid.nodes, gauss_points_count);
             auto HBC_local = element.calculateHBCMatrix(alpha, grid.nodes, gauss_points_count);
 
-            
+
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
                     int global_i = element.node_ids[i] - 1;
@@ -371,7 +371,7 @@ struct CalculateGlobalHMatrix {
 
         for (const auto& element : grid.elements) {
             auto H_local = element.calculateHMatrix(conductivity, grid.nodes, gauss_points_count);
-            
+
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
                     int global_i = element.node_ids[i] - 1;
@@ -423,7 +423,7 @@ int main() {
 
     int gauss_points_count = 2;
     grid.printLocalHMatrices(global_data.Conductivity, gauss_points_count);
-    grid.printLocalHBCMatrices(global_data.Conductivity,global_data.Alfa, gauss_points_count);
+    grid.printLocalHBCMatrices(global_data.Conductivity, global_data.Alfa, gauss_points_count);
 
     CalculateGlobalHMatrix calculationBC;
     CalculateGlobalHMatrix calculation;
