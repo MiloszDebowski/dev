@@ -30,7 +30,7 @@ int main ()
   // pętla do modyfikacji - docelowo równoległa w OpenMP
   double suma_parallel=0.0;
   //PUNKT 3
-  #pragma omp parallel for default(none) reduction(+:suma_parallel) shared(a) ordered 
+  //#pragma omp parallel for default(none) reduction(+:suma_parallel) shared(a) ordered 
 
   //PUNKT 5.1  static, rozmiar porcji=3
   //#pragma omp  parallel for default(none) schedule(static, 3) num_threads(4) reduction(+:suma_parallel) shared(a) ordered 
@@ -42,13 +42,13 @@ int main ()
   //#pragma omp  parallel for default(none) schedule(dynamic, 2) num_threads(4) reduction(+:suma_parallel) shared(a) ordered 
   
   //PUNKT 5.4 dynamic, rozmiar porcji domyślny
-  //#pragma omp  parallel for default(none) schedule(dynamic) num_threads(4) reduction(+:suma_parallel) shared(a) ordered 
+  #pragma omp  parallel for default(none) schedule(dynamic) num_threads(4) reduction(+:suma_parallel) shared(a) ordered 
  
   for(int i=0;i<WYMIAR;i++) {
     int id_w = omp_get_thread_num();
       suma_parallel += a[i];
   
-  //#pragma omp ordered
+  #pragma omp ordered
       printf("a[%2d]->W_%1d  \n",i,id_w); 
   }
 

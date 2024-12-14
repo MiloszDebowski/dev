@@ -35,7 +35,6 @@ double suma_rownolegle_wiersze(double a[WYMIAR][WYMIAR]) {
                 printf("(%1d,%1d) -> W_%1d ", i, j, omp_get_thread_num());
             }
         }
-
         #pragma omp ordered
         {
             printf("\n");
@@ -84,27 +83,20 @@ double suma_rownolegle_kolumny_zew(double a[WYMIAR][WYMIAR]) {
 }
 
 int main() {
-
     omp_set_num_threads(3);
     double a[WYMIAR][WYMIAR];
-
     tablica(a);
-
     // Sekwencyjne obliczanie sumy
     double suma = suma_sekwencyjnie(a);
     printf("Suma wyrazów tablicy (sekwencyjnie): %lf\n", suma);
-
     // Dekompozycja wierszowa schedule static, rozmiar porcji=2
     double suma_rownolegle_wiersze_wynik = suma_rownolegle_wiersze(a);
     printf("Suma (wierszowa): %lf\n", suma_rownolegle_wiersze_wynik);
-
     // Dekompozycja kolumnowa - zrównoleglenie pętli wewnętrznej schedule dynamic, rozmiar porcji domyślny
     double suma_rownolegle_kolumny_wew_wynik = suma_rownolegle_kolumny_wew(a);
     printf("Suma (kolumnowa - wewnętrzna): %lf\n", suma_rownolegle_kolumny_wew_wynik);
-
     // Dekompozycja kolumnowa - zrównoleglenie pętli zewnętrznej
     double suma_rownolegle_kolumny_zew_wynik = suma_rownolegle_kolumny_zew(a);
     printf("Suma (kolumnowa - zewnętrzna): %lf\n", suma_rownolegle_kolumny_zew_wynik);
-
     return 0;
 }
