@@ -73,9 +73,6 @@ void inicjuj(czytelnia_t* czytelnia_p){
 }
 
 void czytam(czytelnia_t* czytelnia_p){
-
-
-
 	pthread_mutex_lock (&lock);
 	#ifdef MY_DEBUG
 	printf("liczba czytelnikow = %d, liczba pisarzy = %d\nliczba oczekujących czytelników = %d, liczba oczekujących pisarzy = %d\n",
@@ -93,8 +90,6 @@ void czytam(czytelnia_t* czytelnia_p){
 }
 
 void pisze(czytelnia_t* czytelnia_p){
-
-
 	pthread_mutex_lock (&lock);
 	#ifdef MY_DEBUG
 	printf("liczba czytelnikow = %d, liczba pisarzy = %d\nliczba oczekujących czytelników = %d, liczba oczekujących pisarzy = %d\n",

@@ -12,7 +12,6 @@ pthread_cond_t condition = PTHREAD_COND_INITIALIZER;
 void bariera_init(int n) {
     ilosc_watkow = n;
 }
-
 // Funkcja bariery
 void bariera() {
     pthread_mutex_lock(&lock);
