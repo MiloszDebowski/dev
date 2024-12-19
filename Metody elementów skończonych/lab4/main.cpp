@@ -138,6 +138,7 @@ double calculateEdgeLength(const Node& n1, const Node& n2) {
 struct Element {
     int id;
     vector<int> node_ids;
+    vector<double> vectorP; // Nowe pole na wektor P
 
     Element(int id, const vector<int>& nodes) : id(id), node_ids(nodes) {}
 

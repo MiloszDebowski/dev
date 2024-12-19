@@ -127,21 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CalculateGlobalHMatrix.cpp" />
-    <ClCompile Include="Element.cpp" />
-    <ClCompile Include="GlobalData.cpp" />
-    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Node.cpp" />
-    <ClCompile Include="Solve.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CalculateGlobalHMatrix.h" />
-    <ClInclude Include="Element.h" />
-    <ClInclude Include="GlobalData.h" />
-    <ClInclude Include="Grid.h" />
-    <ClInclude Include="Node.h" />
-    <ClInclude Include="Solve.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
