@@ -170,6 +170,7 @@ struct Element {
     vector<vector<double>> H_local;
     vector<vector<double>> HBC_local;
     vector<double> P_local;
+    vector<vector<double>> C_local;
 
     Element(int id, const vector<int>& nodes) : id(id), node_ids(nodes) {}
 
@@ -215,8 +216,12 @@ struct Element {
 
         H_local.assign(4, vector<double>(4, 0.0));
 
-        for (double xi : gauss_points) {
-            for (double eta : gauss_points) {
+        for (int i = 0; i < gauss_points_count; ++i) {
+            for (int j = 0; j < gauss_points_count; ++j) {
+                double xi = gauss_points[i];
+                double eta = gauss_points[j];
+                double weight = gauss_weights[i] * gauss_weights[j];
+
                 vector<double> dN_dxi = { -0.25 * (1 - eta), 0.25 * (1 - eta), 0.25 * (1 + eta), -0.25 * (1 + eta) };
                 vector<double> dN_deta = { -0.25 * (1 - xi), -0.25 * (1 + xi), 0.25 * (1 + xi), 0.25 * (1 - xi) };
 
@@ -242,12 +247,56 @@ struct Element {
 
                 for (int i = 0; i < 4; ++i) {
                     for (int j = 0; j < 4; j++) {
-                        H_local[i][j] += conductivity * (dN_dx[i] * dN_dx[j] + dN_dy[i] * dN_dy[j]) * detJ;
+                        H_local[i][j] += conductivity * (dN_dx[i] * dN_dx[j] + dN_dy[i] * dN_dy[j]) * detJ* weight;
                     }
                 }
             }
         }
     }
+
+    void calculateCMatrix(double density,double specificHeat, const vector<Node>&nodes, int gauss_points_count) {
+        vector<double> gauss_points, gauss_weights;
+        gauss_points = assignGaussPoints(gauss_points_count);
+        gauss_weights = assignGaussWeights(gauss_points_count);
+
+        C_local.assign(4, vector<double>(4, 0.0));
+
+        for (int i = 0; i < gauss_points_count; ++i) {
+            for (int j = 0; j < gauss_points_count; ++j) {
+                double xi = gauss_points[i];
+                double eta = gauss_points[j];
+                double weight = gauss_weights[i] * gauss_weights[j];
+
+                vector<double> dN_dxi = { -0.25 * (1 - eta), 0.25 * (1 - eta), 0.25 * (1 + eta), -0.25 * (1 + eta) };
+                vector<double> dN_deta = { -0.25 * (1 - xi), -0.25 * (1 + xi), 0.25 * (1 + xi), 0.25 * (1 - xi) };
+
+                
+
+                vector<double> N = {
+                0.25 * (1 - xi) * (1 - eta),
+                0.25 * (1 + xi) * (1 - eta),
+                0.25 * (1 + xi) * (1 + eta),
+                0.25 * (1 - xi) * (1 + eta)
+                };
+
+                double J11 = 0, J12 = 0, J21 = 0, J22 = 0;
+                for (int i = 0; i < 4; ++i) {
+                    J11 += dN_dxi[i] * nodes[node_ids[i] - 1].x;
+                    J12 += dN_dxi[i] * nodes[node_ids[i] - 1].y;
+                    J21 += dN_deta[i] * nodes[node_ids[i] - 1].x;
+                    J22 += dN_deta[i] * nodes[node_ids[i] - 1].y;
+                }
+                double detJ = J11 * J22 - J12 * J21;
+
+                for (int i = 0; i < 4; ++i) {
+                    for (int j = 0; j < 4; j++) {
+                        C_local[i][j] += density * specificHeat * N[i]*N[j] * detJ*weight;
+                    }
+                }
+            }
+        }
+    }
+    
 
     void calculateHBCMatrix(double tot, double alpha, const vector<Node>& nodes, int gauss_points_count) {
         vector<double> gauss_points, gauss_weights;
@@ -311,6 +360,15 @@ struct Element {
             cout << value << " ";
         }
     }
+
+    void printCLocal() {
+        for (const auto& row : C_local) {
+            for (double value : row) {
+                cout << setw(10) << fixed << setprecision(4) << value << " ";
+            }
+            cout << endl;
+        }
+    }
 };
 
 struct Grid {
@@ -319,6 +377,7 @@ struct Grid {
     vector<vector<double>> HBC_global;
     vector<vector<double>> H_global;
     vector<double> P_global;
+    vector<vector<double>> C_global;
 
     Grid(const vector<Node>& nodes, const vector<Element>& elements)
         : nodes(nodes), elements(elements) {}
@@ -357,6 +416,20 @@ struct Grid {
         }
     }
 
+    void calculateCMatrix() {
+        int NodeCount = nodes.size();
+        C_global.assign(NodeCount, vector<double>(NodeCount, 0.0));
+        for (const auto& element : elements) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    int global_i = element.node_ids[i] - 1;
+                    int global_j = element.node_ids[j] - 1;
+                    C_global[global_i][global_j] += element.C_local[i][j];
+                }
+            }
+        }
+    }
+
     void printGlobalHMatrix() const {
         cout << "\n\tGLOBAL H MATRIX:" << endl;
         for (const auto& row : H_global) {
@@ -367,8 +440,18 @@ struct Grid {
         }
     }
 
+    void printGlobalCMatrix() const {
+        cout << "\n\t GLOBAL C MATRIX:" << endl;
+        for (const auto& row : C_global) {
+            for (double value : row) {
+                cout << setw(10) << fixed << setprecision(4) << value << " ";
+            }
+            cout << endl;
+        }
+    }
+
     void printGlobalHBCMatrix() const {
-        cout << "\n\tGLOBAL H MATRIX:" << endl;
+        cout << "\n\tGLOBAL HBC MATRIX:" << endl;
         for (const auto& row : HBC_global) {
             for (double value : row) {
                 cout << setw(10) << fixed << setprecision(4) << value << " ";
@@ -417,12 +500,23 @@ struct Grid {
             cout << endl;
         }
     }
+
+    void printLocalCMatrices(double density, double specificHeat, int gauss_points_count) {
+        cout << "\n\n\tLOCAL C MATRICES\n\n";
+        for (auto& element : elements) {
+            cout << "\n\tLOCAL C MATRIX FOR ELEMENT: " << element.id << endl;
+            element.calculateCMatrix(density, specificHeat, nodes, gauss_points_count);
+            element.printCLocal();
+            cout << endl;
+        }
+    }
 };
 
 struct Solver {
     vector<double> Solution;
+    vector<double> CTemp;
 
-    void solve(Grid& grid) {
+    void solveT(Grid& grid) {
         int n = grid.HBC_global.size();
 
         if (n == 0 || grid.HBC_global[0].size() != n) {
@@ -479,12 +573,16 @@ struct Solver {
             cout << fixed << setprecision(4) << Solution[i] << endl;
         }
     }
+
+    void solveCTemp(Grid& grid) {
+
+    }
 };
 
 int main(void) {
 
-    //string grid_file = "../siatki/Test1_4_4.txt";
-    string grid_file = "../siatki/Test2_4_4_MixGrid.txt";
+    string grid_file = "../siatki/Test1_4_4.txt";
+    //string grid_file = "../siatki/Test2_4_4_MixGrid.txt";
 
     GlobalData global_data = GlobalData::readData(grid_file);
     global_data.print();
@@ -505,8 +603,12 @@ int main(void) {
     grid.printGlobalHBCMatrix();
 
     Solver solution;
-    solution.solve(grid);
+    solution.solveT(grid);
     solution.print();
+
+    grid.printLocalCMatrices(global_data.Density, global_data.SpecificHeat, gauss_points_count);
+    grid.calculateCMatrix();
+    grid.printGlobalCMatrix();
 
     return 0;
 }
