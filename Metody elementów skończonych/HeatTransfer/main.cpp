@@ -247,14 +247,14 @@ struct Element {
 
                 for (int i = 0; i < 4; ++i) {
                     for (int j = 0; j < 4; j++) {
-                        H_local[i][j] += conductivity * (dN_dx[i] * dN_dx[j] + dN_dy[i] * dN_dy[j]) * detJ* weight;
+                        H_local[i][j] += conductivity * (dN_dx[i] * dN_dx[j] + dN_dy[i] * dN_dy[j]) * detJ * weight;
                     }
                 }
             }
         }
     }
 
-    void calculateCMatrix(double density,double specificHeat, const vector<Node>&nodes, int gauss_points_count) {
+    void calculateCMatrix(double density, double specificHeat, const vector<Node>& nodes, int gauss_points_count) {
         vector<double> gauss_points, gauss_weights;
         gauss_points = assignGaussPoints(gauss_points_count);
         gauss_weights = assignGaussWeights(gauss_points_count);
@@ -270,7 +270,7 @@ struct Element {
                 vector<double> dN_dxi = { -0.25 * (1 - eta), 0.25 * (1 - eta), 0.25 * (1 + eta), -0.25 * (1 + eta) };
                 vector<double> dN_deta = { -0.25 * (1 - xi), -0.25 * (1 + xi), 0.25 * (1 + xi), 0.25 * (1 - xi) };
 
-                
+
 
                 vector<double> N = {
                 0.25 * (1 - xi) * (1 - eta),
@@ -290,13 +290,13 @@ struct Element {
 
                 for (int i = 0; i < 4; ++i) {
                     for (int j = 0; j < 4; j++) {
-                        C_local[i][j] += density * specificHeat * N[i]*N[j] * detJ*weight;
+                        C_local[i][j] += density * specificHeat * N[i] * N[j] * detJ * weight;
                     }
                 }
             }
         }
     }
-    
+
 
     void calculateHBCMatrix(double tot, double alpha, const vector<Node>& nodes, int gauss_points_count) {
         vector<double> gauss_points, gauss_weights;
@@ -579,6 +579,96 @@ struct Solver {
     }
 };
 
+struct Simulation {
+    Grid& grid;
+    GlobalData& globalData;
+
+    Simulation(Grid& grid, GlobalData& globalData) : grid(grid), globalData(globalData) {}
+
+    void run() {
+        int numNodes = grid.nodes.size();
+        vector<double> t_prev(numNodes, globalData.InitialTemp);
+        vector<double> t_curr(numNodes);
+
+        double simulationTime = globalData.SimulationTime;
+        double timeStep = globalData.SimulationStepTime;
+
+        cout << "\n\tSIMULATION START\n" << endl;
+
+        for (double currentTime = 0.0; currentTime < simulationTime; currentTime += timeStep) {
+            cout << "SIMULATION TIME: " << currentTime << " s" << endl;
+
+            // Oblicz H + C/dt
+            vector<vector<double>> H_total = grid.HBC_global;
+            for (int i = 0; i < numNodes; ++i) {
+                for (int j = 0; j < numNodes; ++j) {
+                    H_total[i][j] += grid.C_global[i][j] / timeStep;
+                }
+            }
+
+            // Oblicz P + (C/dt)*T_prev
+            vector<double> P_total = grid.P_global;
+            for (int i = 0; i < numNodes; ++i) {
+                for (int j = 0; j < numNodes; ++j) {
+                    P_total[i] += grid.C_global[i][j] / timeStep * t_prev[j];
+                }
+            }
+
+            // Rozwi¹¿ równanie H_total * t_curr = P_total
+            t_curr = solveSystem(H_total, P_total);
+
+            // Wypisz wynik dla t1
+            cout << "T1 = " << t_curr[0]<<"\t" << endl;
+
+            // PrzejdŸ do kolejnego kroku czasowego
+            t_prev = t_curr;
+        }
+
+        cout << "\n\tEND OF SIMULATION\n" << endl;
+    }
+
+    vector<double> solveSystem(const vector<vector<double>>& A, const vector<double>& b) {
+        // Prosty solver Gaussa – zak³adamy, ¿e A jest kwadratowa i pe³noranga
+        int n = b.size();
+        vector<vector<double>> augmentedMatrix(n, vector<double>(n + 1));
+
+        // Tworzenie macierzy rozszerzonej
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                augmentedMatrix[i][j] = A[i][j];
+            }
+            augmentedMatrix[i][n] = b[i];
+        }
+
+        // Eliminacja Gaussa
+        for (int i = 0; i < n; ++i) {
+            // Normalizacja wiersza
+            double pivot = augmentedMatrix[i][i];
+            for (int j = 0; j <= n; ++j) {
+                augmentedMatrix[i][j] /= pivot;
+            }
+
+            // Odejmowanie wierszy
+            for (int k = 0; k < n; ++k) {
+                if (k != i) {
+                    double factor = augmentedMatrix[k][i];
+                    for (int j = 0; j <= n; ++j) {
+                        augmentedMatrix[k][j] -= factor * augmentedMatrix[i][j];
+                    }
+                }
+            }
+        }
+
+        // Wyodrêbnienie rozwi¹zañ
+        vector<double> solution(n);
+        for (int i = 0; i < n; ++i) {
+            solution[i] = augmentedMatrix[i][n];
+        }
+
+        return solution;
+    }
+};
+
 int main(void) {
 
     string grid_file = "../siatki/Test1_4_4.txt";
@@ -609,6 +699,13 @@ int main(void) {
     grid.printLocalCMatrices(global_data.Density, global_data.SpecificHeat, gauss_points_count);
     grid.calculateCMatrix();
     grid.printGlobalCMatrix();
+
+
+
+
+    Simulation simulation(grid, global_data);
+
+    simulation.run();
 
     return 0;
 }
