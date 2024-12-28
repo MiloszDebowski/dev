@@ -6,6 +6,7 @@
 #include<cmath>
 #include<cstring>
 #include<string>
+#include<algorithm>
 
 using namespace std;
 
@@ -513,8 +514,7 @@ struct Grid {
 };
 
 struct Solver {
-    vector<double> Solution;
-    vector<double> CTemp;
+    vector<double> TempVector;
 
     void solveT(Grid& grid) {
         int n = grid.HBC_global.size();
@@ -523,7 +523,7 @@ struct Solver {
             throw invalid_argument("HBC_global is not a square matrix.");
         }
 
-        Solution.assign(n, 0.0);
+        TempVector.assign(n, 0.0);
 
         vector<vector<double>> H = grid.HBC_global;
 
@@ -558,8 +558,7 @@ struct Solver {
 
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
-                Solution[i] += I[i][j] * grid.P_global[j];
-                //Solution[i] += grid.HBC_global[i][j] * grid.P_global[j];
+                TempVector[i] += I[i][j] * grid.P_global[j];
             }
         }
 
@@ -568,15 +567,17 @@ struct Solver {
     }
 
     void print() {
-        cout << "\n\nSolution:\n";
-        for (size_t i = 0; i < Solution.size(); ++i) {
-            cout << fixed << setprecision(4) << Solution[i] << endl;
+        cout << "\n\n[T] =  [";
+        for (size_t i = 0; i < TempVector.size(); ++i) {
+            cout << fixed << setprecision(4) << TempVector[i];
+            if (i != TempVector.size() - 1) {
+                cout << ", ";
+            }
         }
+        cout << "]" << endl;
     }
 
-    void solveCTemp(Grid& grid) {
 
-    }
 };
 
 struct Simulation {
@@ -586,46 +587,44 @@ struct Simulation {
     Simulation(Grid& grid, GlobalData& globalData) : grid(grid), globalData(globalData) {}
 
     void run() {
-        int numNodes = grid.nodes.size();
-        vector<double> t_prev(numNodes, globalData.InitialTemp);
-        vector<double> t_curr(numNodes);
 
+        int numSteps = globalData.SimulationTime / globalData.SimulationStepTime;
+        double dt = globalData.SimulationStepTime;
         double simulationTime = globalData.SimulationTime;
-        double timeStep = globalData.SimulationStepTime;
+        vector<double> T0(grid.nodes.size(), globalData.InitialTemp);
+        vector<double> T1(grid.nodes.size(), 0.0);
 
-        cout << "\n\tSIMULATION START\n" << endl;
-
-        for (double currentTime = 0.0; currentTime < simulationTime; currentTime += timeStep) {
-            cout << "SIMULATION TIME: " << currentTime << " s" << endl;
-
-            // Oblicz H + C/dt
-            vector<vector<double>> H_total = grid.HBC_global;
-            for (int i = 0; i < numNodes; ++i) {
-                for (int j = 0; j < numNodes; ++j) {
-                    H_total[i][j] += grid.C_global[i][j] / timeStep;
+        for (int step = 0; step < numSteps; ++step) {
+            // Tworzenie macierzy lewej strony: [H] + [C]/dt
+            vector<vector<double>> leftMatrix = grid.H_global;
+            for (size_t i = 0; i < grid.C_global.size(); ++i) {
+                for (size_t j = 0; j < grid.C_global[i].size(); ++j) {
+                    leftMatrix[i][j] += grid.C_global[i][j] / dt;
                 }
             }
 
-            // Oblicz P + (C/dt)*T_prev
-            vector<double> P_total = grid.P_global;
-            for (int i = 0; i < numNodes; ++i) {
-                for (int j = 0; j < numNodes; ++j) {
-                    P_total[i] += grid.C_global[i][j] / timeStep * t_prev[j];
+            // Tworzenie wektora prawej strony: [C]/dt * {T0} + {P}
+            vector<double> rightVector(grid.P_global);
+            for (size_t i = 0; i < grid.C_global.size(); ++i) {
+                for (size_t j = 0; j < grid.C_global[i].size(); ++j) {
+                    rightVector[i] += grid.C_global[i][j] / dt * T0[j];
                 }
             }
 
-            // Rozwi¹¿ równanie H_total * t_curr = P_total
-            t_curr = solveSystem(H_total, P_total);
+            // Rozwi¹zywanie uk³adu równañ: leftMatrix * T1 = rightVector
+            // Zak³adamy prosty algorytm eliminacji Gaussa (lub dowolny solver równañ liniowych)
+            T1 = solveSystem(leftMatrix, rightVector);
 
-            // Wypisz wynik dla t1
-            cout << "T1 = " << t_curr[0]<<"\t" << endl;
+            // ZnajdŸ minimaln¹ i maksymaln¹ temperaturê w bie¿¹cym kroku czasowym
+            double minTemp = *min_element(T1.begin(), T1.end());
+            double maxTemp = *max_element(T1.begin(), T1.end());
+            cout << minTemp << "     " << maxTemp << endl;
 
-            // PrzejdŸ do kolejnego kroku czasowego
-            t_prev = t_curr;
+            // Aktualizacja T0 dla nastêpnego kroku
+            T0 = T1;
         }
-
-        cout << "\n\tEND OF SIMULATION\n" << endl;
     }
+    
 
     vector<double> solveSystem(const vector<vector<double>>& A, const vector<double>& b) {
         // Prosty solver Gaussa – zak³adamy, ¿e A jest kwadratowa i pe³noranga
