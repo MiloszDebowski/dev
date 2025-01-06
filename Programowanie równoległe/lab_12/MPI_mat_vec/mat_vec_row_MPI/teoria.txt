@@ -1,0 +1,31 @@
+Różnice między komunikacją punkt-punkt a komunikacją grupową
+Komunikacja punkt-punkt:
+
+Każdy proces ma możliwość swobodnego określania, jakie dane są wysyłane i odbierane.
+Sekwencja komunikatów punkt-punkt pozwala na większą elastyczność w 
+projektowaniu logiki przesyłania danych. Każdy proces może niezależnie decydować,
+ od kogo odbiera dane i komu je wysyła, co może być szczególnie przydatne w nieregularnych
+  schematach komunikacji.
+Komunikacja grupowa (np. MPI_Bcast, MPI_Scatter, MPI_Gather):
+
+Dane są przesyłane w sposób zdefiniowany przez bibliotekę MPI i zależny od rangi procesów.
+Zakłada się, że struktura danych jest zorganizowana w sposób jednolity, co 
+zmniejsza elastyczność, ale upraszcza implementację. Procesy muszą przestrzegać ustalonego 
+schematu rozdzielania danych (np. podział blokowy wierszy w kodzie).
+Założenia MPI w przypadku komunikacji grupowej
+MPI zakłada, że:
+
+Dane są podzielone w sposób regularny lub przewidywalny (np. podział blokowy, cykliczny).
+Wszystkie procesy uczestniczące w operacji grupowej mają zgodne informacje o rozmiarze 
+i lokalizacji danych (np. liczba wierszy przypadających na proces jest określona przez 
+rangi i wielkość grupy).
+Kolejność i rozmieszczenie danych są z góry ustalone i zależą od rangi procesów.
+Zastosowanie w kodzie
+W dostarczonym kodzie przy komunikacji grupowej (np. MPI_Scatter, MPI_Allgather) 
+wykorzystano regularny podział danych na bloki wierszy, zależny od rangi procesu. 
+Wynika to z konwencji MPI, ale alternatywna implementacja przy użyciu komunikacji 
+punkt-punkt mogłaby:
+
+Dostosować przesyłane dane indywidualnie dla każdego procesu.
+Umożliwić bardziej nieregularne podziały danych, np. dla aplikacji z 
+dynamicznymi obciążeniami.
