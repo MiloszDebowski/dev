@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 #include<fstream>
 #include<sstream>
 #include<iomanip>
@@ -134,12 +134,26 @@ struct Node {
 };
 
 vector<double> assignGaussPoints(int n) {
-    vector<double>gaussPoints;
+    vector<double> gaussPoints;
     if (n == 2) {
-        gaussPoints = { -1.0 / sqrt(3), 1.0 / sqrt(3) };
+        gaussPoints = { 
+            -1.0 / sqrt(3),
+            1.0 / sqrt(3)
+        };
     }
     else if (n == 3) {
-        gaussPoints = { -sqrt(3.0 / 5.0), 0.0, sqrt(3.0 / 5.0) };
+        gaussPoints = { 
+            -sqrt(3.0 / 5.0), 0.0,
+            sqrt(3.0 / 5.0)
+        };
+    }
+    else if (n == 4) {
+        gaussPoints = {
+            -sqrt((3.0 + 2.0 * sqrt(6.0 / 5.0)) / 7.0),
+            -sqrt((3.0 - 2.0 * sqrt(6.0 / 5.0)) / 7.0),
+             sqrt((3.0 - 2.0 * sqrt(6.0 / 5.0)) / 7.0),
+             sqrt((3.0 + 2.0 * sqrt(6.0 / 5.0)) / 7.0)
+        };
     }
     else {
         throw invalid_argument("Unsupported number of Gauss points.");
@@ -148,18 +162,34 @@ vector<double> assignGaussPoints(int n) {
 }
 
 vector<double> assignGaussWeights(int n) {
-    vector<double>gaussWeights;
+    vector<double> gaussWeights;
     if (n == 2) {
-        gaussWeights = { 1.0, 1.0 };
+        gaussWeights = {
+            1.0,
+            1.0
+        };
     }
     else if (n == 3) {
-        gaussWeights = { 5.0 / 9.0, 8.0 / 9.0, 5.0 / 9.0 };
+        gaussWeights = {
+            5.0 / 9.0,
+            8.0 / 9.0,
+            5.0 / 9.0
+        };
+    }
+    else if (n == 4) {
+        gaussWeights = {
+            (18.0 - sqrt(30.0)) / 36.0,
+            (18.0 + sqrt(30.0)) / 36.0,
+            (18.0 + sqrt(30.0)) / 36.0,
+            (18.0 - sqrt(30.0)) / 36.0
+        };
     }
     else {
         throw invalid_argument("Unsupported number of Gauss points.");
     }
     return gaussWeights;
 }
+
 
 double calculateEdgeLength(const Node& n1, const Node& n2) {
     return sqrt(pow(n2.x - n1.x, 2) + pow(n2.y - n1.y, 2));
@@ -587,47 +617,78 @@ struct Simulation {
     Simulation(Grid& grid, GlobalData& globalData) : grid(grid), globalData(globalData) {}
 
     void run() {
+        int numNodes = grid.nodes.size();
+        vector<double> t_prev(numNodes, globalData.InitialTemp);
+        vector<double> t_curr(numNodes);
 
-        int numSteps = globalData.SimulationTime / globalData.SimulationStepTime;
-        double dt = globalData.SimulationStepTime;
+        vector<double> maxTemperatures; // Wektor maksymalnych temperatur
+        vector<double> minTemperatures; // Wektor minimalnych temperatur
+
         double simulationTime = globalData.SimulationTime;
-        vector<double> T0(grid.nodes.size(), globalData.InitialTemp);
-        vector<double> T1(grid.nodes.size(), 0.0);
+        double timeStep = globalData.SimulationStepTime;
 
-        for (int step = 0; step < numSteps; ++step) {
-            // Tworzenie macierzy lewej strony: [H] + [C]/dt
-            vector<vector<double>> leftMatrix = grid.H_global;
-            for (size_t i = 0; i < grid.C_global.size(); ++i) {
-                for (size_t j = 0; j < grid.C_global[i].size(); ++j) {
-                    leftMatrix[i][j] += grid.C_global[i][j] / dt;
+        cout << endl << "\tSIMULATION START" << endl << endl;
+        cout << "SIMULATION DURATION: " << simulationTime << "s" << endl;
+        cout << "SIMULATION TIME STEP : "<<timeStep<<"s"<<endl<<endl;
+
+        for (double currentTime = 0.0; currentTime < simulationTime; currentTime += timeStep) {
+            cout << "SIMULATION TIME: " << currentTime << " s" << endl;
+
+            // Oblicz H + C/dt
+            vector<vector<double>> H_total = grid.HBC_global;
+            for (int i = 0; i < numNodes; ++i) {
+                for (int j = 0; j < numNodes; ++j) {
+                    H_total[i][j] += grid.C_global[i][j] / timeStep;
                 }
             }
 
-            // Tworzenie wektora prawej strony: [C]/dt * {T0} + {P}
-            vector<double> rightVector(grid.P_global);
-            for (size_t i = 0; i < grid.C_global.size(); ++i) {
-                for (size_t j = 0; j < grid.C_global[i].size(); ++j) {
-                    rightVector[i] += grid.C_global[i][j] / dt * T0[j];
+            // Oblicz P + (C/dt)*T_prev
+            vector<double> P_total = grid.P_global;
+            for (int i = 0; i < numNodes; ++i) {
+                for (int j = 0; j < numNodes; ++j) {
+                    P_total[i] += grid.C_global[i][j] / timeStep * t_prev[j];
                 }
             }
 
-            // Rozwi¹zywanie uk³adu równañ: leftMatrix * T1 = rightVector
-            // Zak³adamy prosty algorytm eliminacji Gaussa (lub dowolny solver równañ liniowych)
-            T1 = solveSystem(leftMatrix, rightVector);
+            // RozwiÄ…Å¼ rÃ³wnanie H_total * t_curr = P_total
+            t_curr = solveSystem(H_total, P_total);
 
-            // ZnajdŸ minimaln¹ i maksymaln¹ temperaturê w bie¿¹cym kroku czasowym
-            double minTemp = *min_element(T1.begin(), T1.end());
-            double maxTemp = *max_element(T1.begin(), T1.end());
-            cout << minTemp << "     " << maxTemp << endl;
+            // Wypisz temperatury w kaÅ¼dym punkcie
+            for (int i = 0; i < numNodes; ++i) {
+                cout << setw(10) << "T[" << i << "] = " << t_curr[i];
+                if ((i + 1) % 4 == 0) { cout << endl; }
+            }
+            cout << endl;
 
-            // Aktualizacja T0 dla nastêpnego kroku
-            T0 = T1;
+            // Dodaj maksymalnÄ… i minimalnÄ… temperaturÄ™ do odpowiednich wektorÃ³w
+            double maxTemp = *max_element(t_curr.begin(), t_curr.end());
+            double minTemp = *min_element(t_curr.begin(), t_curr.end());
+            maxTemperatures.push_back(maxTemp);
+            minTemperatures.push_back(minTemp);
+
+            cout << "Max temperature this step: " << maxTemp << endl;
+            cout << "Min temperature this step: " << minTemp << endl << endl;;
+
+            // PrzejdÅº do kolejnego kroku czasowego
+            t_prev = t_curr;
         }
+
+        cout << "\n\tEND OF SIMULATION\n" << endl;
+
+        // Wypisz wektory maksymalnych i minimalnych temperatur
+        cout << "\nMax Temperatures during simulation:" << endl;
+        for (double temp : maxTemperatures) {
+            cout << temp << " ";
+        }
+        cout << "\n\nMin Temperatures during simulation:" << endl;
+        for (double temp : minTemperatures) {
+            cout << temp << " ";
+        }
+        cout << endl;
     }
-    
 
     vector<double> solveSystem(const vector<vector<double>>& A, const vector<double>& b) {
-        // Prosty solver Gaussa – zak³adamy, ¿e A jest kwadratowa i pe³noranga
+        // Prosty solver Gaussa â€“ zakÅ‚adamy, Å¼e A jest kwadratowa i peÅ‚noranga
         int n = b.size();
         vector<vector<double>> augmentedMatrix(n, vector<double>(n + 1));
 
@@ -658,15 +719,15 @@ struct Simulation {
             }
         }
 
-        // Wyodrêbnienie rozwi¹zañ
+        // WyodrÄ™bnienie rozwiÄ…zaÅ„
         vector<double> solution(n);
         for (int i = 0; i < n; ++i) {
             solution[i] = augmentedMatrix[i][n];
         }
-
         return solution;
     }
 };
+
 
 int main(void) {
 
