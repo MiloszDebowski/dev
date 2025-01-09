@@ -678,11 +678,11 @@ struct Simulation {
         // Wypisz wektory maksymalnych i minimalnych temperatur
         cout << "\nMax Temperatures during simulation:" << endl;
         for (double temp : maxTemperatures) {
-            cout << temp << " ";
+            cout <<setprecision(11)<< temp << " ";
         }
         cout << "\n\nMin Temperatures during simulation:" << endl;
         for (double temp : minTemperatures) {
-            cout << temp << " ";
+            cout << setprecision(11)<<temp << " ";
         }
         cout << endl;
     }
@@ -690,30 +690,30 @@ struct Simulation {
     vector<double> solveSystem(const vector<vector<double>>& A, const vector<double>& b) {
         // Prosty solver Gaussa – zakładamy, że A jest kwadratowa i pełnoranga
         int n = b.size();
-        vector<vector<double>> augmentedMatrix(n, vector<double>(n + 1));
+        vector<vector<double>> extendedMatrix(n, vector<double>(n + 1));
 
         // Tworzenie macierzy rozszerzonej
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
-                augmentedMatrix[i][j] = A[i][j];
+                extendedMatrix[i][j] = A[i][j];
             }
-            augmentedMatrix[i][n] = b[i];
+            extendedMatrix[i][n] = b[i];
         }
 
         // Eliminacja Gaussa
         for (int i = 0; i < n; ++i) {
             // Normalizacja wiersza
-            double pivot = augmentedMatrix[i][i];
+            double pivot = extendedMatrix[i][i];
             for (int j = 0; j <= n; ++j) {
-                augmentedMatrix[i][j] /= pivot;
+                extendedMatrix[i][j] /= pivot;
             }
 
             // Odejmowanie wierszy
             for (int k = 0; k < n; ++k) {
                 if (k != i) {
-                    double factor = augmentedMatrix[k][i];
+                    double factor = extendedMatrix[k][i];
                     for (int j = 0; j <= n; ++j) {
-                        augmentedMatrix[k][j] -= factor * augmentedMatrix[i][j];
+                        extendedMatrix[k][j] -= factor * extendedMatrix[i][j];
                     }
                 }
             }
@@ -722,7 +722,7 @@ struct Simulation {
         // Wyodrębnienie rozwiązań
         vector<double> solution(n);
         for (int i = 0; i < n; ++i) {
-            solution[i] = augmentedMatrix[i][n];
+            solution[i] = extendedMatrix[i][n];
         }
         return solution;
     }
@@ -733,6 +733,7 @@ int main(void) {
 
     string grid_file = "../siatki/Test1_4_4.txt";
     //string grid_file = "../siatki/Test2_4_4_MixGrid.txt";
+    //string grid_file = "../siatki/Test3_31_31_kwadrat.txt";
 
     GlobalData global_data = GlobalData::readData(grid_file);
     global_data.print();
@@ -743,7 +744,7 @@ int main(void) {
     Grid grid(nodes, elements);
     grid.print();
 
-    int gauss_points_count = 2;
+    int gauss_points_count = 3;
     grid.printLocalHMatrices(global_data.Conductivity, gauss_points_count);
     grid.printLocalHBCMatrices(global_data.Tot, global_data.Alfa, gauss_points_count);
 
