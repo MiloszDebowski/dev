@@ -249,31 +249,36 @@ struct Element {
 
         for (int i = 0; i < gauss_points_count; ++i) {
             for (int j = 0; j < gauss_points_count; ++j) {
-                double xi = gauss_points[i];
+                double ksi = gauss_points[i];
                 double eta = gauss_points[j];
                 double weight = gauss_weights[i] * gauss_weights[j];
 
-                vector<double> dN_dxi = { -0.25 * (1 - eta), 0.25 * (1 - eta), 0.25 * (1 + eta), -0.25 * (1 + eta) };
-                vector<double> dN_deta = { -0.25 * (1 - xi), -0.25 * (1 + xi), 0.25 * (1 + xi), 0.25 * (1 - xi) };
 
+                //funkcje kształtu
+                vector<double> dN_dksi = { -0.25 * (1 - eta), 0.25 * (1 - eta), 0.25 * (1 + eta), -0.25 * (1 + eta) };
+                vector<double> dN_deta = { -0.25 * (1 - ksi), -0.25 * (1 + ksi), 0.25 * (1 + ksi), 0.25 * (1 - ksi) };
+
+                //jakobiego
                 double J11 = 0, J12 = 0, J21 = 0, J22 = 0;
                 for (int i = 0; i < 4; ++i) {
-                    J11 += dN_dxi[i] * nodes[node_ids[i] - 1].x;
-                    J12 += dN_dxi[i] * nodes[node_ids[i] - 1].y;
+                    J11 += dN_dksi[i] * nodes[node_ids[i] - 1].x;
+                    J12 += dN_dksi[i] * nodes[node_ids[i] - 1].y;
                     J21 += dN_deta[i] * nodes[node_ids[i] - 1].x;
                     J22 += dN_deta[i] * nodes[node_ids[i] - 1].y;
                 }
                 double detJ = J11 * J22 - J12 * J21;
 
+                
                 double invJ11 = J22 / detJ;
                 double invJ12 = -J12 / detJ;
                 double invJ21 = -J21 / detJ;
                 double invJ22 = J11 / detJ;
 
+               
                 vector<double> dN_dx(4), dN_dy(4);
                 for (int i = 0; i < 4; ++i) {
-                    dN_dx[i] = invJ11 * dN_dxi[i] + invJ12 * dN_deta[i];
-                    dN_dy[i] = invJ21 * dN_dxi[i] + invJ22 * dN_deta[i];
+                    dN_dx[i] = invJ11 * dN_dksi[i] + invJ12 * dN_deta[i];
+                    dN_dy[i] = invJ21 * dN_dksi[i] + invJ22 * dN_deta[i];
                 }
 
                 for (int i = 0; i < 4; ++i) {
@@ -294,26 +299,27 @@ struct Element {
 
         for (int i = 0; i < gauss_points_count; ++i) {
             for (int j = 0; j < gauss_points_count; ++j) {
-                double xi = gauss_points[i];
+                double ksi = gauss_points[i];
                 double eta = gauss_points[j];
                 double weight = gauss_weights[i] * gauss_weights[j];
 
-                vector<double> dN_dxi = { -0.25 * (1 - eta), 0.25 * (1 - eta), 0.25 * (1 + eta), -0.25 * (1 + eta) };
-                vector<double> dN_deta = { -0.25 * (1 - xi), -0.25 * (1 + xi), 0.25 * (1 + xi), 0.25 * (1 - xi) };
+                
+                vector<double> dN_dksi = { -0.25 * (1 - eta), 0.25 * (1 - eta), 0.25 * (1 + eta), -0.25 * (1 + eta) };
+                vector<double> dN_deta = { -0.25 * (1 - ksi), -0.25 * (1 + ksi), 0.25 * (1 + ksi), 0.25 * (1 - ksi) };
 
 
 
                 vector<double> N = {
-                0.25 * (1 - xi) * (1 - eta),
-                0.25 * (1 + xi) * (1 - eta),
-                0.25 * (1 + xi) * (1 + eta),
-                0.25 * (1 - xi) * (1 + eta)
+                0.25 * (1 - ksi) * (1 - eta),
+                0.25 * (1 + ksi) * (1 - eta),
+                0.25 * (1 + ksi) * (1 + eta),
+                0.25 * (1 - ksi) * (1 + eta)
                 };
 
                 double J11 = 0, J12 = 0, J21 = 0, J22 = 0;
                 for (int i = 0; i < 4; ++i) {
-                    J11 += dN_dxi[i] * nodes[node_ids[i] - 1].x;
-                    J12 += dN_dxi[i] * nodes[node_ids[i] - 1].y;
+                    J11 += dN_dksi[i] * nodes[node_ids[i] - 1].x;
+                    J12 += dN_dksi[i] * nodes[node_ids[i] - 1].y;
                     J21 += dN_deta[i] * nodes[node_ids[i] - 1].x;
                     J22 += dN_deta[i] * nodes[node_ids[i] - 1].y;
                 }
@@ -386,7 +392,7 @@ struct Element {
             }
             cout << endl;
         }
-        cout << "BC: ";
+        cout << "P: ";
         for (const auto& value : P_local) {
             cout << value << " ";
         }
@@ -543,72 +549,6 @@ struct Grid {
     }
 };
 
-struct Solver {
-    vector<double> TempVector;
-
-    void solveT(Grid& grid) {
-        int n = grid.HBC_global.size();
-
-        if (n == 0 || grid.HBC_global[0].size() != n) {
-            throw invalid_argument("HBC_global is not a square matrix.");
-        }
-
-        TempVector.assign(n, 0.0);
-
-        vector<vector<double>> H = grid.HBC_global;
-
-        //macierz jednostkowa
-        vector<vector<double>> I(n, vector<double>(n, 0.0));
-        for (int i = 0; i < n; ++i) {
-            I[i][i] = 1.0;
-        }
-
-        //eliminacja gaussa
-        for (int i = 0; i < n; ++i) {
-            //jedynki na przekatnej
-            double diag = H[i][i];
-            if (diag == 0.0) {
-                throw invalid_argument("Matrix cannot be inverted.");
-            }
-            for (int j = 0; j < n; ++j) {
-                H[i][j] /= diag;
-                I[i][j] /= diag;
-            }
-
-            //zero pod przekatna
-            for (int k = 0; k < n; ++k) {
-                if (k == i) continue;
-                double factor = H[k][i];
-                for (int j = 0; j < n; ++j) {
-                    H[k][j] -= factor * H[i][j];
-                    I[k][j] -= factor * I[i][j];
-                }
-            }
-        }
-
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                TempVector[i] += I[i][j] * grid.P_global[j];
-            }
-        }
-
-
-
-    }
-
-    void print() {
-        cout << "\n\n[T] =  [";
-        for (size_t i = 0; i < TempVector.size(); ++i) {
-            cout << fixed << setprecision(4) << TempVector[i];
-            if (i != TempVector.size() - 1) {
-                cout << ", ";
-            }
-        }
-        cout << "]" << endl;
-    }
-
-
-};
 
 struct Simulation {
     Grid& grid;
@@ -621,20 +561,21 @@ struct Simulation {
         vector<double> t_prev(numNodes, globalData.InitialTemp);
         vector<double> t_curr(numNodes);
 
-        vector<double> maxTemperatures; // Wektor maksymalnych temperatur
-        vector<double> minTemperatures; // Wektor minimalnych temperatur
+        vector<double> maxTemperatures;
+        vector<double> minTemperatures;
+        vector<double> timeSteps;
 
         double simulationTime = globalData.SimulationTime;
         double timeStep = globalData.SimulationStepTime;
 
         cout << endl << "\tSIMULATION START" << endl << endl;
         cout << "SIMULATION DURATION: " << simulationTime << "s" << endl;
-        cout << "SIMULATION TIME STEP : "<<timeStep<<"s"<<endl<<endl;
+        cout << "SIMULATION TIME STEP : " << timeStep << "s" << endl << endl;
 
         for (double currentTime = 0.0; currentTime < simulationTime; currentTime += timeStep) {
-            cout << "SIMULATION TIME: " << currentTime << " s" << endl;
+            cout << "SIMULATION TIME: " << currentTime + timeStep << " s" << endl;
 
-            // Oblicz H + C/dt
+            //H + C/dt
             vector<vector<double>> H_total = grid.HBC_global;
             for (int i = 0; i < numNodes; ++i) {
                 for (int j = 0; j < numNodes; ++j) {
@@ -642,7 +583,7 @@ struct Simulation {
                 }
             }
 
-            // Oblicz P + (C/dt)*T_prev
+            // Calculate P + (C/dt)*T_prev
             vector<double> P_total = grid.P_global;
             for (int i = 0; i < numNodes; ++i) {
                 for (int j = 0; j < numNodes; ++j) {
@@ -650,49 +591,67 @@ struct Simulation {
                 }
             }
 
-            // Rozwiąż równanie H_total * t_curr = P_total
-            t_curr = solveSystem(H_total, P_total);
+            //H_total * t_curr = P_total
+            t_curr = solveAb(H_total, P_total);
 
-            // Wypisz temperatury w każdym punkcie
             for (int i = 0; i < numNodes; ++i) {
                 cout << setw(10) << "T[" << i << "] = " << t_curr[i];
                 if ((i + 1) % 4 == 0) { cout << endl; }
             }
             cout << endl;
 
-            // Dodaj maksymalną i minimalną temperaturę do odpowiednich wektorów
             double maxTemp = *max_element(t_curr.begin(), t_curr.end());
             double minTemp = *min_element(t_curr.begin(), t_curr.end());
             maxTemperatures.push_back(maxTemp);
             minTemperatures.push_back(minTemp);
+            timeSteps.push_back(currentTime);
 
             cout << "Max temperature this step: " << maxTemp << endl;
-            cout << "Min temperature this step: " << minTemp << endl << endl;;
+            cout << "Min temperature this step: " << minTemp << endl << endl;
 
-            // Przejdź do kolejnego kroku czasowego
             t_prev = t_curr;
         }
 
         cout << "\n\tEND OF SIMULATION\n" << endl;
 
-        // Wypisz wektory maksymalnych i minimalnych temperatur
+        saveTemperaturesToFile(timeSteps, maxTemperatures, minTemperatures, "temperature_data.csv");
+
         cout << "\nMax Temperatures during simulation:" << endl;
         for (double temp : maxTemperatures) {
-            cout <<setprecision(11)<< temp << " ";
+            cout << setprecision(11) << temp << " ";
         }
         cout << "\n\nMin Temperatures during simulation:" << endl;
         for (double temp : minTemperatures) {
-            cout << setprecision(11)<<temp << " ";
+            cout << setprecision(11) << temp << " ";
         }
         cout << endl;
     }
 
-    vector<double> solveSystem(const vector<vector<double>>& A, const vector<double>& b) {
-        // Prosty solver Gaussa – zakładamy, że A jest kwadratowa i pełnoranga
+    void saveTemperaturesToFile(const vector<double>& timeSteps, const vector<double>& maxTemps, const vector<double>& minTemps, const string& filename) {
+        ofstream outFile(filename);
+        if (!outFile.is_open()) {
+            cerr << "Error: Could not open file " << filename << endl;
+            return;
+        }
+
+        
+        outFile << "Time,MaxTemperature,MinTemperature" << endl;
+
+        
+        for (size_t i = 0; i < timeSteps.size(); ++i) {
+            outFile << fixed << setprecision(20)
+                << timeSteps[i] << "," << maxTemps[i] << "," << minTemps[i] << endl;
+        }
+
+        outFile.close();
+        cout << "\nTemperature data has been saved to " << filename << endl;
+    }
+
+    vector<double> solveAb(const vector<vector<double>>& A, const vector<double>& b) {
+        
         int n = b.size();
         vector<vector<double>> extendedMatrix(n, vector<double>(n + 1));
 
-        // Tworzenie macierzy rozszerzonej
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 extendedMatrix[i][j] = A[i][j];
@@ -700,15 +659,12 @@ struct Simulation {
             extendedMatrix[i][n] = b[i];
         }
 
-        // Eliminacja Gaussa
         for (int i = 0; i < n; ++i) {
-            // Normalizacja wiersza
-            double pivot = extendedMatrix[i][i];
+            double diag = extendedMatrix[i][i];
             for (int j = 0; j <= n; ++j) {
-                extendedMatrix[i][j] /= pivot;
+                extendedMatrix[i][j] /= diag;
             }
 
-            // Odejmowanie wierszy
             for (int k = 0; k < n; ++k) {
                 if (k != i) {
                     double factor = extendedMatrix[k][i];
@@ -719,7 +675,7 @@ struct Simulation {
             }
         }
 
-        // Wyodrębnienie rozwiązań
+        
         vector<double> solution(n);
         for (int i = 0; i < n; ++i) {
             solution[i] = extendedMatrix[i][n];
@@ -727,7 +683,6 @@ struct Simulation {
         return solution;
     }
 };
-
 
 int main(void) {
 
@@ -744,7 +699,7 @@ int main(void) {
     Grid grid(nodes, elements);
     grid.print();
 
-    int gauss_points_count = 3;
+    int gauss_points_count = 4;
     grid.printLocalHMatrices(global_data.Conductivity, gauss_points_count);
     grid.printLocalHBCMatrices(global_data.Tot, global_data.Alfa, gauss_points_count);
 
@@ -752,11 +707,7 @@ int main(void) {
     grid.calculateHBCMatrix();
     grid.printGlobalHMatrix();
     grid.printGlobalHBCMatrix();
-
-    Solver solution;
-    solution.solveT(grid);
-    solution.print();
-
+        
     grid.printLocalCMatrices(global_data.Density, global_data.SpecificHeat, gauss_points_count);
     grid.calculateCMatrix();
     grid.printGlobalCMatrix();

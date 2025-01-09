@@ -1,8 +1,7 @@
 ﻿  main.cpp
-D:\dev\Metody elementów skończonych\HeatTransfer\main.cpp(417,23): warning C4267: "inicjowanie": konwersja z "size_t" do "int", możliwa utrata danych
-D:\dev\Metody elementów skończonych\HeatTransfer\main.cpp(431,23): warning C4267: "inicjowanie": konwersja z "size_t" do "int", możliwa utrata danych
-D:\dev\Metody elementów skończonych\HeatTransfer\main.cpp(451,23): warning C4267: "inicjowanie": konwersja z "size_t" do "int", możliwa utrata danych
-D:\dev\Metody elementów skończonych\HeatTransfer\main.cpp(550,15): warning C4267: "inicjowanie": konwersja z "size_t" do "int", możliwa utrata danych
-D:\dev\Metody elementów skończonych\HeatTransfer\main.cpp(620,22): warning C4267: "inicjowanie": konwersja z "size_t" do "int", możliwa utrata danych
-D:\dev\Metody elementów skończonych\HeatTransfer\main.cpp(692,15): warning C4267: "inicjowanie": konwersja z "size_t" do "int", możliwa utrata danych
+D:\dev\Metody elementów skończonych\HeatTransfer\main.cpp(423,23): warning C4267: "inicjowanie": konwersja z "size_t" do "int", możliwa utrata danych
+D:\dev\Metody elementów skończonych\HeatTransfer\main.cpp(437,23): warning C4267: "inicjowanie": konwersja z "size_t" do "int", możliwa utrata danych
+D:\dev\Metody elementów skończonych\HeatTransfer\main.cpp(457,23): warning C4267: "inicjowanie": konwersja z "size_t" do "int", możliwa utrata danych
+D:\dev\Metody elementów skończonych\HeatTransfer\main.cpp(560,22): warning C4267: "inicjowanie": konwersja z "size_t" do "int", możliwa utrata danych
+D:\dev\Metody elementów skończonych\HeatTransfer\main.cpp(652,15): warning C4267: "inicjowanie": konwersja z "size_t" do "int", możliwa utrata danych
   HeatTransfer.vcxproj -> D:\dev\Metody elementów skończonych\HeatTransfer\x64\Debug\HeatTransfer.exe
