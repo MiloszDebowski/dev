@@ -254,7 +254,7 @@ struct Element {
                 double weight = gauss_weights[i] * gauss_weights[j];
 
 
-                //funkcje kształtu
+                //pochodne funkcji kształtu
                 vector<double> dN_dksi = { -0.25 * (1 - eta), 0.25 * (1 - eta), 0.25 * (1 + eta), -0.25 * (1 + eta) };
                 vector<double> dN_deta = { -0.25 * (1 - ksi), -0.25 * (1 + ksi), 0.25 * (1 + ksi), 0.25 * (1 - ksi) };
 
@@ -274,7 +274,6 @@ struct Element {
                 double invJ21 = -J21 / detJ;
                 double invJ22 = J11 / detJ;
 
-               
                 vector<double> dN_dx(4), dN_dy(4);
                 for (int i = 0; i < 4; ++i) {
                     dN_dx[i] = invJ11 * dN_dksi[i] + invJ12 * dN_deta[i];
@@ -575,7 +574,7 @@ struct Simulation {
         for (double currentTime = 0.0; currentTime < simulationTime; currentTime += timeStep) {
             cout << "SIMULATION TIME: " << currentTime + timeStep << " s" << endl;
 
-            //H + C/dt
+            //H = H + C/dt
             vector<vector<double>> H_total = grid.HBC_global;
             for (int i = 0; i < numNodes; ++i) {
                 for (int j = 0; j < numNodes; ++j) {
@@ -583,7 +582,7 @@ struct Simulation {
                 }
             }
 
-            // Calculate P + (C/dt)*T_prev
+            //P = P + (C/dt)*T_prev
             vector<double> P_total = grid.P_global;
             for (int i = 0; i < numNodes; ++i) {
                 for (int j = 0; j < numNodes; ++j) {
