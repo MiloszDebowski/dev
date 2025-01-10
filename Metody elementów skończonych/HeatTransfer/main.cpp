@@ -57,10 +57,10 @@ struct GlobalData {
 
             if (iss >> key >> key1 >> value) {
                 if (key == "Nodes" && key1 == "number") {
-                    nodes = static_cast<int>(value);
+                    nodes = value;
                 }
                 else if (key == "Elements" && key1 == "number") {
-                    elems = static_cast<int>(value);
+                    elems = value;
                 }
             }
         }
@@ -254,11 +254,9 @@ struct Element {
                 double weight = gauss_weights[i] * gauss_weights[j];
 
 
-                //pochodne funkcji kształtu
                 vector<double> dN_dksi = { -0.25 * (1 - eta), 0.25 * (1 - eta), 0.25 * (1 + eta), -0.25 * (1 + eta) };
                 vector<double> dN_deta = { -0.25 * (1 - ksi), -0.25 * (1 + ksi), 0.25 * (1 + ksi), 0.25 * (1 - ksi) };
 
-                //jakobiego
                 double J11 = 0, J12 = 0, J21 = 0, J22 = 0;
                 for (int i = 0; i < 4; ++i) {
                     J11 += dN_dksi[i] * nodes[node_ids[i] - 1].x;
@@ -494,7 +492,7 @@ struct Grid {
             }
             cout << endl;
         }
-        cout << "BC: ";
+        cout << "P: ";
 
         for (const auto& value : P_global) {
             cout << value << " ";
