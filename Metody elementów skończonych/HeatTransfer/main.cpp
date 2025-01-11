@@ -683,8 +683,8 @@ struct Simulation {
 
 int main(void) {
 
-    string grid_file = "../siatki/Test1_4_4.txt";
-    //string grid_file = "../siatki/Test2_4_4_MixGrid.txt";
+    //string grid_file = "../siatki/Test1_4_4.txt";
+    string grid_file = "../siatki/Test2_4_4_MixGrid.txt";
     //string grid_file = "../siatki/Test3_31_31_kwadrat.txt";
 
     GlobalData global_data = GlobalData::readData(grid_file);
