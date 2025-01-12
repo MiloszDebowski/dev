@@ -1,0 +1,82 @@
+1
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.076689.        Obliczona całka = 0.250000000000012
+
+
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.077784.        Obliczona całka = 0.250000000000012
+
+
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.076583.        Obliczona całka = 0.250000000000012
+
+2
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.038438.        Obliczona całka = 0.249999999999989
+
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.059481.        Obliczona całka = 0.249999999999989
+
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.081035.        Obliczona całka = 0.249999999999989
+
+4
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.041443.        Obliczona całka = 0.249999999999991
+
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.020252.        Obliczona całka = 0.249999999999991
+
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.020121.        Obliczona całka = 0.249999999999991
+
+6
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.027332.        Obliczona całka = 0.249999999999986
+
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.027755.        Obliczona całka = 0.249999999999986
+
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.021074.        Obliczona całka = 0.249999999999986
+
+12
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.017140.        Obliczona całka = 0.250000000000012
+
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.016795.        Obliczona całka = 0.250000000000012
+
+Program obliczania całki metodą trapezów.
+
+Poczatek obliczeń OpenMP
+        Czas wykonania 0.017192.        Obliczona całka = 0.250000000000012
+
