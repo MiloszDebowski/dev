@@ -3,8 +3,7 @@
   "WorkspaceRootPath": "D:\\dev\\Metody element\u00F3w sko\u0144czonych\\HeatTransfer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{81046889-C8BB-477D-8B8B-036177CECDE0}|HeatTransfer.vcxproj|D:\\dev\\Metody element\u00F3w sko\u0144czonych\\HeatTransfer\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{81046889-C8BB-477D-8B8B-036177CECDE0}|HeatTransfer.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\milos\\Desktop\\Grupa8_D\u0119bowski_Mi\u0142osz.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,24 +13,22 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "main.cpp",
-              "DocumentMoniker": "D:\\dev\\Metody element\u00F3w sko\u0144czonych\\HeatTransfer\\main.cpp",
-              "RelativeDocumentMoniker": "main.cpp",
-              "ToolTip": "D:\\dev\\Metody element\u00F3w sko\u0144czonych\\HeatTransfer\\main.cpp",
-              "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAKACAAAAAAAAAAAwwM8CAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-30T13:04:42.443Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Grupa8_D\u0119bowski_Mi\u0142osz.cpp",
+              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\Grupa8_D\u0119bowski_Mi\u0142osz.cpp",
+              "ToolTip": "C:\\Users\\milos\\Desktop\\Grupa8_D\u0119bowski_Mi\u0142osz.cpp",
+              "ViewState": "AgIAAK0BAAAAAAAAAAAAAKIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-30T13:04:42.443Z",
+              "EditorCaption": ""
             }
           ]
         }
