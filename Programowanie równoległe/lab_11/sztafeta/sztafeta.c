@@ -1,19 +1,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "mpi.h"
-
 int main(int argc, char** argv) {
-  
   int rank, size;
   MPI_Status status;
-  
   MPI_Init(&argc, &argv); 
   MPI_Comm_rank(MPI_COMM_WORLD, &rank); 
   MPI_Comm_size(MPI_COMM_WORLD, &size);
-  
   int send_value = 10;
   int receive_value;
-
   if (size > 1) {
     if (rank == 0) {
       MPI_Send(&send_value, 1, MPI_INT, 1, 0, MPI_COMM_WORLD);
@@ -37,9 +32,7 @@ int main(int argc, char** argv) {
   } else {
     printf("Pojedynczy wątek o ranku: %d (brak komunikatów)\n", rank);
   }
-
   MPI_Finalize(); 
-  
   return 0;
 }
 
