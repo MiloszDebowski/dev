@@ -1,0 +1,28 @@
+#X3D V3.3 utf8
+
+
+SpotLight {
+    color 0 0 1
+    direction -10 0 0
+    location 10 0 0
+}
+
+Transform
+{
+    children[
+        Shape{
+            geometry Sphere{
+                radius 4
+            }
+
+            appearance Appearance
+            {
+                material Material{
+                    emissiveColor 0 0 0
+                    color 0 0 0
+                    specularColor 0 0 1
+                }
+            }
+        }
+    ]
+}

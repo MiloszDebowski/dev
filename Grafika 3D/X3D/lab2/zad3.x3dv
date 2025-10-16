@@ -1,0 +1,477 @@
+#X3D V3.3 utf8
+
+Viewpoint {
+    description "Start View"
+    position 3.15 0 6.6
+    orientation 0 0 0 0
+}
+
+Viewpoint{
+    description "Full View"
+    position 0 15 0
+    orientation -1 0 0 1.57
+}
+
+#SUN
+DEF Sun Transform {
+    children [
+        Shape{
+            
+            geometry Sphere {}
+
+            appearance Appearance {
+                texture ImageTexture {
+                    url ["tekstury_układ_słoneczny/sun.jpg"]
+                }
+            }
+        }
+    ]
+}
+
+DEF SunSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 30
+}
+
+DEF SunSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE SunSpinTime.fraction_changed TO SunSpin.set_fraction
+ROUTE SunSpin.value_changed TO Sun.set_rotation
+
+#MERCURY
+DEF MercuryOrbit Transform{
+    children[
+        DEF Mercury Transform {
+            translation 1.35 0 0
+            children[
+                Shape{
+                    geometry Sphere {
+                        radius 0.1
+                    }
+                    appearance Appearance {
+                        texture ImageTexture {
+                            url ["tekstury_układ_słoneczny/2k_mercury.jpg"]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+DEF MercurySpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 58.6
+}
+
+DEF MercurySpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE MercurySpinTime.fraction_changed TO MercurySpin.set_fraction
+ROUTE MercurySpin.value_changed TO Mercury.set_rotation
+
+DEF MercuryOrbitSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 88
+}
+
+DEF MercuryOrbitSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE MercuryOrbitSpinTime.fraction_changed TO MercuryOrbitSpin.set_fraction
+ROUTE MercuryOrbitSpin.value_changed TO MercuryOrbit.set_rotation
+
+#VENUS
+DEF VenusOrbit Transform{
+    children[
+        DEF Venus Transform {
+            translation 1.8 0 0
+            children[
+                Shape{
+
+                    geometry Sphere {
+                        radius 0.12
+                    }
+
+                    appearance Appearance {
+                        texture ImageTexture {
+                            url ["tekstury_układ_słoneczny/2k_venus_atmosphere.jpg"]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+DEF VenusSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 243
+}
+
+DEF VenusSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE VenusSpinTime.fraction_changed TO VenusSpin.set_fraction
+ROUTE VenusSpin.value_changed TO Venus.set_rotation
+
+DEF VenusOrbitSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 225
+}
+
+DEF VenusOrbitSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE VenusOrbitSpinTime.fraction_changed TO VenusOrbitSpin.set_fraction
+ROUTE VenusOrbitSpin.value_changed TO VenusOrbit.set_rotation
+
+#EARTH
+DEF EarthOrbit Transform{
+    children[
+        DEF Earth Transform {
+            translation 2.3 0 0
+            children[
+                Shape{
+
+                    geometry Sphere {
+                        radius 0.16
+                    }
+
+                    appearance Appearance {
+                        texture ImageTexture {
+                            url ["tekstury_układ_słoneczny/2k_earth_daymap.jpg"]
+                        }
+                    }
+                }
+            ]
+        }
+
+        Viewpoint{
+            description "Earth"
+            position 2.8 0.3 0
+            orientation 0 1 0 1.57 
+        }
+    ]
+}
+
+DEF EarthSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 1
+}
+
+DEF EarthSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE EarthSpinTime.fraction_changed TO EarthSpin.set_fraction
+ROUTE EarthSpin.value_changed TO Earth.set_rotation
+
+DEF EarthOrbitSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 365
+}
+
+DEF EarthOrbitSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE EarthOrbitSpinTime.fraction_changed TO EarthOrbitSpin.set_fraction
+ROUTE EarthOrbitSpin.value_changed TO EarthOrbit.set_rotation
+
+#MARS
+DEF MarsOrbit Transform{
+    children[
+        DEF Mars Transform {
+            translation 2.8 0 0
+            children[
+                Shape{
+
+                    geometry Sphere {
+                        radius 0.125
+                    }
+
+                    appearance Appearance {
+                        texture ImageTexture {
+                            url ["tekstury_układ_słoneczny/2k_mars.jpg"]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+DEF MarsSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 1.03
+}
+
+DEF MarsSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE MarsSpinTime.fraction_changed TO MarsSpin.set_fraction
+ROUTE MarsSpin.value_changed TO Mars.set_rotation
+
+DEF MarsOrbitSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 687
+}
+
+DEF MarsOrbitSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE MarsOrbitSpinTime.fraction_changed TO MarsOrbitSpin.set_fraction
+ROUTE MarsOrbitSpin.value_changed TO MarsOrbit.set_rotation
+
+#JUPITER
+DEF JupiterOrbit Transform{
+    children[
+        DEF Jupiter Transform {
+            translation 3.5 0 0
+            children[
+                Shape{
+
+                    geometry Sphere {
+                        radius 0.3
+                    }
+
+                    appearance Appearance {
+                        texture ImageTexture {
+                            url ["tekstury_układ_słoneczny/2k_jupiter.jpg"]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+DEF JupiterSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 0.41
+}
+
+DEF JupiterSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE JupiterSpinTime.fraction_changed TO JupiterSpin.set_fraction
+ROUTE JupiterSpin.value_changed TO Jupiter.set_rotation
+
+DEF JupiterOrbitSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 4333
+}
+
+DEF JupiterOrbitSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE JupiterOrbitSpinTime.fraction_changed TO JupiterOrbitSpin.set_fraction
+ROUTE JupiterOrbitSpin.value_changed TO JupiterOrbit.set_rotation
+
+#SATURN
+DEF SaturnOrbit Transform{
+    children[
+        DEF Saturn Transform {
+            translation 4.3 0 0
+            children[
+                Shape{
+
+                    geometry Sphere {
+                        radius 0.25
+                    }
+
+                    appearance Appearance {
+                        texture ImageTexture {
+                            url ["tekstury_układ_słoneczny/2k_saturn.jpg"]
+                        }
+                    }
+                }
+
+                DEF SaturnRing Transform{
+                    rotation 1 1 0 0.4
+                    children[
+                        Shape{
+
+                            geometry Cylinder {
+                                bottom TRUE
+                                height 0.01
+                                radius 0.45
+                                side FALSE
+                                solid TRUE
+                                top TRUE
+                                texCoord NULL
+                                slices -1
+                                stacks -1
+                            }
+
+                            appearance Appearance{
+                                texture ImageTexture{
+                                    url["tekstury_układ_słoneczny/2k_saturn_ring_alpha.png"]
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+DEF SaturnSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 0.44
+}
+
+DEF SaturnSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE SaturnSpinTime.fraction_changed TO SaturnSpin.set_fraction
+ROUTE SaturnSpin.value_changed TO Saturn.set_rotation
+
+DEF SaturnSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 10759
+}
+
+DEF SaturnSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE SaturnSpinTime.fraction_changed TO SaturnSpin.set_fraction
+ROUTE SaturnSpin.value_changed TO Saturn.set_rotation
+
+DEF SaturnOrbitSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 10
+}
+
+DEF SaturnOrbitSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE SaturnOrbitSpinTime.fraction_changed TO SaturnOrbitSpin.set_fraction
+ROUTE SaturnOrbitSpin.value_changed TO SaturnOrbit.set_rotation
+
+#URANUS
+DEF UranusOrbit Transform{
+    children[
+        DEF Uranus Transform {
+            translation 5 0 0
+            children[
+                Shape{
+
+                    geometry Sphere {
+                        radius 0.15
+                    }
+
+                    appearance Appearance {
+                        texture ImageTexture {
+                            url ["tekstury_układ_słoneczny/2k_uranus.jpg"]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+DEF UranusSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 0.72
+}
+
+DEF UranusSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE UranusSpinTime.fraction_changed TO UranusSpin.set_fraction
+ROUTE UranusSpin.value_changed TO Uranus.set_rotation
+
+DEF UranusOrbitSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 30687
+}
+
+DEF UranusOrbitSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE UranusOrbitSpinTime.fraction_changed TO UranusOrbitSpin.set_fraction
+ROUTE UranusOrbitSpin.value_changed TO UranusOrbit.set_rotation
+
+#NEPTUNE
+DEF NeptuneOrbit Transform{
+    children[
+        DEF Neptune Transform {
+            translation 5.6 0 0
+            children[
+                Shape{
+
+                    geometry Sphere {
+                        radius 0.2
+                    }
+
+                    appearance Appearance {
+                        texture ImageTexture {
+                            url ["tekstury_układ_słoneczny/2k_neptune.jpg"]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+DEF NeptuneSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 0.67
+}
+
+DEF NeptuneSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE NeptuneSpinTime.fraction_changed TO NeptuneSpin.set_fraction
+ROUTE NeptuneSpin.value_changed TO Neptune.set_rotation
+
+DEF NeptuneOrbitSpinTime TimeSensor{
+    loop TRUE
+    cycleInterval 60190
+}
+
+DEF NeptuneOrbitSpin OrientationInterpolator{
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key[0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE NeptuneOrbitSpinTime.fraction_changed TO NeptuneOrbitSpin.set_fraction
+ROUTE NeptuneOrbitSpin.value_changed TO NeptuneOrbit.set_rotation

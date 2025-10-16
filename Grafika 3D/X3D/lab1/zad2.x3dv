@@ -1,0 +1,7 @@
+#X3D V3.3 utf8
+
+Shape{
+    geometry Sphere {
+        radius 3
+    }
+}

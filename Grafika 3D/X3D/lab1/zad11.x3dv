@@ -1,0 +1,54 @@
+#X3D  V3.3 utf8
+
+Transform {
+    children[
+        DEF stopien Shape {
+            geometry Box {
+                size 4 1 1
+                divisions -1
+            }
+            appearance Appearance {
+                material Material {
+                    emissiveColor 1 0 0
+                    transparency 0
+                    specularColor 1 0 0
+                }
+            }
+        }
+    ]
+}
+
+Transform{
+    children[
+        USE stopien
+    ]
+    translation 0 -1 1
+}
+
+Transform{
+    children[
+        USE stopien
+    ]
+    translation 0 -2 2
+}
+
+Transform{
+    children[
+        USE stopien
+    ]
+    translation 0 -3 3
+}
+
+Transform{
+    children[
+        USE stopien
+    ]
+    translation 0 -4 4
+}
+
+Transform{
+    children[
+        USE stopien
+    ]
+    translation 0 -5 5
+}

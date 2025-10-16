@@ -1,0 +1,488 @@
+#X3D V3.3 utf8
+
+#X3D V3.3 utf8
+
+NavigationInfo {
+    headlight FALSE
+}
+
+PROTO Torch[
+    exposedField SFColor stickColor 0.3 0.3 0.0
+    exposedField SFColor flameColor 1.0 0 0
+]{
+    Transform{
+        children[
+            Transform{
+                children[
+                    DEF Stick Shape{
+                        geometry Cylinder{
+                            radius 0.05
+                            height 1
+                        }
+
+                        
+                        appearance Appearance{
+                            material Material{
+                                diffuseColor IS stickColor
+                            }
+                        }
+                    }
+                ]
+            }
+
+            Transform{
+                translation 0 0.6 0
+                children[
+                    DEF Flame Shape{
+                        geometry Cylinder{
+                            radius 0.15
+                            height 0.4
+                        }
+
+                        appearance Appearance{
+                            material Material{
+                                diffuseColor IS flameColor
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+
+
+DEF Hint Transform{
+    translation 0 0 3.8
+    children[
+
+        DEF HintTouchSensor TouchSensor{
+
+        }
+
+        Shape{
+            geometry Box {
+                size 1 0.5 0.1
+            }
+
+        appearance Appearance{
+            material Material{
+            }
+            texture ImageTexture{
+                url["wskazowka.png"]
+            }
+        }
+
+        }
+
+        DEF HintLight PointLight {
+            color 1 1 1
+            on FALSE
+            location 0 0 -1
+        }
+        
+    ]
+}
+
+ROUTE HintTouchSensor.isActive TO HintLight.set_on
+
+DEF Torches Transform{
+    rotation 1 0 0 -0.2
+    children[
+        DEF leftDoorTorch Transform{
+            translation 0.6 0 -0.4
+            children[
+                DEF LEFTTorch Torch{}
+            ]
+        }
+
+        DEF RightDoorTorch Transform{
+            translation -1.6 0 -0.4
+            children[
+              DEF RIGHTTorch Torch{}
+            ]
+        }
+
+     DEF TorchesColorTime TimeSensor{
+        loop TRUE
+        cycleInterval 3
+     }
+
+     DEF TorchesColorChange ColorInterpolator {
+        keyValue [1 0 0, 1 0.5 0, 1 1 0, 1 0.5 0, 1 0 0]
+        key [0, 0.25, 0.5, 0.75, 1]
+     }
+
+    ]
+}
+
+ROUTE TorchesColorTime.fraction_changed TO TorchesColorChange.set_fraction
+ROUTE TorchesColorChange.value_changed TO RIGHTTorch.set_flameColor
+ROUTE TorchesColorChange.value_changed TO LEFTTorch.set_flameColor
+
+
+DEF Board Transform{
+    translation -0.5 -2 7
+    children[
+        DEF BottomBoard Transform{
+            children[
+                Shape{
+                    geometry Box{
+                    size 15 1.1 15
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.9 0.9 0.9
+                        }
+                    }
+                }
+            ]
+        }
+
+        DEF UpperBoard Transform{
+            translation 0 -1.1 0
+            children[
+                DEF Prox ProximitySensor {
+                    size 16 4 16
+                }
+
+               Shape{
+                    geometry Box{
+                    size 16 1.1 16
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.9 0.9 0.9
+                        }
+                    }
+                } 
+            ]
+        }
+    ]
+}
+
+DEF LeftDoor Transform{
+    center -0.5 0 0
+    translation -1 0 0
+    children[
+
+               DEF LeftDoorTouch TouchSensor { }
+
+                
+
+        Shape{
+
+            
+
+            geometry Box{
+                size 1 3 0.05
+            }
+
+            appearance Appearance{
+                material Material{
+                    diffuseColor 0.5 0.2 0.07
+                }
+            }
+        }
+
+        DEF DoorHandle Transform{
+            rotation 1 0 0 1.57
+            translation 0.2 0 0
+            children[
+                Shape{
+                    geometry Cylinder{
+                        radius 0.08
+                        height 0.1
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 1 1 0
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+DEF RightDoor Transform{
+    translation 0 0 0
+    center 0.5 0 0
+    children[
+
+        DEF RightDoorTouch TouchSensor { }
+
+        Shape{
+            geometry Box{
+                size 1 3 0.05
+            }
+
+            appearance Appearance{
+                material Material{
+                    diffuseColor 0.5 0.2 0.07
+                }
+            }
+        }
+
+        DEF DoorHandle Transform{
+            rotation 1 0 0 1.57
+            translation -0.2 0 0
+            children[
+                Shape{
+                    geometry Cylinder{
+                        radius 0.08
+                        height 0.1
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 1 1 0
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+DEF DoorTime TimeSensor{
+    loop FALSE
+    cycleInterval 5
+}
+
+DEF LeftDoorOpen OrientationInterpolator{
+    key[0, 0.5, 1]
+    keyValue[0 -1 0 0, 0 -1 0 1.57, 0 -1 0 0]
+}
+
+ROUTE LeftDoorTouch.touchTime TO DoorTime.set_startTime
+ROUTE DoorTime.fraction_changed TO LeftDoorOpen.set_fraction
+ROUTE LeftDoorOpen.value_changed TO LeftDoor.set_rotation
+
+DEF RightDoorOpen OrientationInterpolator{
+    key[0, 0.5, 1]
+    keyValue[0 1 0 0, 0 1 0 1.57, 0 1 0 0]
+}
+
+ROUTE DoorTime.fraction_changed TO RightDoorOpen.set_fraction
+ROUTE RightDoorOpen.value_changed TO RightDoor.set_rotation
+
+DEF Walls Transform{
+    translation 0 0.5 0
+    children[
+
+        DEF LeftDoorWall Transform{
+            translation -4.5 0 0
+            children[
+
+
+
+                Shape{
+                    geometry Box{
+                        size 6 4 0.5
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.2 0.5 0.2
+                        }
+                    }
+                }
+            ]
+        }
+
+        DEF RightDoorWall Transform{
+            translation 3.5 0 0
+            children[
+                Shape{
+                    geometry Box{
+                        size 6 4 0.5
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.2 0.5 0.2
+                        }
+                    }
+                }
+            ]
+        }
+
+        DEF BackWall Transform{
+            translation -0.25 0 13.5
+            children[
+                Shape{
+                    geometry Box{
+                        size 13.5 4 0.5
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.2 0.5 0.2
+                        }
+                    }
+                }
+            ]
+        }
+
+        DEF LeftWall Transform{
+            translation -7.25 0 7
+            children[
+                Shape{
+                    geometry Box{
+                        size 0.5 4 13.5
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.2 0.5 0.2
+                        }
+                    }
+                }
+            ]
+        }
+
+        DEF RightWall Transform{
+            translation 6.25 0 7
+            children[
+                Shape{
+                    geometry Box{
+                        size 0.5 4 13.5
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.2 0.5 0.2
+                        }
+                    }
+                }
+            ]
+        }
+
+        Transform{
+            translation 1 0 2
+            children[
+                Shape{
+                    geometry Box{
+                        size 0.25 4 4
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.2 0.5 0.2
+                        }
+                    }
+                }
+            ]
+        }
+
+        Transform{
+            translation 1 0 2
+            children[
+                Shape{
+                    geometry Box{
+                        size 0.25 4 4
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.2 0.5 0.2
+                        }
+                    }
+                }
+            ]
+        }
+
+        Transform{
+            translation -1 0 4
+            children[
+                Shape{
+                    geometry Box{
+                        size 8 4 0.25
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.2 0.5 0.2
+                        }
+                    }
+                }
+            ]
+        }
+
+        Transform{
+            translation 1 0 9
+            children[
+                Shape{
+                    geometry Box{
+                        size 0.25 4 4
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.2 0.5 0.2
+                        }
+                    }
+                }
+            ]
+        }
+
+        Transform{
+            translation 1 0 11
+            children[
+                Shape{
+                    geometry Box{
+                        size 10 4 0.25
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.2 0.5 0.2
+                        }
+                    }
+                }
+            ]
+        }
+
+        Transform{
+            translation -3 0 7.5
+            children[
+                Shape{
+                    geometry Box{
+                        size 0.25 4 7.25
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.2 0.5 0.2
+                        }
+                    }
+                }
+            ]
+        }
+
+        Transform{
+            translation 1 0 7
+            children[
+                Shape{
+                    geometry Box{
+                        size 5 4 0.25
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.2 0.5 0.2
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+
+

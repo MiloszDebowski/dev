@@ -1,0 +1,25 @@
+#X3D V3.3 utf8
+
+DirectionalLight {
+    color 1 0 0
+    intensity 0.5
+    direction 1 0 0
+}
+
+Transform
+{
+    children[
+        Shape{
+            geometry Sphere{
+                radius 2.5
+            }
+
+            appearance Appearance
+            {
+                material Material{
+                    color 0 0 1
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,66 @@
+#X3D V3.3 utf8
+
+Viewpoint {
+    description "Start View"
+    position 0 2 9
+    orientation -1 0 0 0.1
+}
+
+DEF Cube Transform {
+       children[
+        Shape {
+            geometry Box {
+                size 1 1 1
+            }
+
+            appearance Appearance{
+                material Material{
+                    diffuseColor 0 0 1
+                }
+            }
+        }
+    ]
+}
+
+DEF CubeAnimationTime TimeSensor {
+    cycleInterval 10
+    loop TRUE
+}
+
+DEF CubeSpin OrientationInterpolator {
+    keyValue [0 1 0 0, 0 1 0 1.57, 0 1 0 3.14, 0 1 0 4.71, 0 1 0 6.28]
+    key [0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE CubeAnimationTime.fraction_changed TO CubeSpin.set_fraction
+ROUTE CubeSpin.value_changed TO Cube.set_rotation
+
+
+DEF Sphere Transform{
+    children[
+        Shape{
+            geometry Sphere{
+                radius 0.6
+            }
+
+            appearance Appearance{
+                material Material{
+                    diffuseColor 1 1 0
+                }
+            }
+        }
+    ]
+}
+
+DEF SphereAnimationTime TimeSensor{
+    cycleInterval 8
+    loop TRUE
+}
+
+DEF SphereMove PositionInterpolator {
+    keyValue [2 0 2, -2 0 2, -2 0 -2, 2 0 -2, 2 0 2]
+    key [0, 0.25, 0.5, 0.75, 1]
+}
+
+ROUTE SphereAnimationTime.fraction_changed TO SphereMove.set_fraction
+ROUTE SphereMove.value_changed TO Sphere.set_translation

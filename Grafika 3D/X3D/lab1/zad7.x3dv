@@ -1,0 +1,17 @@
+#X3D V3.3 utf8
+
+Transform{
+    children[
+         Shape{
+            geometry Box {
+                size 4 4 4
+            }
+            appearance Appearance{
+                texture ImageTexture {
+                    url ["inicjaly.jpg"]
+                }
+            }
+    }
+    ]
+    translation 0 2 0
+}
