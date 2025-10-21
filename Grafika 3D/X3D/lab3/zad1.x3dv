@@ -1,9 +1,28 @@
 #X3D V3.3 utf8
 
-#X3D V3.3 utf8
+Viewpoint {
+    description "Start View"
+    position 0 30 5
+    orientation 1 0 0 -1.57
+}
+
+Viewpoint {
+    description "GhostCheck"
+    position 0 15 12.25
+    orientation 0 1 0 -1.57
+}
+
+Viewpoint {
+    description "CollisionCheck"
+    position 0 5 5
+    orientation 0 0 0 -1.57
+}
 
 NavigationInfo {
     headlight FALSE
+    type ["EXAMINE", "ANY"]
+    speed 5
+    avatarSize [0.25, 2, 0.75]
 }
 
 PROTO Torch[
@@ -50,6 +69,184 @@ PROTO Torch[
         ]
     }
 }
+
+Collision{
+    collide FALSE
+    children[
+        Transform{
+            translation -1 0.5 4
+            children[
+                Shape{
+                    geometry Box{
+                        size 8 4 0.25
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 0.2 0.5 0.2
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+Background { 
+skyColor [ 
+0.0 0.0 0.1, 
+0.0 0.0 0.2, 
+0.0 0.0 0.0
+]  skyAngle [ 1.2, 1.57] 
+groundColor [ 
+0.0 0.0 0.0, 
+0.4 0.2 0.2, 
+0.0 0.0 0.0
+]  groundAngle [ 1.2,1.57] 
+}
+
+DEF Atmosphere Transform{
+    children[
+        Fog {
+            color 1 1 1
+            fogType "EXPONENTIAL"
+            visibilityRange 150
+        }
+    ]
+}
+
+
+DEF Mountains Transform{
+    translation -10 -4.1 -2
+    children[
+        Shape{
+            appearance Appearance{
+                material Material{
+
+                }
+            }
+
+            geometry ElevationGrid {
+                xDimension 20
+                zDimension 20
+                xSpacing 1.0
+                zSpacing 1.0
+                creaseAngle 1.57
+
+                height [
+                    3.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0,
+
+                    8.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 7.0,
+
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 12.0,
+
+                    19.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 5.0,
+
+                    8.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
+
+                    13.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0,
+                    
+                    16.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0,
+
+                    15.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 6.0,
+
+                    13.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 15.0,
+
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 17.0,
+
+                    10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 13.0,
+
+                    14.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0,
+
+                    2.0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0,
+
+                    5.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 5.0,
+
+                    15.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 7.0,
+
+                    18.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 5.0,
+                    
+                    10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 9.0,
+
+                    5.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.0,
+
+                    8.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
+
+                    10.0, 14.0, 12.0, 9.0, 7.0, 2.0, 3.0, 16.0, 15.0, 11.0,
+                    13.0, 14.0, 5.0, 2.0, 8.0, 4.0, 10.0, 3.0, 4.0, 6.0,
+                ]
+
+                colorPerVertex TRUE
+                color Color {
+                    color [
+                        
+                    ]
+                }
+            }
+        }
+    ]
+}   
+
+DEF  GhostSphere Transform{
+    translation 5 0 12.25
+    children[
+        Shape{
+            geometry Sphere {
+                radius 0.5
+            }
+
+            appearance Appearance{
+                material DEF MAT Material{
+                    diffuseColor 1 1 0
+                    transparency 1
+                }
+            }
+        }
+
+        DEF GhostMove PositionInterpolator {
+            keyValue [5 0 12.25, -5 0 12.25 5 0 12.25]
+            key [0 0.5 1]
+        }
+
+        DEF GhostMoveTime TimeSensor {
+            cycleInterval 10
+            loop TRUE
+        }
+
+        DEF GhostFadeTime TimeSensor{
+            cycleInterval 0.5
+            loop FALSE
+        }
+
+        DEF TransInter ScalarInterpolator {
+            keyValue [1, 0.5]
+            key [0, 1]
+        }
+    ]
+}
+
+ROUTE GhostMoveTime.fraction_changed TO GhostMove.set_fraction
+ROUTE GhostMove.value_changed TO GhostSphere.set_translation
+
 
 
 
@@ -123,8 +320,23 @@ ROUTE TorchesColorChange.value_changed TO LEFTTorch.set_flameColor
 
 
 DEF Board Transform{
+
+    
     translation -0.5 -2 7
+
+    
     children[
+
+        DEF Trap Transform{
+            translation 0 2 5.25
+            children[
+                DEF TrapSensor ProximitySensor {
+                    center 0 0 0
+                    size 13 2 2
+                }
+            ]
+        }
+
         DEF BottomBoard Transform{
             children[
                 Shape{
@@ -144,9 +356,6 @@ DEF Board Transform{
         DEF UpperBoard Transform{
             translation 0 -1.1 0
             children[
-                DEF Prox ProximitySensor {
-                    size 16 4 16
-                }
 
                Shape{
                     geometry Box{
@@ -163,6 +372,15 @@ DEF Board Transform{
         }
     ]
 }
+
+
+ROUTE TrapSensor.enterTime TO GhostMoveTime.set_startTime
+ROUTE GhostMoveTime.fraction_changed TO GhostMove.set_fraction
+ROUTE GhostMove.value_changed TO GhostSphere.set_translation
+ROUTE TrapSensor.enterTime TO GhostFadeTime.set_startTime
+ROUTE GhostFadeTime.fraction_changed TO TransInter.set_fraction
+ROUTE TransInter.value_changed TO MAT.set_transparency
+
 
 DEF LeftDoor Transform{
     center -0.5 0 0
@@ -398,23 +616,6 @@ DEF Walls Transform{
         }
 
         Transform{
-            translation -1 0 4
-            children[
-                Shape{
-                    geometry Box{
-                        size 8 4 0.25
-                    }
-
-                    appearance Appearance{
-                        material Material{
-                            diffuseColor 0.2 0.5 0.2
-                        }
-                    }
-                }
-            ]
-        }
-
-        Transform{
             translation 1 0 9
             children[
                 Shape{
@@ -447,6 +648,33 @@ DEF Walls Transform{
                 }
             ]
         }
+
+        DEF HiddenEntrance Transform{
+            translation -5.5 0 11
+            children[
+                Shape{
+                    geometry Box{
+                        size 3 4 0.25
+                    }
+
+                    appearance Appearance{
+                        material Material{
+                            diffuseColor 1 1 0
+                        }
+                    }
+                }
+                DEF MoveWallSensor PlaneSensor{
+                    autoOffset FALSE
+                    offset -10 0 11
+                    minPosition 0 0
+                    maxPosition -2 0
+                }
+            ]
+        }
+
+
+
+        ROUTE MoveWallSensor.translation_changed TO HiddenEntrance.set_translation
 
         Transform{
             translation -3 0 7.5
