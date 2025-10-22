@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type='text/javascript' src='https://www.x3dom.org/download/x3dom.js'> </script>
+    
+                <script>
+            function animationStart() {
+                let angle = 0;
+                setInterval(function(){
+                    angle = angle + 0.1;
+                    const x = 5 * Math.cos(angle);
+                    const z = 5 * Math.sin(angle);
+                    const sphere = document.getElementById('mySphere');
+                    sphere.setAttribute('translation', `${x} 0 ${z}`);
+                }, 25);
+
+            }
+        </script>
+    
+    </head>
+    <body>
+        <x3d width= "600px" height= "400px">
+            <scene>
+                <transform id="mySphere" translation="0 0 -5">
+                    <shape>
+                        <appearance>
+                            <material diffuseColor="1 0.7 0.5"/>
+                        </appearance>
+                        <sphere radius="3"></sphere>
+                    </shape>
+                </transform>
+            </scene>
+        </x3d>
+
+        <button onclick="animationStart()">Ruch po okręgu</button>
+
+
+
+    </body>
+</html>

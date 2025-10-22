@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type='text/javascript' src='https://www.x3dom.org/download/x3dom.js'> </script>
+</head>
+
+<body>
+    <x3d width="600px" height="400px">
+        <scene>
+            <transform id="steve">
+                <transform id="head" translation="0 2 0">
+                    <shape>
+                        <box size="2 2 2"></box>
+                        <appearance>
+                            <material diffuseCOlor="0.9 0.9 0.3"></material>
+                        </appearance>
+                    </shape>
+                    <transform id="eyes" translation="0 0.5 1">
+                        <transform id="leftEye" translation="-0.5 0 0">
+                            <shape>
+                                <box size=" 0.5 0.5 0.5"></box>
+                                <appearance>
+                                    <material diffuseColor="0 0 0" id="leftEyeMat"></material>
+                                </appearance>
+                            </shape>
+                        </transform>
+
+                        <transform id="rightEye" translation="0.5 0 0">
+                            <shape>
+                                <box size="0.5 0.5 0.5"></box>
+                                <appearance>
+                                    <material diffuseColor="0 0 0" id="rightEyeMat"></material>
+                                </appearance>
+                            </shape>
+                        </transform>
+                    </transform>
+                </transform>
+
+                <transform id="body" translation="0 -1 0" center="0 2 0">
+                    <shape>
+                        <box size="1.9 5 1.9"></box>
+                        <appearance>
+                            <material diffuseColor="0.9 0.1 0.3"></material>
+                        </appearance>
+                    </shape>
+                </transform>
+            </transform>
+        </scene>
+    </x3d>
+
+    <div>
+        <labelfor="suwak_rozmiar">Rozmiar tłowia</label>
+            <inputtype="range"id="suwak_rozmiar"min="3"max="5.0"step="0.25"value="1.0">
+    </div>
+
+
+
+</body>
+
+<script>
+    let color = 0;
+
+    setInterval(function () {
+        const rightEyeCOlor = document.getElementById("rightEyeMat");
+        const leftEyeCOlor = document.getElementById("leftEyeMat");
+        color = color + 0.1;
+        rightEyeCOlor.setAttribute('diffuseColor', `${color} ${color} ${color}`);
+        leftEyeCOlor.setAttribute('diffuseColor', `${color} ${color} ${color}`);
+
+        if (color >= 1) { color = 0; }
+    }, 100);
+</script>
+
+</html>
