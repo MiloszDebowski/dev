@@ -1,75 +1,112 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <script type='text/javascript' src='https://www.x3dom.org/download/x3dom.js'> </script>
+  <meta charset="UTF-8">
+  <title>Avatar Minecraft – Migające Oczy</title>
+  <script type='text/javascript' src='https://www.x3dom.org/download/x3dom.js'> </script>
 </head>
-
 <body>
-    <x3d width="600px" height="400px">
-        <scene>
-            <transform id="steve">
-                <transform id="head" translation="0 2 0">
-                    <shape>
-                        <box size="2 2 2"></box>
-                        <appearance>
-                            <material diffuseCOlor="0.9 0.9 0.3"></material>
-                        </appearance>
-                    </shape>
-                    <transform id="eyes" translation="0 0.5 1">
-                        <transform id="leftEye" translation="-0.5 0 0">
-                            <shape>
-                                <box size=" 0.5 0.5 0.5"></box>
-                                <appearance>
-                                    <material diffuseColor="0 0 0" id="leftEyeMat"></material>
-                                </appearance>
-                            </shape>
-                        </transform>
+  <x3d width="600px" height="500px">
+    <scene>
+        <transform translation="0 0 -10">
+      <transform id="head" translation="0 4 0">
+        <shape>
+          <appearance><material diffuseColor="0.5 0.3 0.9"/></appearance>
+          <box id="rozmiarGlowy" size="2 2 2"></box>
+        </shape>
+        <transform translation="-0.5 0.3 1.01">
+          <shape>
+            <appearance><material id="eyeL" diffuseColor="0 0 0"/></appearance>
+            <box size="0.3 0.3 0.1"/>
+          </shape>
+        </transform>
+        <transform translation="0.5 0.3 1.01">
+          <shape>
+            <appearance><material id="eyeR" diffuseColor="0 0 0"/></appearance>
+            <box size="0.3 0.3 0.1"/>
+          </shape>
+        </transform>
+      </transform>
 
-                        <transform id="rightEye" translation="0.5 0 0">
-                            <shape>
-                                <box size="0.5 0.5 0.5"></box>
-                                <appearance>
-                                    <material diffuseColor="0 0 0" id="rightEyeMat"></material>
-                                </appearance>
-                            </shape>
-                        </transform>
-                    </transform>
-                </transform>
+      <transform translation="0 1.5 0">
+        <shape>
+          <appearance><material id="kolorTulowia" diffuseColor="0.8 0.2 0.2"/></appearance>
+          <box id="rozmiarTulowia" size="2 3 1"></box>
+        </shape>
+      </transform>
 
-                <transform id="body" translation="0 -1 0" center="0 2 0">
-                    <shape>
-                        <box size="1.9 5 1.9"></box>
-                        <appearance>
-                            <material diffuseColor="0.9 0.1 0.3"></material>
-                        </appearance>
-                    </shape>
-                </transform>
-            </transform>
-        </scene>
-    </x3d>
+      <transform translation="-1.5 2 0">
+        <shape>
+          <appearance><material diffuseColor="0.2 0.5 1"/></appearance>
+          <box size="1 3 1"></box>
+        </shape>
+      </transform>
+      <transform translation="1.5 2 0">
+        <shape>
+          <appearance><material diffuseColor="0.1 0.5 1"/></appearance>
+          <box size="1 3 1"></box>
+        </shape>
+      </transform>
+
+      <transform translation="-0.5 -1 0">
+        <shape>
+          <appearance><material diffuseColor="0.1 0.1 0.9"/></appearance>
+          <box size="0.8 2 1"></box>
+        </shape>
+      </transform>
+      <transform translation="0.5 -1 0">
+        <shape>
+          <appearance><material diffuseColor="0.1 0.1 0.9"/></appearance>
+          <box size="0.8 2 1"></box>
+        </shape>
+      </transform>
+    </scene>
+  </x3d>
 
     <div>
-        <labelfor="suwak_rozmiar">Rozmiar tłowia</label>
-            <inputtype="range"id="suwak_rozmiar"min="3"max="5.0"step="0.25"value="1.0">
+    <label for="WyborKolor">Kolor tulowia:</label>
+    <input type="color" id="WyborKolor" value="#0000ff">
     </div>
+    </div>
+    <div>
+        <label for="SuwakGlowy">Rozmiar głowy:</label>
+        <input type="range" id="SuwakGlowy" min="1" max="4" step="0.1" value="2">
+      </div>
+      
+    
+  <script>
+    function migajOczy() {
+      let widoczne = true;
+      setInterval(() => {
+        const kolor = widoczne ? "0 1 0" : "0 0 1";
+        document.getElementById("eyeL").setAttribute("diffuseColor", kolor);
+        document.getElementById("eyeR").setAttribute("diffuseColor", kolor);
+        widoczne = !widoczne;
+      }, 500);
+    }
+    migajOczy();
 
+    const colorPicker = document.getElementById('WyborKolor');
+    const sphereMaterial = document.getElementById('kolorTulowia');
+    colorPicker.addEventListener('input', function() {
+    const color = colorPicker.value;
+    sphereMaterial.setAttribute('diffuseColor', hexToRGB(color));
+    });
+    function hexToRGB(hex) {
+    const r = parseInt(hex.substring(1, 3), 16) / 255;
+    const g = parseInt(hex.substring(3, 5), 16) / 255;
+    const b = parseInt(hex.substring(5, 7), 16) / 255;
+    return `${r} ${g} ${b}`;
+    }
 
+    const suwakGlowy = document.getElementById('SuwakGlowy');
+    const glowa = document.getElementById('rozmiarGlowy');
 
+    suwakGlowy.addEventListener('input', function() {
+    const rozmiar = suwakGlowy.value;
+    glowa.setAttribute('size', `${rozmiar} ${rozmiar} ${rozmiar}`);
+    });
+
+  </script>
 </body>
-
-<script>
-    let color = 0;
-
-    setInterval(function () {
-        const rightEyeCOlor = document.getElementById("rightEyeMat");
-        const leftEyeCOlor = document.getElementById("leftEyeMat");
-        color = color + 0.1;
-        rightEyeCOlor.setAttribute('diffuseColor', `${color} ${color} ${color}`);
-        leftEyeCOlor.setAttribute('diffuseColor', `${color} ${color} ${color}`);
-
-        if (color >= 1) { color = 0; }
-    }, 100);
-</script>
-
 </html>

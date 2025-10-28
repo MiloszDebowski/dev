@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Sygnalizator Drogowy</title>
+
+  <link rel="stylesheet" href="https://www.x3dom.org/download/x3dom.css" />
+  <script src="https://www.x3dom.org/download/x3dom.js"></script>
+
+</head>
+
+<body>
+
+  <div class="layout">
+    <div class="sygnalizator">
+      <div id="czerwone" class="swiatlo czerwone"></div>
+      <div id="zolte" class="swiatlo zolte"></div>
+      <div id="zielone" class="swiatlo zielone"></div>
+    </div>
+
+    <x3d width="300px" height="360px">
+      <scene>
+        <transform translation="0 0 0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.08 0.08 0.08"></material>
+            </appearance>
+            <box size="1.6 3.6 1"></box>
+          </shape>
+        </transform>
+
+        <transform translation="0 1.1 0.6">
+          <shape>
+            <appearance>
+              <material id="matCzerwone" diffuseColor="0.07 0.07 0.07"></material>
+            </appearance>
+            <sphere radius="0.4"></sphere>
+          </shape>
+        </transform>
+
+        <transform translation="0 0 0.6">
+          <shape>
+            <appearance>
+              <material id="matZolte" diffuseColor="0.07 0.07 0.07"></material>
+            </appearance>
+            <sphere radius="0.4"></sphere>
+          </shape>
+        </transform>
+
+        <transform translation="0 -1.1 0.6">
+          <shape>
+            <appearance>
+              <material id="matZielone" diffuseColor="0.07 0.07 0.07"></material>
+            </appearance>
+            <sphere radius="0.4"></sphere>
+          </shape>
+        </transform>
+
+        <viewpoint position="0 0 6" description="Widok sygnalizatora"></viewpoint>
+      </scene>
+    </x3d>
+  </div>
+
+  <script>
+    const czerwone = document.getElementById("czerwone");
+    const zolte = document.getElementById("zolte");
+    const zielone = document.getElementById("zielone");
+
+    function updateX3DMaterials(kolor) {
+      const dark = "0.07 0.07 0.07";
+      const red = "1 0 0";
+      const yellow = "1 1 0";
+      const green = "0 1 0";
+      const matR = document.getElementById("matCzerwone");
+      const matY = document.getElementById("matZolte");
+      const matG = document.getElementById("matZielone");
+      if (!matR || !matY || !matG) return;
+      matR.setAttribute("diffuseColor", kolor === "czerwone" ? red : dark);
+      matY.setAttribute("diffuseColor", kolor === "zolte" ? yellow : dark);
+      matG.setAttribute("diffuseColor", kolor === "zielone" ? green : dark);
+    }
+
+    function ustawSwiatlo(kolor) {
+      czerwone.classList.remove("aktywne");
+      zolte.classList.remove("aktywne");
+      zielone.classList.remove("aktywne");
+
+      if (kolor === "czerwone") czerwone.classList.add("aktywne");
+      if (kolor === "zolte") zolte.classList.add("aktywne");
+      if (kolor === "zielone") zielone.classList.add("aktywne");
+
+      updateX3DMaterials(kolor);
+    }
+
+    function startSygnalizacja() {
+      ustawSwiatlo("czerwone");
+      setTimeout(() => {
+        ustawSwiatlo("zolte");
+        setTimeout(() => {
+          ustawSwiatlo("zielone");
+          setTimeout(startSygnalizacja, 4000);
+        }, 2000);
+      }, 2000);
+    }
+
+    startSygnalizacja();
+  </script>
+
+</body>
+
+</html>
