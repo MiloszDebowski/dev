@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Kółko i krzyżyk</title>
+    <script type='text/javascript' src='https://www.x3dom.org/download/x3dom.js'> </script>
+
+    <style>
+        body {
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <x3d width="600px" height="500px">
+        <scene>
+            <transform translation="0 0 0">
+                <shape id="board">
+                    <Box size="6 6 0.1"></Box>
+                    <appearance>
+                        <material diffuseColor="0.1 0.1 0.1"></material>
+                    </appearance>
+                </shape >
+                
+                <transform translation="-2 2 0.1">
+                    <shape onclick="handleShapeClick(event)" id="0">
+                        <box size="1.5 1.5 0.1"></box>
+                        <appearance>
+                            <material id="mat0" diffuseColor="1 1 1"></material>
+                        </appearance>
+                    </shape>
+                </transform>
+                </shape>
+
+                <transform translation="0 2 0.1">
+                    <shape onclick="handleShapeClick(event)" id="1">
+                        <box size="1.5 1.5 0.1"></box>
+                        <appearance>
+                            <material id="mat1" diffuseColor="1 1 1"></material>
+                        </appearance>
+                    </shape>
+                </transform>
+
+                </shape>
+                <transform translation="2 2 0.1">
+                    <shape onclick="handleShapeClick(event)" id="2">
+                        <box size="1.5 1.5 0.1"></box>
+                        <appearance>
+                            <material id="mat2" diffuseColor="1 1 1"></material>
+                        </appearance>
+                    </shape>
+                </transform>
+
+                </shape>
+                <transform translation="-2 0 0.1">
+                    <shape onclick="handleShapeClick(event)" id="3">
+                        <box size="1.5 1.5 0.1"></box>
+                        <appearance>
+                            <material id="mat3" diffuseColor="1 1 1"></material>
+                        </appearance>
+                    </shape>
+                </transform>
+
+                <transform translation="0 0 0.1">
+                    <shape onclick="handleShapeClick(event)" id="4">
+                        <box size="1.5 1.5 0.1"></box>
+                        <appearance>
+                            <material id="mat4" diffuseColor="1 1 1"></material>
+                        </appearance>
+                    </shape>
+                </transform>
+
+                <transform translation="2 0 0.1">
+                    <shape onclick="handleShapeClick(event)" id="5">
+                        <box size="1.5 1.5 0.1"></box>
+                        <appearance>
+                            <material id="mat5" diffuseColor="1 1 1"></material>
+                        </appearance>
+                    </shape>
+                </transform>
+
+                <transform translation="-2 -2 0.1">
+                    <shape onclick="handleShapeClick(event)" id="6">
+                        <box size="1.5 1.5 0.1"></box>
+                        <appearance>
+                            <material id="mat6" diffuseColor="1 1 1"></material>
+                        </appearance>
+                    </shape>
+                </transform>
+
+                <transform translation="0 -2 0.1">
+                    <shape onclick="handleShapeClick(event)" id="7">
+                        <box size="1.5 1.5 0.1"></box>
+                        <appearance>
+                            <material id="mat7" diffuseColor="1 1 1"></material>
+                        </appearance>
+                    </shape>
+                </transform>
+
+                <transform translation="2 -2 0.1">
+                    <shape onclick="handleShapeClick(event)" id="8">
+                        <box size="1.5 1.5 0.1"></box>
+                        <appearance>
+                            <material id="mat8" diffuseColor="1 1 1"></material>
+                        </appearance>
+                    </shape>
+                </transform>
+
+                
+
+
+
+        </scene>
+    </x3d>
+
+
+</body>
+
+<script>
+    const red='1 0 0';
+    const blue='0 0 1';
+    count=1;
+    function handleShapeClick(event) {
+
+        const shapeId = event.target.id;
+        const material = document.getElementById(`mat${shapeId}`);
+        if(count%2==0)
+        {
+            material.setAttribute('diffuseColor', blue);
+        }
+        else {material.setAttribute('diffuseColor', '1 0 0');
+            material.setAttribute('diffuseColor', red);
+        }
+        count=count+1;
+
+        if (checkWin(red)) {
+            alert("Czerwony wygrał!");
+            resetGame();
+        } else if (checkWin(blue)) {
+            alert("Niebieski wygrał!");
+            resetGame();
+        } else if (count > 9) {
+            alert("Remis!");
+            resetGame();
+        }
+
+    }
+
+    function checkWin(color) {
+        const winCombinations = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        return winCombinations.some(combination => {
+            return combination.every(index => {
+                const material = document.getElementById(`mat${index}`);
+                return material.getAttribute('diffuseColor') === color;
+            });
+        });
+    }
+
+</script>
+
+</html>

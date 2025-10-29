@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Augmented Reality: X3DOM framework and JSARToolKit</title>
+    <script type='text/javascript' src='https://www.x3dom.org/download/x3dom.js'></script>
+    <script type="text/javascript" src="JSARToolKit.js"></script>
+    <script src="script.js"></script>
+    <link rel='stylesheet' type='text/css' href='https://www.x3dom.org/download/x3dom.css'/>
+    <link rel="stylesheet" href="mystyle.css"/>
+</head>
+<body>
+    <div class="ar">
+        <canvas id="bgnd" width="960px" height="720px"></canvas>
+    </div>
+    <div id='container'>
+        <X3D id="x3d" showStat='false' showLog='false' width="960px" height="720px">
+            <Scene>
+                <Viewfrustum id="vf"></Viewfrustum>
+
+
+
+
+<!--MY SCENE 3D-------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------ID:0----->
+                <Switch id="switcher0" whichChoice="-1" >
+                <MatrixTransform id="root0">	
+		 
+			 <transform scale = '20 20 20' rotation = '0 1 0 3.14'>
+                <transform rotation='0 0 1 3.14'>
+                        <shape>
+                            <Box size='10 5 1'></Box>
+                            <appearance>
+                                <imageTexture url="wizytowka.png" ></imageTexture>
+                            </appearance>
+                        </shape>
+                        </transform>
+                    </transform>
+
+		
+                </MatrixTransform>
+                </Switch> 
+
+<!------------------------------------------------------------------------------ID:1----->
+                <Switch id="switcher1" whichChoice="-1" >
+                <MatrixTransform id="root1">
+
+                	
+
+                </MatrixTransform>
+                </Switch> 
+
+<!------------------------------------------------------------------------------ID:2----->
+                <Switch id="switcher2" whichChoice="-1" >
+                <MatrixTransform id="root2">
+
+                	
+
+                </MatrixTransform>
+                </Switch> 
+ <!--END MY SCENE 3D-------------------------------------------------------------------------->
+
+               
+
+
+            </Scene>
+        </X3D>
+    </div>
+</body>
+</html>
