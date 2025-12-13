@@ -1,0 +1,81 @@
+#X3D V3.3 utf8
+PROFILE Interactive
+
+Background { skyColor [0.7 0.7 0.75] }
+
+Viewpoint { position 0 2 6 description "Sygnalizator 2-światła" }
+
+Transform {
+  translation 0 0 0
+  children [
+    Shape {
+      appearance Appearance { material Material { diffuseColor 0.3 0.7 0.24 } }
+      geometry Box { size 12 0.1 12 }
+    }
+  ]
+}
+
+#Sygnalizator
+Transform {
+  translation 0 1.5 0
+  children [
+    # Słupek
+    Shape {
+      appearance Appearance { material Material { diffuseColor 0.2 0.2 0.2 } }
+      geometry Cylinder { height 3 radius 0.12 }
+    }
+    # Obudowa
+    Transform {
+      translation 0 1.5 0
+      children [
+        Shape {
+          appearance Appearance { material Material { diffuseColor 0.08 0.08 0.08 } }
+          geometry Box { size 0.45 1.0 0.5 }
+        }
+        # Czerwona lampka (góra)
+        Transform {
+          translation 0 0.30 0.24
+          children [
+            Shape {
+              appearance Appearance {
+                material DEF CZERWONA Material { diffuseColor 1 0 0 emissiveColor 1 0 0 }
+              }
+              geometry Sphere { radius 0.16 }
+            }
+          ]
+        }
+        # Zielona lampka (dół)
+        Transform {
+          translation 0 -0.30 0.24
+          children [
+            Shape {
+              appearance Appearance {
+                material DEF ZIELONA Material { diffuseColor 0 0.75 0 emissiveColor 0 0.0 0 }
+              }
+              geometry Sphere { radius 0.16 }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+#ProximitySensor z przodu
+DEF SENSOR ProximitySensor { center 0 1.5 2 size 2.5 3 2.5 }
+DEF TIMER TimeSensor { cycleInterval 0.1 loop FALSE }
+
+DEF RED_INT ColorInterpolator {
+  key [0 1]
+  keyValue [3 0 0, 0 0 0]
+}
+DEF GREEN_INT ColorInterpolator {
+  key [0 1]
+  keyValue [0 0 0, 0 3 0]
+}
+
+ROUTE SENSOR.enterTime TO TIMER.startTime
+ROUTE TIMER.fraction_changed TO RED_INT.set_fraction
+ROUTE TIMER.fraction_changed TO GREEN_INT.set_fraction
+ROUTE RED_INT.value_changed TO CZERWONA.emissiveColor
+ROUTE GREEN_INT.value_changed TO ZIELONA.emissiveColor

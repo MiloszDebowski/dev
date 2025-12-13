@@ -1,0 +1,235 @@
+#X3D V3.3 utf8
+PROFILE Immersive
+
+# Definicja Prototypu: DetailedCar
+PROTO DetailedCar [
+  # Pola publiczne (interfejs)
+  field SFVec3f    translation       0 0 0
+  field SFRotation rotation          0 1 0 0
+  field SFVec3f    scale             1 1 1
+  field SFColor    bodyColor         0.7 0.1 0.1  # Domyślny: Czerwony
+  field SFColor    wheelColor        0.2 0.2 0.2  # Domyślny: Ciemnoszary
+  field SFBool     lightsOn          FALSE        # Czy światła świecą?
+]
+{
+  Transform {
+    translation IS translation
+    rotation IS rotation
+    scale IS scale
+    children [
+      
+      # --- 1. GŁÓWNE NADWOZIE (Dolna część) ---
+      Transform {
+        translation 0 0.3 0
+        children [
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor IS bodyColor
+                specularColor 0.5 0.5 0.5
+                shininess 0.4
+              }
+            }
+            geometry Box { size 1.8 0.6 4.2 } # Szerokość, Wysokość, Długość
+          }
+        ]
+      }
+
+      # --- 2. KABINA (Górna część + Szyby) ---
+      Transform {
+        translation 0 0.85 -0.2
+        children [
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 0.2 0.3 0.4
+                transparency 0.4 # Półprzezroczyste szyby
+              }
+            }
+            geometry Box { size 1.6 0.55 2.2 }
+          }
+        ]
+      }
+      
+      # --- 2b. DACH (Nieprzezroczysty, na górze kabiny) ---
+      Transform {
+        translation 0 1.13 -0.2
+        children [
+          Shape {
+            appearance Appearance {
+              material Material { diffuseColor IS bodyColor }
+            }
+            geometry Box { size 1.62 0.05 2.22 }
+          }
+        ]
+      }
+
+            # --- 3. KOŁA (POPRAWIONE) ---
+      Group {
+        children [
+          # === LEWA STRONA (X > 0) ===
+          # Musi być obrócona w drugą stronę (-1.57), żeby felga była na zewnątrz (+X)
+          
+          # Lewy Przód
+          Transform {
+            translation 1 0.2 1.4
+            rotation 0 0 1 -1.57  # <--- ZMIANA Z 1.57 NA -1.57
+            children [ 
+              DEF WheelGeom Shape {
+                appearance Appearance { material Material { diffuseColor IS wheelColor } }
+                geometry Cylinder { radius 0.35 height 0.25 }
+              }, 
+              # Felga (Srebrny detal)
+              DEF RimGeom Transform {
+                 translation 0 0.13 0
+                 children [ Shape {
+                   appearance Appearance { material Material { diffuseColor 0.8 0.8 0.8 } }
+                   geometry Cylinder { radius 0.2 height 0.022 } # Lekko pogrubiłem, żeby nie migotała
+                 }]
+              }
+            ]
+          }
+          # Lewy Tył
+          Transform {
+            translation 1 0.2 -1.4
+            rotation 0 0 1 -1.57 # <--- ZMIANA Z 1.57 NA -1.57
+            children [ USE WheelGeom, USE RimGeom ]
+          }
+
+          
+          # Prawy Przód
+          Transform {
+            translation -1 0.2 1.4
+            rotation 0 0 1 1.57
+            children [ USE WheelGeom, USE RimGeom ]
+          }
+          # Prawy Tył
+          Transform {
+            translation -1 0.2 -1.4
+            rotation 0 0 1 1.57
+            children [ USE WheelGeom, USE RimGeom ]
+          }
+        ]
+      }
+
+
+      Group {
+        children [
+          # Przedni zderzak
+          Transform {
+            translation 0 0.2 2.15
+            children [ Shape {
+              appearance DEF BumperApp Appearance { material Material { diffuseColor 0.1 0.1 0.1 } }
+              geometry Box { size 1.85 0.3 0.2 }
+            }]
+          }
+          # Tylny zderzak
+          Transform {
+            translation 0 0.25 -2.15
+            children [ Shape {
+              appearance USE BumperApp
+              geometry Box { size 1.85 0.35 0.2 }
+            }]
+          }
+          #Grill
+          Transform {
+            translation 0 0.4 2.11
+            children [ Shape {
+              appearance Appearance { material Material { diffuseColor 0.05 0.05 0.05 } }
+              geometry Box { size 1.2 0.25 0.05 }
+            }]
+          }
+        ]
+      }
+
+      Group {
+        children [
+          #Przednie światła
+          Transform {
+            translation 0.6 0.45 2.1
+            rotation 1 0 0 1.57
+            children [ DEF Headlight Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.9 0.9 0.8
+                  emissiveColor 0.4 0.4 0.4
+                }
+              }
+              geometry Cone { bottomRadius 0.15 height 0.1 }
+            }]
+          }
+          Transform {
+            translation -0.6 0.45 2.1
+            rotation 1 0 0 1.57
+            children [ USE Headlight ]
+          }
+
+          #Tylne światła
+          Transform {
+            translation 0.6 0.45 -2.11
+            children [ DEF Taillight Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.8 0 0
+                  emissiveColor 0.3 0 0
+                }
+              }
+              geometry Box { size 0.3 0.15 0.05 }
+            }]
+          }
+          Transform {
+            translation -0.6 0.45 -2.11
+            children [ USE Taillight ]
+          }
+        ]
+      }
+      
+      Group {
+        children [
+          #Lusterko lewe
+          Transform {
+             translation 0.95 0.75 0.6
+             children [ Shape { 
+               appearance Appearance { material Material { diffuseColor IS bodyColor } }
+               geometry Box { size 0.15 0.1 0.2 }
+             }]
+          }
+          #Lusterko prawe
+          Transform {
+             translation -0.95 0.75 0.6
+             children [ Shape { 
+               appearance Appearance { material Material { diffuseColor IS bodyColor } }
+               geometry Box { size 0.15 0.1 0.2 }
+             }]
+          }
+          #Rura
+          Transform {
+            translation -0.5 0.15 -2.2
+            rotation 1 0 0 1.57
+            children [ Shape {
+              appearance Appearance { material Material { diffuseColor 0.6 0.6 0.6 } }
+              geometry Cylinder { radius 0.06 height 0.3 }
+            }]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+Group {
+  children [
+    DetailedCar {
+      translation -2.5 0 0
+      bodyColor 0.1 0.1 0.8
+      rotation 0 1 0 0.5
+    }
+
+    DetailedCar {
+      translation 2.5 0 0
+      bodyColor 0.9 0.8 0.1
+      wheelColor 0.1 0.1 0.1
+      rotation 0 1 0 -0.5
+    }
+  ]
+}

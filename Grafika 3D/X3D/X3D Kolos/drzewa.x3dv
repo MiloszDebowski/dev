@@ -1,0 +1,246 @@
+#VRML V2.0 utf8
+#X3D V3.3 utf8
+
+PROTO Sosna [
+    exposedField SFColor goraDrzewaKolor 0.0 1.0 0.0
+    exposedField SFColor pienDrzewaKolor 0.3 0.3 0.0
+] {
+    Transform {
+        children [
+            #Dolny stożek
+            Transform {
+                translation 0 0 0
+                translation 0 1 0
+                children [
+                    Shape {
+                        geometry Cone {
+                            bottomRadius 2.0
+                            height 2.0
+                            bottom TRUE
+                            side TRUE
+                            solid TRUE
+                        }
+                        appearance Appearance {
+                            material Material {
+                                diffuseColor IS goraDrzewaKolor
+                            }
+                        }
+                    }
+                ]
+            }
+
+            # Środkowy stożek
+            Transform {
+                translation 0 2 0
+                children [
+                    Shape {
+                        geometry Cone {
+                            bottomRadius 1.5
+                            height 2.0
+                            bottom TRUE
+                            side TRUE
+                            solid TRUE
+                        }
+                        appearance Appearance {
+                            material Material {
+                                diffuseColor IS goraDrzewaKolor
+                            }
+                        }
+                    }
+                ]
+            }
+
+            #Górny stożek
+            Transform {
+                translation 0 3 0
+                children [
+                    Shape {
+                        geometry Cone {
+                            bottomRadius 1.0
+                            height 2.0
+                            bottom TRUE
+                            side TRUE
+                            solid TRUE
+                        }
+                        appearance Appearance {
+                            material Material {
+                                diffuseColor IS goraDrzewaKolor
+                            }
+                        }
+                    }
+                ]
+            }
+
+            Transform{
+                children[
+                    Shape{
+                        geometry Cylinder {
+                            bottom TRUE
+                            height 2
+                            radius 0.2
+                            side TRUE
+                            solid TRUE
+                            top TRUE
+                        }
+
+                        appearance Appearance{
+                            material Material{
+                                diffuseColor IS pienDrzewaKolor
+                            }
+                        }
+                    }
+                ]
+            }
+
+        ]
+    }
+}
+
+
+DEF Drzewa Transform {
+    children [
+        DEF drzewo1 Sosna {}
+    ]
+}
+
+
+
+PROTO Jablon [] {
+    Transform {
+        children [
+            #Pień
+            Transform {
+                translation 0 1 0
+                children [
+                    Shape {
+                        geometry Cylinder { radius 0.3 height 2.0 }
+                        appearance Appearance {
+                            material Material { diffuseColor 0.4 0.2 0.0 } # Brązowy
+                        }
+                    }
+                ]
+            }
+            #Korona
+            Transform {
+                translation 0 2.5 0
+                children [
+                    Shape {
+                        geometry Sphere { radius 1.5 }
+                        appearance Appearance {
+                            material Material { diffuseColor 0.0 0.8 0.0 } # Zielony
+                        }
+                    }
+                ]
+            }
+            #Jabłko1
+            Transform {
+                translation 0.8 2.5 0.8
+                children [
+                    Shape {
+                        geometry Sphere { radius 0.2 }
+                        appearance Appearance { material Material { diffuseColor 1.0 0.0 0.0 } }
+                    }
+                ]
+            }
+            #Jabłko 2
+            Transform {
+                translation -0.7 3.0 0.5
+                children [
+                    Shape {
+                        geometry Sphere { radius 0.2 }
+                        appearance Appearance { material Material { diffuseColor 1.0 0.0 0.0 } }
+                    }
+                ]
+            }
+            #Jabłko3
+            Transform {
+                translation 0.2 2.2 -1.0
+                children [
+                    Shape {
+                        geometry Sphere { radius 0.2 }
+                        appearance Appearance { material Material { diffuseColor 1.0 0.0 0.0 } }
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+
+PROTO SnieznaSosna [] {
+    Transform {
+        children [
+            # Pień
+            Transform {
+                children [
+                    Shape {
+                        geometry Cylinder { radius 0.2 height 2.0 top TRUE bottom TRUE }
+                        appearance Appearance {
+                            material Material { diffuseColor 0.3 0.3 0.0 }
+                        }
+                    }
+                ]
+            }
+            # Dolny stożek
+            Transform {
+                translation 0 1 0
+                children [
+                    Shape {
+                        geometry Cone { bottomRadius 2.0 height 2.0 }
+                        appearance Appearance {
+                            material Material { diffuseColor 1.0 1.0 1.0 } # Śnieg
+                        }
+                    }
+                ]
+            }
+            # Środkowy stożek
+            Transform {
+                translation 0 2 0
+                children [
+                    Shape {
+                        geometry Cone { bottomRadius 1.5 height 2.0 }
+                        appearance Appearance {
+                            material Material { diffuseColor 1.0 1.0 1.0 } # Śnieg
+                        }
+                    }
+                ]
+            }
+            # Górny stożek
+            Transform {
+                translation 0 3 0
+                children [
+                    Shape {
+                        geometry Cone { bottomRadius 1.0 height 2.0 }
+                        appearance Appearance {
+                            material Material { diffuseColor 1.0 1.0 1.0 } # Śnieg
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+DEF Las Transform {
+    children [
+        Transform {
+            translation -3 0 0
+            children [
+                Jablon {}
+            ]
+        }
+
+        Transform {
+            translation 3 0 0
+            children [
+                SnieznaSosna {}
+            ]
+        }
+
+        Transform{
+            children[
+                Sosna{}
+            ]
+        }
+    ]
+}

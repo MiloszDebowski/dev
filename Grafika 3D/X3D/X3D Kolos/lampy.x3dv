@@ -1,0 +1,220 @@
+#X3D V3.3 utf8
+PROFILE Immersive
+
+
+PROTO LampaKlasyczna [
+    field SFVec3f position 0 0 0
+    field SFColor lightColor 1 1 0.8
+]
+{
+    Transform {
+        translation IS position
+        children [
+            DEF TS_Klasyczna TouchSensor{}
+            
+            DEF TOGGLE_Klasyczna BooleanToggle { 
+                toggle TRUE
+            }
+
+            DEF LIGHT_Klasyczna SpotLight {
+                location 0 4 0
+                direction 0 -1 0
+                cutOffAngle 0.78
+                beamWidth 0.6
+                radius 15
+                intensity 1.0
+                color IS lightColor
+                on TRUE
+            }
+
+            Group {
+                children [
+                    Transform {
+                        translation 0 2 0
+                        children [
+                            Shape {
+                                appearance Appearance { material Material { diffuseColor 0.2 0.2 0.2 } }
+                                geometry Cylinder { height 4.0 radius 0.1 }
+                            }
+                        ]
+                    }
+                    Transform {
+                        translation 0 4.1 0
+                        children [
+                            Shape {
+                                appearance Appearance { 
+                                    material Material { diffuseColor 1 1 1 emissiveColor 0.2 0.2 0.2 transparency 0.2 } 
+                                }
+                                geometry Sphere { radius 0.4 }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+    ROUTE TS_Klasyczna.isActive TO TOGGLE_Klasyczna.set_boolean
+    ROUTE TOGGLE_Klasyczna.toggle_changed TO LIGHT_Klasyczna.on
+}
+
+PROTO LampaNowoczesna [
+    field SFVec3f position 0 0 0
+    field SFColor lightColor 0.8 0.9 1.0
+]
+{
+    Transform {
+        translation IS position
+        children [
+            DEF TS_Nowoczesna TouchSensor { description "Kliknij aby przelaczyc swiatlo" }
+
+            DEF TOGGLE_Nowoczesna BooleanToggle { 
+                toggle TRUE 
+            }
+
+            DEF LIGHT_Nowoczesna SpotLight {
+                location 1.5 3.8 0
+                direction 0 -1 0
+                cutOffAngle 1.0
+                beamWidth 0.8
+                radius 20
+                intensity 1.0
+                color IS lightColor
+                on TRUE
+            }
+
+            Group {
+                children [
+                    Transform {
+                        translation 0 2 0
+                        children [
+                            Shape {
+                                appearance Appearance { material Material { diffuseColor 0.1 0.1 0.3 } }
+                                geometry Cylinder { height 4.0 radius 0.15 }
+                            }
+                        ]
+                    }
+                    Transform {
+                        translation 0.75 3.8 0
+                        rotation 0 0 1 -1.57
+                        children [
+                            Shape {
+                                appearance Appearance { material Material { diffuseColor 0.1 0.1 0.3 } }
+                                geometry Cylinder { height 1.7 radius 0.12 }
+                            }
+                        ]
+                    }
+                    Transform {
+                        translation 1.5 3.8 0
+                        children [
+                            Shape {
+                                appearance Appearance { material Material { emissiveColor 0.8 0.9 1.0 } }
+                                geometry Box { size 0.6 0.1 0.4 }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+    ROUTE TS_Nowoczesna.isActive TO TOGGLE_Nowoczesna.set_boolean
+    ROUTE TOGGLE_Nowoczesna.toggle_changed TO LIGHT_Nowoczesna.on
+}
+
+PROTO LampaParkowa [
+    field SFVec3f position 0 0 0
+    field SFColor lightColor 1 0.6 0.2
+]
+{
+    Transform {
+        translation IS position
+        children [
+            DEF TS_Parkowa TouchSensor { description "Kliknij aby przelaczyc swiatlo" }
+
+            DEF TOGGLE_Parkowa BooleanToggle { 
+                toggle TRUE 
+            }
+
+            DEF LIGHT_Parkowa SpotLight {
+                location 0 3.2 0
+                direction 0 -1 0
+                cutOffAngle 1.2
+                beamWidth 0.9
+                radius 10
+                intensity 1.0
+                color IS lightColor
+                attenuation 0 0.5 0
+                on TRUE
+            }
+
+            Group {
+                children [
+                    Transform {
+                        translation 0 0.5 0
+                        children [
+                            Shape {
+                                appearance Appearance { material Material { diffuseColor 0.2 0.1 0.0 } }
+                                geometry Cone { bottomRadius 0.4 height 1.0 }
+                            }
+                        ]
+                    }
+                    Transform {
+                        translation 0 2.0 0
+                        children [
+                            Shape {
+                                appearance Appearance { material Material { diffuseColor 0.2 0.1 0.0 } }
+                                geometry Cylinder { height 3.0 radius 0.08 }
+                            }
+                        ]
+                    }
+                    Transform {
+                        translation 0 3.5 0
+                        children [
+                            Shape {
+                                appearance Appearance { material Material { diffuseColor 1 0.8 0.4 transparency 0.4 emissiveColor 0.5 0.3 0.1 } }
+                                geometry Cylinder { height 0.6 radius 0.25 }
+                            }
+                        ]
+                    }
+                    Transform {
+                        translation 0 3.9 0
+                        children [
+                            Shape {
+                                appearance Appearance { material Material { diffuseColor 0.1 0.1 0.1 } }
+                                geometry Cone { bottomRadius 0.5 height 0.3 }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+    ROUTE TS_Parkowa.isActive TO TOGGLE_Parkowa.set_boolean
+    ROUTE TOGGLE_Parkowa.toggle_changed TO LIGHT_Parkowa.on
+}
+
+
+Group {
+    children [
+        Background { skyColor 0.05 0.05 0.1 }
+        
+        Transform {
+            translation 0 -0.1 0
+            children [
+                Shape {
+                    appearance Appearance { material Material { diffuseColor 0.3 0.3 0.3 } }
+                    geometry Box { size 20 0.2 20 }
+                }
+            ]
+        }
+
+        LampaKlasyczna { position -4 0 0 lightColor 1 1 0.8 }
+        LampaNowoczesna { position 0 0 0 lightColor 0.8 0.9 1 }
+        LampaParkowa { position 4 0 0 lightColor 1 0.5 0 }
+        
+        Viewpoint {
+            position 0 2 12
+            orientation 0 0 0 0
+            description "Widok na lampy"
+        }
+    ]
+}
